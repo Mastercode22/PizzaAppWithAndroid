@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary_color"
+    android:gravity="center">
+
+    <!-- Logo Image - CHANGE THIS TO YOUR OWN IMAGE -->
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/pizza"
+        android:contentDescription="Pizza App Logo" />
+
+    <!-- App Name (Optional) -->
+    <TextView
+        android:id="@+id/tv_app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:text="Pizza Delight"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:fontFamily="sans-serif-medium" />
+
+    <!-- Tagline (Optional) -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_app_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:text="Hot. Fresh. Delicious."
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:alpha="0.8" />
+
+    <!-- Loading Indicator (Optional) -->
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="48dp"
+        android:indeterminateTint="@color/white" />
+
+</RelativeLayout>

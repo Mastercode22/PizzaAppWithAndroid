@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Header Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:elevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tv_pizza_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Custom Pizza"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textColor="#333333"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tv_base_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Base Price: GHS 0.00"
+                    android:textSize="16sp"
+                    android:textColor="#666666" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Size Selection Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:elevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Select Size"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#333333"
+                    android:layout_marginBottom="8dp" />
+
+                <Spinner
+                    android:id="@+id/spinner_size"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@android:drawable/btn_dropdown"
+                    android:padding="8dp" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Crust Selection Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:elevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Select Crust"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#333333"
+                    android:layout_marginBottom="8dp" />
+
+                <Spinner
+                    android:id="@+id/spinner_crust"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@android:drawable/btn_dropdown"
+                    android:padding="8dp" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Topping Placement Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:elevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="12dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Topping Placement"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="#333333" />
+
+                    <Button
+                        android:id="@+id/btn_clear_toppings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:text="Clear All"
+                        android:textSize="12sp"
+                        android:backgroundTint="#FF5252"
+                        android:textColor="#FFFFFF" />
+
+                </LinearLayout>
+
+                <RadioGroup
+                    android:id="@+id/rg_placement"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="16dp">
+
+                    <RadioButton
+                        android:id="@+id/rb_whole"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Whole"
+                        android:checked="true"
+                        android:buttonTint="#4CAF50" />
+
+                    <RadioButton
+                        android:id="@+id/rb_left"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Left Half"
+                        android:buttonTint="#2196F3" />
+
+                    <RadioButton
+                        android:id="@+id/rb_right"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Right Half"
+                        android:buttonTint="#FF9800" />
+
+                </RadioGroup>
+
+                <!-- Legend -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="8dp"
+                    android:background="#F0F0F0"
+                    android:layout_marginBottom="12dp">
+
+                    <View
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:background="#4CAF50"
+                        android:layout_marginEnd="4dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Whole  "
+                        android:textSize="12sp"
+                        android:layout_marginEnd="12dp" />
+
+                    <View
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:background="#2196F3"
+                        android:layout_marginEnd="4dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Left  "
+                        android:textSize="12sp"
+                        android:layout_marginEnd="12dp" />
+
+                    <View
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:background="#FF9800"
+                        android:layout_marginEnd="4dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Right"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+                <!-- Selected Toppings Display -->
+                <TextView
+                    android:id="@+id/tv_whole_toppings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Whole Pizza: None"
+                    android:textSize="14sp"
+                    android:textColor="#333333"
+                    android:padding="8dp"
+                    android:background="#E8F5E9"
+                    android:layout_marginBottom="4dp" />
+
+                <TextView
+                    android:id="@+id/tv_left_toppings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Left Half: None"
+                    android:textSize="14sp"
+                    android:textColor="#333333"
+                    android:padding="8dp"
+                    android:background="#E3F2FD"
+                    android:layout_marginBottom="4dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_right_toppings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Right Half: None"
+                    android:textSize="14sp"
+                    android:textColor="#333333"
+                    android:padding="8dp"
+                    android:background="#FFF3E0"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Toppings Grid Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:elevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Available Toppings (GHS 2.00 each)"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#333333"
+                    android:layout_marginBottom="12dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tap any topping to add it to your selected area"
+                    android:textSize="12sp"
+                    android:textColor="#999999"
+                    android:layout_marginBottom="12dp" />
+
+                <Gallery
+                    android:id="@+id/gallery_toppings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:spacing="8dp" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Price Summary Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:elevation="4dp"
+            android:backgroundTint="#4CAF50">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tv_total_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Total: GHS 0.00"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"
+                    android:gravity="center" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Price includes size, crust, and toppings"
+                    android:textSize="12sp"
+                    android:textColor="#E8F5E9"
+                    android:gravity="center"
+                    android:layout_marginTop="4dp" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Action Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:text="Cancel"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="#757575"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/btn_add_to_cart"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:text="Add to Cart"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginStart="8dp"
+                android:backgroundTint="#FF6F00"
+                android:textColor="#FFFFFF" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>
