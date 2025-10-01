@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="100dp"
+    android:height="100dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Pizza slice base -->
+    <path
+        android:fillColor="#FFCC80"
+        android:pathData="M12,2 L2,22 L22,22 Z" />
+
+    <!-- Crust -->
+    <path
+        android:fillColor="#F57C00"
+        android:pathData="M12,2 L22,22 L20,22 L12,4 L4,22 L2,22 Z" />
+
+    <!-- Pepperoni circles -->
+    <path
+        android:fillColor="#D32F2F"
+        android:pathData="M9,12a2,2 0 1,0 4,0a2,2 0 1,0 -4,0" />
+    <path
+        android:fillColor="#D32F2F"
+        android:pathData="M15,16a2,2 0 1,0 4,0a2,2 0 1,0 -4,0" />
+    <path
+        android:fillColor="#D32F2F"
+        android:pathData="M7,18a2,2 0 1,0 4,0a2,2 0 1,0 -4,0" />
+
+</vector>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical">
+
+        <!-- Pizza Image -->
+        <ImageView
+            android:id="@+id/iv_pizza"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/pizza_placeholder"
+            android:scaleType="centerCrop"
+            app:cornerRadius="8dp" />
+
+        <!-- Pizza Details -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginStart="12dp">
+
+            <TextView
+                android:id="@+id/tv_pizza_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Margherita Pizza"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary_text" />
+
+            <TextView
+                android:id="@+id/tv_pizza_details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Medium • Thin Crust"
+                android:textSize="14sp"
+                android:textColor="@color/secondary_text"
+                android:layout_marginTop="4dp" />
+
+            <TextView
+                android:id="@+id/tv_pizza_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="GHS 15.99"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary_color"
+                android:layout_marginTop="4dp" />
+
+        </LinearLayout>
+
+        <!-- Quantity Controls -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <!-- Quantity Row -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="8dp">
+
+                <Button
+                    android:id="@+id/btn_decrease"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:text="-"
+                    android:textSize="18sp"
+                    android:background="@drawable/circle_button"
+                    android:backgroundTint="@color/accent_light"
+                    style="?android:attr/borderlessButtonStyle" />
+
+                <TextView
+                    android:id="@+id/tv_quantity"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:text="1"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_marginHorizontal="8dp" />
+
+                <Button
+                    android:id="@+id/btn_increase"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:text="+"
+                    android:textSize="18sp"
+                    android:background="@drawable/circle_button"
+                    android:backgroundTint="@color/primary_color"
+                    android:textColor="@color/white"
+                    style="?android:attr/borderlessButtonStyle" />
+
+            </LinearLayout>
+
+            <!-- Remove Button -->
+            <Button
+                android:id="@+id/btn_remove"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:text="Remove"
+                android:textSize="12sp"
+                android:textColor="@color/error_color"
+                android:background="?android:attr/selectableItemBackground"
+                style="?android:attr/borderlessButtonStyle" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
