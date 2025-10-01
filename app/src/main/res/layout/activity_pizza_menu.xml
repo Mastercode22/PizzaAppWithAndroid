@@ -13,7 +13,7 @@
         android:paddingHorizontal="16dp"
         android:paddingVertical="24dp"
         android:gravity="center_vertical"
-        android:background="#1a1f2e">
+        android:background="@drawable/blue_mountain_bg">
 
         <ImageButton
             android:id="@+id/btn_menu"
@@ -90,6 +90,7 @@
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="36dp"
+                android:padding="3dp"
                 android:text="All"
                 android:layout_marginEnd="10dp"
                 app:strokeColor="#e74c3c"
@@ -103,6 +104,7 @@
             android:text="Classic"
             android:layout_marginEnd="8dp"
             app:strokeColor="#e74c3c"
+            android:padding="3dp"
             android:textColor="@color/white"
             android:backgroundTint="#2a2f3e"
             android:paddingHorizontal="20dp" /> <com.google.android.material.button.MaterialButton
@@ -112,6 +114,7 @@
             android:layout_height="36dp"
             android:text="Specialty"
             android:layout_marginEnd="8dp"
+            android:padding="3dp"
             app:strokeColor="#e74c3c"
             android:textColor="@color/white"
             android:backgroundTint="#2a2f3e"
@@ -122,6 +125,7 @@
             android:layout_height="36dp"
             android:text="Vegetarian"
             app:strokeColor="#e74c3c"
+            android:padding="3dp"
             android:textColor="@color/white"
             android:backgroundTint="#2a2f3e"
             android:paddingHorizontal="20dp" /> </LinearLayout>
