@@ -4,51 +4,54 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#1a1f2e">
+    android:background="?android:attr/colorBackground"> <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="1dp"
+    android:gravity="center_vertical"
+    android:background="@drawable/blue_mountain_bg"> <ImageButton
+    android:id="@+id/btn_menu"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:src="@drawable/ic_profile"
+    android:contentDescription="Profile"
+    android:background="@drawable/circle_background"
+    android:backgroundTint="@color/accent_red"
+    android:scaleType="centerInside"
+    android:padding="0dp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ImageView
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="24dp"
-        android:gravity="center_vertical"
-        android:background="@drawable/blue_mountain_bg">
+        android:layout_weight="1"
+        android:src="@drawable/lolot"
+        android:contentDescription="@string/app_name"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:gravity="center"/>
 
-        <ImageButton
-            android:id="@+id/btn_menu"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/ic_profile"
-            android:background="@drawable/circle_background"
-            android:backgroundTint="#F40505"
-            android:scaleType="centerInside"
-            android:padding="0dp" />
+    <ImageButton
+        android:id="@+id/btn_cart"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ic_cart"
+        android:contentDescription="Shopping Cart"
+        android:background="@drawable/circle_background"
+        android:backgroundTint="@color/accent_red"
+        android:scaleType="centerInside"
+        android:padding="12dp" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="PIZZA"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:letterSpacing="0.1" />
-
-        <ImageButton
-            android:id="@+id/btn_cart"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/ic_cart"
-            android:background="@drawable/circle_background"
-            android:backgroundTint="#e74c3c"
-            android:scaleType="centerInside"
-            android:padding="12dp" />
-
-    </LinearLayout>
+</LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_content_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/card_background">
+        <LinearLayout
         android:id="@+id/ll_search_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -63,92 +66,100 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:hint="Search pizzas..."
-            android:textColorHint="#888888"
-            android:textColor="@color/white"
+            android:textColorHint="@color/text_secondary"
+            android:textColor="@color/text_primary"
             android:background="@drawable/search_background"
             android:drawableStart="@drawable/ic_search"
             android:drawablePadding="12dp"
-            android:paddingHorizontal="16dp" />
+            android:paddingHorizontal="16dp"
+            android:backgroundTint="?attr/colorSurface"/> </LinearLayout>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:paddingTop="20dp"
+            android:paddingBottom="10dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingHorizontal="20dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_all"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:padding="3dp"
+                    android:text="All"
+                    android:layout_marginEnd="10dp"
+                    app:strokeColor="@color/accent_red"
+                    android:textColor="?attr/colorOnSurface"
+                    android:backgroundTint="?attr/colorSurface"
+                    android:paddingHorizontal="20dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_classic"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:text="Classic"
+                    android:layout_marginEnd="8dp"
+                    app:strokeColor="@color/accent_red"
+                    android:padding="3dp"
+                    android:textColor="?attr/colorOnSurface"
+                    android:backgroundTint="?attr/colorSurface"
+                    android:paddingHorizontal="20dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_specialty"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:text="Specialty"
+                    android:layout_marginEnd="8dp"
+                    android:padding="3dp"
+                    app:strokeColor="@color/accent_red"
+                    android:textColor="?attr/colorOnSurface"
+                    android:backgroundTint="?attr/colorSurface"
+                    android:paddingHorizontal="20dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_vegetarian"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:text="Vegetarian"
+                    app:strokeColor="@color/accent_red"
+                    android:padding="3dp"
+                    android:textColor="?attr/colorOnSurface"
+                    android:backgroundTint="?attr/colorSurface"
+                    android:paddingHorizontal="20dp" />
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_pizzas"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="12dp"
+            android:background="@color/card_background"
+            android:clipToPadding="false" />
 
     </LinearLayout>
-
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none"
-        android:paddingTop="20dp"
-        android:paddingBottom="10dp">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingHorizontal="20dp">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_all"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:padding="3dp"
-                android:text="All"
-                android:layout_marginEnd="10dp"
-                app:strokeColor="#e74c3c"
-                android:textColor="@color/white"
-                android:backgroundTint="#2a2f3e"
-                android:paddingHorizontal="20dp" /> <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_classic"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:text="Classic"
-            android:layout_marginEnd="8dp"
-            app:strokeColor="#e74c3c"
-            android:padding="3dp"
-            android:textColor="@color/white"
-            android:backgroundTint="#2a2f3e"
-            android:paddingHorizontal="20dp" /> <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_specialty"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:text="Specialty"
-            android:layout_marginEnd="8dp"
-            android:padding="3dp"
-            app:strokeColor="#e74c3c"
-            android:textColor="@color/white"
-            android:backgroundTint="#2a2f3e"
-            android:paddingHorizontal="20dp" /> <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_vegetarian"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:text="Vegetarian"
-            app:strokeColor="#e74c3c"
-            android:padding="3dp"
-            android:textColor="@color/white"
-            android:backgroundTint="#2a2f3e"
-            android:paddingHorizontal="20dp" /> </LinearLayout>
-    </HorizontalScrollView>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_pizzas"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:padding="12dp"
-        android:clipToPadding="false" />
-
     <LinearLayout
         android:id="@+id/ll_cart_summary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="#e74c3c"
+        android:background="@color/accent_red"
         android:padding="16dp"
         android:elevation="8dp"
         android:visibility="gone">
-
         <TextView
             android:id="@+id/tv_cart_count"
             android:layout_width="wrap_content"
@@ -177,7 +188,7 @@
             android:layout_width="wrap_content"
             android:layout_height="36dp"
             android:text="View Cart"
-            android:textColor="#e74c3c"
+            android:textColor="@color/accent_red"
             android:backgroundTint="@color/white"
             app:cornerRadius="18dp" />
 

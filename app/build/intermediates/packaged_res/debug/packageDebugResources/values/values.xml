@@ -31,7 +31,9 @@
 	</array>
     <color name="accent_color">#FFC107</color>
     <color name="accent_light">#FFF59D</color>
+    <color name="accent_red">#e74c3c</color>
     <color name="admin_primary">#3F51B5</color>
+    <color name="app_background">#FFFFFF</color>
     <color name="background_light">#F5F5F5</color>
     <color name="card_background">#FFFFFF</color>
     <color name="colorAccent">@color/accent_color</color>
@@ -55,6 +57,8 @@
     <color name="status_pending_bg">#FFF3E0</color>
     <color name="success_dark">#2E7D32</color>
     <color name="success_light">#C8E6C9</color>
+    <color name="text_primary">#000000</color>
+    <color name="text_secondary">#888888</color>
     <color name="white">#FFFFFF</color>
     <string name="add_ingredients_help">To add ingredients to the pizza, slide the pictures at 
 the top of the screen until the topping desired is shown.  Choose which side of the pizza, 
@@ -141,6 +145,11 @@ you have completed your order, select "Checkout" to know the total and what time
     <string name="total">Current Total: $0.00</string>
     <string name="vegetarian_pizzas">Vegetarian</string>
     <string name="whole_label">Whole</string>
+    <style name="SwitchTheme" parent="Theme.AppCompat.Light">
+        <item name="colorControlActivated">#e74c3c</item>
+        <item name="colorSwitchThumbNormal">#FFFFFF</item>
+        <item name="android:colorForeground">#888888</item>
+    </style>
     <style name="Theme.PizzaParlor" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <item name="colorPrimary">@color/primary_color</item>
         <item name="colorPrimaryVariant">@color/primary_dark</item>

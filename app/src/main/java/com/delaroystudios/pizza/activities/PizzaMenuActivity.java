@@ -1,6 +1,5 @@
 package com.delaroystudios.pizza.activities;
 
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -9,7 +8,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -17,7 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.widget.Toolbar;
+import androidx.appcompat.app.AppCompatActivity; // CRITICAL CHANGE: Use AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate; // Import for theme logic
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,7 +34,8 @@ import java.util.Locale;
 
 import static com.delaroystudios.pizza.database.Constants.*;
 
-public class PizzaMenuActivity extends Activity implements PizzaAdapter.OnPizzaClickListener {
+// CHANGE: Extend AppCompatActivity for theme compatibility
+public class PizzaMenuActivity extends AppCompatActivity implements PizzaAdapter.OnPizzaClickListener {
 
     private static final String TAG = "PizzaMenuActivity";
 
@@ -54,11 +54,23 @@ public class PizzaMenuActivity extends Activity implements PizzaAdapter.OnPizzaC
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Initialize SessionManager early to check preference
+        sessionManager = new SessionManager(this);
+
+        // START OF CRITICAL DARK MODE LOGIC ADDITION
+        // This ensures the correct theme is applied on initial load or restart
+        if (sessionManager.isDarkModeEnabled()) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+        // END OF CRITICAL DARK MODE LOGIC ADDITION
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pizza_menu);
 
         database = new PizzaData(this);
-        sessionManager = new SessionManager(this);
+        // sessionManager is already initialized above
 
         // Check if user is logged in
         if (!sessionManager.isLoggedIn()) {
@@ -91,21 +103,14 @@ public class PizzaMenuActivity extends Activity implements PizzaAdapter.OnPizzaC
 
         btnCart.setOnClickListener(v -> startActivity(new Intent(this, CartActivity.class)));
 
-        // START OF MODIFICATION FOR PROFILE FUNCTIONALITY
+        // Profile Button Logic
         btnMenu.setOnClickListener(v -> {
-            // Check login status again, though it should be logged in here
             if (sessionManager.isLoggedIn()) {
-                // Assuming 'btnMenu' now opens the Profile Activity for logged-in users
-                // You will need a ProfileActivity class in your project
                 startActivity(new Intent(this, ProfileActivity.class));
             } else {
                 startActivity(new Intent(this, LoginActivity.class));
             }
-
-            // NOTE: The previous code to toggle search visibility is REMOVED
-            // to dedicate the menu button to the Profile function, as requested.
         });
-        // END OF MODIFICATION FOR PROFILE FUNCTIONALITY
 
         findViewById(R.id.btn_view_cart).setOnClickListener(v ->
                 startActivity(new Intent(this, CartActivity.class)));

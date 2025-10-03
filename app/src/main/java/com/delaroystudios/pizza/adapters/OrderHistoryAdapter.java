@@ -80,7 +80,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     private int getStatusColor(String status) {
         switch (status.toLowerCase()) {
             case "pending":
-                return context.getResources().getColor(R.color.status_pending);
+                return context.getResources().getColor(R.color.background_light);
             case "in_progress":
                 return context.getResources().getColor(R.color.status_in_progress);
             case "completed":

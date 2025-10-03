@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton; // NEW: Import ImageButton
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,14 +26,15 @@ import java.util.List;
 
 import static com.delaroystudios.pizza.database.Constants.*;
 
-public class CartActivity extends Activity implements CartAdapter.OnCartItemClickListener {
+public class CartActivity extends Activity implements CartAdapter.OnCartItemClickListener, View.OnClickListener { // NEW: Implement View.OnClickListener
 
     private static final String TAG = "CartActivity";
 
     private RecyclerView rvCart;
-    private LinearLayout llEmptyCart;  // Changed from TextView to LinearLayout
+    private LinearLayout llEmptyCart;
     private TextView tvSubtotal, tvTotal;
     private Button btnCheckout;
+    private ImageButton btnBack; // NEW: Declare ImageButton
     private CartAdapter cartAdapter;
     private List<CartItem> cartItems;
     private PizzaData database;
@@ -54,12 +56,15 @@ public class CartActivity extends Activity implements CartAdapter.OnCartItemClic
 
     private void initViews() {
         rvCart = findViewById(R.id.rv_cart);
-        llEmptyCart = findViewById(R.id.tv_empty_cart);  // Now correctly cast to LinearLayout
+        llEmptyCart = findViewById(R.id.tv_empty_cart);
         tvSubtotal = findViewById(R.id.tv_subtotal);
         tvTotal = findViewById(R.id.tv_total);
         btnCheckout = findViewById(R.id.btn_checkout);
 
+        btnBack = findViewById(R.id.btn_back); // NEW: Initialize the back button
+
         btnCheckout.setOnClickListener(v -> proceedToCheckout());
+        btnBack.setOnClickListener(this); // NEW: Set click listener for the back button
     }
 
     private void setupRecyclerView() {
@@ -209,6 +214,15 @@ public class CartActivity extends Activity implements CartAdapter.OnCartItemClic
         super.onDestroy();
         if (database != null) {
             database.close();
+        }
+    }
+
+    // NEW: Implement the central onClick method to handle the back button
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.btn_back) {
+            // This closes the current CartActivity and returns to the previous activity (PizzaMenuActivity)
+            finish();
         }
     }
 }

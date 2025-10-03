@@ -1368,9 +1368,11 @@ color accent_color
 color accent_light
 color accent_material_dark
 color accent_material_light
+color accent_red
 color admin_primary
 color androidx_core_ripple_material_light
 color androidx_core_secondary_text_default_material_light
+color app_background
 color background_floating_material_dark
 color background_floating_material_light
 color background_light
@@ -2104,6 +2106,8 @@ color switch_thumb_material_dark
 color switch_thumb_material_light
 color switch_thumb_normal_material_dark
 color switch_thumb_normal_material_light
+color text_primary
+color text_secondary
 color tooltip_background_dark
 color tooltip_background_light
 color white
@@ -2989,6 +2993,7 @@ drawable avd_show_password
 drawable bacon
 drawable bananapepper
 drawable blackolives
+drawable blue_mountain_bg
 drawable btn_checkbox_checked_mtrl
 drawable btn_checkbox_checked_to_unchecked_mtrl_animation
 drawable btn_checkbox_unchecked_mtrl
@@ -3056,6 +3061,8 @@ drawable instructions_background
 drawable jalapenopeppers
 drawable logo
 drawable logo1
+drawable lolo
+drawable lolot
 drawable m3_appbar_background
 drawable m3_avd_hide_password
 drawable m3_avd_show_password
@@ -3138,6 +3145,7 @@ drawable pineapple
 drawable pizza
 drawable pizza_palor_orange
 drawable pizza_placeholder
+drawable pizzapoint_logo
 drawable price_badge
 drawable profile_header_background
 drawable profile_menu
@@ -3275,7 +3283,9 @@ id btn_increase
 id btn_login
 id btn_logout
 id btn_menu
+id btn_notifications
 id btn_order_now
+id btn_orders
 id btn_place_order
 id btn_register
 id btn_remove
@@ -3285,7 +3295,6 @@ id btn_update_status
 id btn_vegetarian
 id btn_view_cart
 id btn_view_details
-id btn_view_order_history
 id buttonPanel
 id cache_measures
 id callMeasure
@@ -3466,6 +3475,7 @@ id linear
 id listMode
 id list_item
 id ll_cart_summary
+id ll_content_container
 id ll_delivery_address
 id ll_search_container
 id ll_special_instructions
@@ -3587,6 +3597,7 @@ id position
 id postLayout
 id postTitle
 id pressed
+id profile_main_layout
 id progress_bar
 id progress_circular
 id progress_horizontal
@@ -3680,6 +3691,7 @@ id stretch
 id submenuarrow
 id submit_area
 id supportScrollUp
+id switch_dark_mode
 id tabMode
 id tag_accessibility_actions
 id tag_accessibility_clickable_spans
@@ -3739,11 +3751,11 @@ id tv_customer_name
 id tv_customer_phone
 id tv_delivery_address
 id tv_description
+id tv_email
 id tv_empty_cart
 id tv_empty_orders
 id tv_empty_state
 id tv_item_count
-id tv_joined_date
 id tv_left_toppings
 id tv_login
 id tv_order_date
@@ -4656,6 +4668,7 @@ style ShapeAppearanceOverlay_MaterialComponents_MaterialCalendar_Day
 style ShapeAppearanceOverlay_MaterialComponents_MaterialCalendar_Window_Fullscreen
 style ShapeAppearanceOverlay_MaterialComponents_MaterialCalendar_Year
 style ShapeAppearanceOverlay_MaterialComponents_TextInputLayout_FilledBox
+style SwitchTheme
 style TextAppearance_AppCompat
 style TextAppearance_AppCompat_Body1
 style TextAppearance_AppCompat_Body2

@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:background="@color/white"
         android:padding="16dp">
 
         <!-- Header Row -->
@@ -38,7 +39,8 @@
                 android:text="Completed"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:background="@drawable/status_background"
+                android:textColor="@color/white"
+                android:background="@color/colorPrimary"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="4dp" />
 

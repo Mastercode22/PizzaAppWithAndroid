@@ -14,6 +14,9 @@ public class SessionManager {
     private static final String KEY_PHONE = "phone";
     private static final String KEY_ADDRESS = "address";
 
+    // NEW: Key for Dark Mode preference
+    private static final String KEY_IS_DARK_MODE = "is_dark_mode_enabled";
+
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
     private Context context;
@@ -76,5 +79,27 @@ public class SessionManager {
 
     public int getCurrentUserId() {
         return pref.getInt(KEY_USER_ID, -1);
+    }
+
+    // ===================================
+    // NEW DARK MODE FUNCTIONS
+    // ===================================
+
+    /**
+     * Saves the user's preference for Dark Mode.
+     * @param isEnabled true for Dark Mode, false for Light Mode.
+     */
+    public void setDarkModeEnabled(boolean isEnabled) {
+        editor.putBoolean(KEY_IS_DARK_MODE, isEnabled);
+        editor.apply();
+    }
+
+    /**
+     * Retrieves the user's Dark Mode preference.
+     * Default value is false (Light Mode).
+     * @return true if Dark Mode is enabled, false otherwise.
+     */
+    public boolean isDarkModeEnabled() {
+        return pref.getBoolean(KEY_IS_DARK_MODE, false);
     }
 }

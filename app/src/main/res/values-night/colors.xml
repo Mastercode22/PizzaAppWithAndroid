@@ -1,0 +1,8 @@
+<resources>
+    <color name="app_background">#1a1f2e</color>
+    <color name="text_primary">#FFFFFF</color>
+    <color name="card_background">#2a2f3e</color>
+    <color name="accent_red">#e74c3c</color>
+    <color name="text_secondary">#AAAAAA</color>
+    <color name="white">#FFFFFF</color>
+</resources>

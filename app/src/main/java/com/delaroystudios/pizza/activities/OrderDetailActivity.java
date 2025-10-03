@@ -169,7 +169,7 @@ public class OrderDetailActivity extends Activity {
             case "cancelled":
                 return getResources().getColor(R.color.status_cancelled);
             default:
-                return getResources().getColor(R.color.secondary_text);
+                return getResources().getColor(R.color.success_light);
         }
     }
 

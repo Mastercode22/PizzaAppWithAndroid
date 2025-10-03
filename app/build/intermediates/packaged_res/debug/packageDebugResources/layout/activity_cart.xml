@@ -15,9 +15,24 @@
         app:title="Shopping Cart"
         app:titleTextColor="@color/white" />
 
+    <ImageButton
+        android:id="@+id/btn_back"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:contentDescription="Back"
+        android:src="@drawable/ic_back"
+        android:background="@drawable/circle_background"
+        android:backgroundTint="@color/accent_red"
+        android:scaleType="centerInside"
+        android:padding="12dp"
+        app:tint="@color/white"
+        android:layout_gravity="start"/>
+
+
     <!-- Content -->
     <RelativeLayout
         android:layout_width="match_parent"
+        android:background="@color/card_background"
         android:layout_height="match_parent">
 
         <!-- Cart Items -->

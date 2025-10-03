@@ -7,7 +7,9 @@ array pizza_size
 array pizza_size_short
 color accent_color
 color accent_light
+color accent_red
 color admin_primary
+color app_background
 color background_light
 color card_background
 color colorAccent
@@ -31,12 +33,15 @@ color status_pending
 color status_pending_bg
 color success_dark
 color success_light
+color text_primary
+color text_secondary
 color white
 drawable anchovies
 drawable avatar
 drawable bacon
 drawable bananapepper
 drawable blackolives
+drawable blue_mountain_bg
 drawable button_outline
 drawable button_outline_error
 drawable chicken
@@ -79,6 +84,8 @@ drawable instructions_background
 drawable jalapenopeppers
 drawable logo
 drawable logo1
+drawable lolo
+drawable lolot
 drawable main_menu
 drawable more
 drawable mozzarella
@@ -89,6 +96,7 @@ drawable pineapple
 drawable pizza
 drawable pizza_palor_orange
 drawable pizza_placeholder
+drawable pizzapoint_logo
 drawable price_badge
 drawable profile_header_background
 drawable profile_menu
@@ -123,7 +131,9 @@ id btn_increase
 id btn_login
 id btn_logout
 id btn_menu
+id btn_notifications
 id btn_order_now
+id btn_orders
 id btn_place_order
 id btn_register
 id btn_remove
@@ -133,7 +143,6 @@ id btn_update_status
 id btn_vegetarian
 id btn_view_cart
 id btn_view_details
-id btn_view_order_history
 id cancel_button
 id card_manage_pizzas
 id card_pending_orders
@@ -174,6 +183,7 @@ id left
 id leftHalfOnly
 id left_text
 id ll_cart_summary
+id ll_content_container
 id ll_delivery_address
 id ll_search_container
 id ll_special_instructions
@@ -181,6 +191,7 @@ id loading_overlay
 id name
 id new_pizza_button
 id postTitle
+id profile_main_layout
 id progress_bar
 id radiogroup
 id rb_left
@@ -201,6 +212,7 @@ id settings
 id spinner_crust
 id spinner_size
 id spinner_status
+id switch_dark_mode
 id toolbar
 id total
 id tv_admin_login
@@ -214,11 +226,11 @@ id tv_customer_name
 id tv_customer_phone
 id tv_delivery_address
 id tv_description
+id tv_email
 id tv_empty_cart
 id tv_empty_orders
 id tv_empty_state
 id tv_item_count
-id tv_joined_date
 id tv_left_toppings
 id tv_login
 id tv_order_date
@@ -353,6 +365,7 @@ string todo
 string total
 string vegetarian_pizzas
 string whole_label
+style SwitchTheme
 style Theme.PizzaParlor
 style Theme.PizzaParlor.Admin
 style Theme.PizzaParlor.NoActionBar

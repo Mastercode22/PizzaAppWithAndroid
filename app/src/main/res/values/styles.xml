@@ -16,6 +16,14 @@
         <item name="colorOnSurface">@color/primary_text</item>
     </style>
 
+
+
+    <style name="SwitchTheme" parent="Theme.AppCompat.Light">
+        <item name="colorControlActivated">#e74c3c</item>
+        <item name="colorSwitchThumbNormal">#FFFFFF</item>
+        <item name="android:colorForeground">#888888</item>
+    </style>
+
     <!-- No Action Bar Theme -->
     <style name="Theme.PizzaParlor.NoActionBar">
         <item name="windowActionBar">false</item>

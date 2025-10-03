@@ -27,6 +27,7 @@
             android:id="@+id/rv_order_history"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/card_background"
             android:padding="8dp"
             android:clipToPadding="false" />
 

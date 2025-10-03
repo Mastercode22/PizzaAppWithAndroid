@@ -8,7 +8,6 @@
         android:minSdkVersion="21"
         android:targetSdkVersion="34" />
 
-    <!-- Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
@@ -28,8 +27,6 @@
         android:label="@string/app_name"
         android:testOnly="true"
         android:theme="@style/Theme.PizzaParlor" >
-
-        <!-- SPLASH SCREEN - Main Entry Point -->
         <activity
             android:name="com.delaroystudios.pizza.activities.SplashActivity"
             android:exported="true"
@@ -41,21 +38,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <!-- Login Activity -->
         <activity
             android:name="com.delaroystudios.pizza.activities.LoginActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-
-        <!-- User Registration -->
         <activity
             android:name="com.delaroystudios.pizza.activities.RegisterActivity"
             android:exported="false"
             android:parentActivityName="com.delaroystudios.pizza.activities.LoginActivity"
             android:screenOrientation="portrait" />
-
-        <!-- Main User Activities -->
         <activity
             android:name="com.delaroystudios.pizza.activities.PizzaMenuActivity"
             android:exported="false"
@@ -69,6 +60,7 @@
             android:theme="@style/Theme.PizzaParlor.NoActionBar" />
         <activity
             android:name="com.delaroystudios.pizza.activities.ProfileActivity"
+            android:configChanges="uiMode|screenLayout|screenSize|orientation"
             android:exported="false"
             android:parentActivityName="com.delaroystudios.pizza.activities.PizzaMenuActivity"
             android:screenOrientation="portrait"
@@ -97,8 +89,6 @@
             android:parentActivityName="com.delaroystudios.pizza.activities.CartActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.PizzaParlor.NoActionBar" />
-
-        <!-- Admin Activities -->
         <activity
             android:name="com.delaroystudios.pizza.activities.AdminLoginActivity"
             android:exported="false"
