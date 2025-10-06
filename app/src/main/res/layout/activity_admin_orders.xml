@@ -6,7 +6,6 @@
     android:orientation="vertical"
     android:background="@color/background_light">
 
-    <!-- Admin Toolbar -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -22,11 +21,11 @@
             android:src="@drawable/ic_back"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:layout_marginEnd="8dp"
-            android:contentDescription="Back" />
+            android:contentDescription="Back"
+            app:tint="@color/white" />
 
     </androidx.appcompat.widget.Toolbar>
 
-    <!-- Search and Filter Section -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,7 +34,6 @@
         android:padding="16dp"
         android:elevation="2dp">
 
-        <!-- Search Bar -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,7 +54,6 @@
 
         </LinearLayout>
 
-        <!-- Filters Row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -92,7 +89,6 @@
 
     </LinearLayout>
 
-    <!-- Orders List -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -104,7 +100,6 @@
             android:padding="8dp"
             android:clipToPadding="false" />
 
-        <!-- Empty State -->
         <LinearLayout
             android:id="@+id/tv_empty_state"
             android:layout_width="match_parent"
@@ -122,7 +117,7 @@
                 android:layout_marginBottom="16dp" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/empty_state_title"  android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No Orders Found"
                 android:textSize="20sp"
@@ -131,7 +126,7 @@
                 android:layout_marginBottom="8dp" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/empty_state_caption"  android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Orders matching your criteria will appear here."
                 android:textSize="14sp"

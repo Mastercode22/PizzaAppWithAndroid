@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton; // NEW: Import ImageButton
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -26,7 +26,7 @@ import java.util.List;
 
 import static com.delaroystudios.pizza.database.Constants.*;
 
-public class CartActivity extends Activity implements CartAdapter.OnCartItemClickListener, View.OnClickListener { // NEW: Implement View.OnClickListener
+public class CartActivity extends Activity implements CartAdapter.OnCartItemClickListener, View.OnClickListener {
 
     private static final String TAG = "CartActivity";
 
@@ -34,7 +34,7 @@ public class CartActivity extends Activity implements CartAdapter.OnCartItemClic
     private LinearLayout llEmptyCart;
     private TextView tvSubtotal, tvTotal;
     private Button btnCheckout;
-    private ImageButton btnBack; // NEW: Declare ImageButton
+    private ImageButton btnBack;
     private CartAdapter cartAdapter;
     private List<CartItem> cartItems;
     private PizzaData database;
@@ -60,11 +60,10 @@ public class CartActivity extends Activity implements CartAdapter.OnCartItemClic
         tvSubtotal = findViewById(R.id.tv_subtotal);
         tvTotal = findViewById(R.id.tv_total);
         btnCheckout = findViewById(R.id.btn_checkout);
-
-        btnBack = findViewById(R.id.btn_back); // NEW: Initialize the back button
+        btnBack = findViewById(R.id.btn_back);
 
         btnCheckout.setOnClickListener(v -> proceedToCheckout());
-        btnBack.setOnClickListener(this); // NEW: Set click listener for the back button
+        btnBack.setOnClickListener(this);
     }
 
     private void setupRecyclerView() {
@@ -134,7 +133,6 @@ public class CartActivity extends Activity implements CartAdapter.OnCartItemClic
     }
 
     private void updateTotals() {
-        // Calculate totals
         double subtotal = calculateSubtotal();
         double tax = subtotal * 0.1; // 10% tax
         double total = subtotal + tax;
@@ -144,13 +142,40 @@ public class CartActivity extends Activity implements CartAdapter.OnCartItemClic
     }
 
     private double calculateSubtotal() {
-        // TODO: Calculate actual subtotal from cart items with real prices
-        // This is a placeholder calculation
         double subtotal = 0.0;
+        SQLiteDatabase db = database.getReadableDatabase();
+
         for (CartItem item : cartItems) {
-            // You should fetch the actual price from database based on pizza, size, and crust
-            subtotal += 15.99 * item.getQuantity();
+            // Query to get pizza base price, size multiplier, and crust additional price
+            String query = "SELECT p." + BASE_PRICE + ", s." + PRICE_MULTIPLIER + ", c." + ADDITIONAL_PRICE +
+                    " FROM " + PIZZAS_TABLE + " p " +
+                    "INNER JOIN " + SIZES_TABLE + " s ON s." + SIZE_ID + " = ? " +
+                    "INNER JOIN " + CRUST_TABLE + " c ON c." + CRUST_ID + " = ? " +
+                    "WHERE p." + PIZZA_ID + " = ?";
+
+            Cursor cursor = db.rawQuery(query, new String[]{
+                    String.valueOf(item.getSizeId()),
+                    String.valueOf(item.getCrustId()),
+                    String.valueOf(item.getPizzaId())
+            });
+
+            if (cursor != null && cursor.moveToFirst()) {
+                try {
+                    double basePrice = cursor.getDouble(0);
+                    double sizeMultiplier = cursor.getDouble(1);
+                    double crustPrice = cursor.getDouble(2);
+
+                    // Calculate item price: (base price * size multiplier) + crust price
+                    double itemPrice = (basePrice * sizeMultiplier) + crustPrice;
+                    subtotal += itemPrice * item.getQuantity();
+
+                } catch (Exception e) {
+                    Log.e(TAG, "Error calculating price for item: " + e.getMessage());
+                }
+                cursor.close();
+            }
         }
+
         return subtotal;
     }
 
@@ -217,11 +242,9 @@ public class CartActivity extends Activity implements CartAdapter.OnCartItemClic
         }
     }
 
-    // NEW: Implement the central onClick method to handle the back button
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btn_back) {
-            // This closes the current CartActivity and returns to the previous activity (PizzaMenuActivity)
             finish();
         }
     }

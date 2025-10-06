@@ -18,13 +18,20 @@
 	</array>
 
 
-	<array name="order_status_filter">
-		<item>All Orders</item>
+	<string-array name="pizza_categories">
+		<item>Classic</item>
+		<item>Specialty</item>
+		<item>Vegetarian</item>
+	</string-array>
+
+	<string-array name="order_status_filter">
+		<item>All</item>
 		<item>Pending</item>
 		<item>In Progress</item>
 		<item>Completed</item>
 		<item>Cancelled</item>
-	</array>
+	</string-array>
+
 
 
 

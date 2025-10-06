@@ -1,8 +1,16 @@
 package com.delaroystudios.pizza.database;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.delaroystudios.pizza.models.Order;
+import com.delaroystudios.pizza.models.OrderItem;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.delaroystudios.pizza.database.Constants.*;
 
 public class PizzaData extends SQLiteOpenHelper {
@@ -202,5 +210,238 @@ public class PizzaData extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + USERS_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
+    }
+
+    // ========== ORDER MANAGEMENT METHODS ==========
+
+    public List<Order> getAllOrders() {
+        List<Order> orders = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String orderBy = ORDER_DATE + " DESC";
+        Cursor cursor = db.query(ORDERS_TABLE, null, null, null, null, null, orderBy);
+
+        while (cursor.moveToNext()) {
+            Order order = new Order();
+            order.setOrderId(cursor.getInt(cursor.getColumnIndexOrThrow(ORDER_ID)));
+            order.setUserId(cursor.getInt(cursor.getColumnIndexOrThrow(USER_ID)));
+            order.setOrderDate(cursor.getString(cursor.getColumnIndexOrThrow(ORDER_DATE)));
+            order.setStatus(cursor.getString(cursor.getColumnIndexOrThrow(STATUS)));
+            order.setCustomerName(cursor.getString(cursor.getColumnIndexOrThrow(CUSTOMER_NAME)));
+            order.setCustomerPhone(cursor.getString(cursor.getColumnIndexOrThrow(CUSTOMER_PHONE)));
+            order.setDeliveryAddress(cursor.getString(cursor.getColumnIndexOrThrow(DELIVERY_ADDRESS)));
+            order.setSpecialInstructions(cursor.getString(cursor.getColumnIndexOrThrow(SPECIAL_INSTRUCTIONS)));
+            order.setTotalAmount(cursor.getDouble(cursor.getColumnIndexOrThrow(TOTAL_AMOUNT)));
+
+            int estimatedIndex = cursor.getColumnIndex(ESTIMATED_COMPLETION);
+            if (estimatedIndex != -1) {
+                order.setEstimatedCompletion(cursor.getString(estimatedIndex));
+            }
+
+            orders.add(order);
+        }
+        cursor.close();
+        return orders;
+    }
+
+    public Order getOrderById(int orderId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selection = ORDER_ID + "=?";
+        String[] selectionArgs = {String.valueOf(orderId)};
+
+        Cursor cursor = db.query(ORDERS_TABLE, null, selection, selectionArgs, null, null, null);
+
+        Order order = null;
+        if (cursor.moveToFirst()) {
+            order = new Order();
+            order.setOrderId(cursor.getInt(cursor.getColumnIndexOrThrow(ORDER_ID)));
+            order.setUserId(cursor.getInt(cursor.getColumnIndexOrThrow(USER_ID)));
+            order.setOrderDate(cursor.getString(cursor.getColumnIndexOrThrow(ORDER_DATE)));
+            order.setStatus(cursor.getString(cursor.getColumnIndexOrThrow(STATUS)));
+            order.setCustomerName(cursor.getString(cursor.getColumnIndexOrThrow(CUSTOMER_NAME)));
+            order.setCustomerPhone(cursor.getString(cursor.getColumnIndexOrThrow(CUSTOMER_PHONE)));
+            order.setDeliveryAddress(cursor.getString(cursor.getColumnIndexOrThrow(DELIVERY_ADDRESS)));
+            order.setSpecialInstructions(cursor.getString(cursor.getColumnIndexOrThrow(SPECIAL_INSTRUCTIONS)));
+            order.setTotalAmount(cursor.getDouble(cursor.getColumnIndexOrThrow(TOTAL_AMOUNT)));
+
+            int estimatedIndex = cursor.getColumnIndex(ESTIMATED_COMPLETION);
+            if (estimatedIndex != -1) {
+                order.setEstimatedCompletion(cursor.getString(estimatedIndex));
+            }
+        }
+        cursor.close();
+        return order;
+    }
+
+    public List<OrderItem> getOrderItems(int orderId) {
+        List<OrderItem> orderItems = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String query = "SELECT oi.*, p." + PIZZA_NAME + ", s." + SIZE_NAME + ", c." + CRUST_NAME +
+                " FROM " + ORDER_ITEMS_TABLE + " oi" +
+                " LEFT JOIN " + PIZZAS_TABLE + " p ON oi." + PIZZA_ID + " = p." + PIZZA_ID +
+                " LEFT JOIN " + SIZES_TABLE + " s ON oi." + SIZE_ID + " = s." + SIZE_ID +
+                " LEFT JOIN " + CRUST_TABLE + " c ON oi." + CRUST_ID + " = c." + CRUST_ID +
+                " WHERE oi." + ORDER_ID + " = ?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(orderId)});
+
+        while (cursor.moveToNext()) {
+            OrderItem item = new OrderItem();
+            item.setItemId(cursor.getInt(cursor.getColumnIndexOrThrow(ITEM_ID)));
+            item.setOrderId(orderId);
+            item.setPizzaId(cursor.getInt(cursor.getColumnIndexOrThrow(PIZZA_ID)));
+            item.setSizeId(cursor.getInt(cursor.getColumnIndexOrThrow(SIZE_ID)));
+            item.setCrustId(cursor.getInt(cursor.getColumnIndexOrThrow(CRUST_ID)));
+            item.setQuantity(cursor.getInt(cursor.getColumnIndexOrThrow(QUANTITY)));
+            item.setItemPrice(cursor.getDouble(cursor.getColumnIndexOrThrow(ITEM_PRICE)));
+
+            item.setPizzaName(cursor.getString(cursor.getColumnIndexOrThrow(PIZZA_NAME)));
+            item.setSizeName(cursor.getString(cursor.getColumnIndexOrThrow(SIZE_NAME)));
+            item.setCrustName(cursor.getString(cursor.getColumnIndexOrThrow(CRUST_NAME)));
+
+            int specialIndex = cursor.getColumnIndex(SPECIAL_INSTRUCTIONS);
+            if (specialIndex != -1) {
+                item.setSpecialInstructions(cursor.getString(specialIndex));
+            }
+
+            orderItems.add(item);
+        }
+        cursor.close();
+        return orderItems;
+    }
+
+    public List<Order> getOrdersByStatus(String status) {
+        List<Order> orders = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selection = STATUS + "=?";
+        String[] selectionArgs = {status};
+        String orderBy = ORDER_DATE + " DESC";
+
+        Cursor cursor = db.query(ORDERS_TABLE, null, selection, selectionArgs, null, null, orderBy);
+
+        while (cursor.moveToNext()) {
+            Order order = new Order();
+            order.setOrderId(cursor.getInt(cursor.getColumnIndexOrThrow(ORDER_ID)));
+            order.setUserId(cursor.getInt(cursor.getColumnIndexOrThrow(USER_ID)));
+            order.setOrderDate(cursor.getString(cursor.getColumnIndexOrThrow(ORDER_DATE)));
+            order.setStatus(cursor.getString(cursor.getColumnIndexOrThrow(STATUS)));
+            order.setCustomerName(cursor.getString(cursor.getColumnIndexOrThrow(CUSTOMER_NAME)));
+            order.setCustomerPhone(cursor.getString(cursor.getColumnIndexOrThrow(CUSTOMER_PHONE)));
+            order.setDeliveryAddress(cursor.getString(cursor.getColumnIndexOrThrow(DELIVERY_ADDRESS)));
+            order.setSpecialInstructions(cursor.getString(cursor.getColumnIndexOrThrow(SPECIAL_INSTRUCTIONS)));
+            order.setTotalAmount(cursor.getDouble(cursor.getColumnIndexOrThrow(TOTAL_AMOUNT)));
+
+            int estimatedIndex = cursor.getColumnIndex(ESTIMATED_COMPLETION);
+            if (estimatedIndex != -1) {
+                order.setEstimatedCompletion(cursor.getString(estimatedIndex));
+            }
+
+            orders.add(order);
+        }
+        cursor.close();
+        return orders;
+    }
+
+    public boolean updateOrderStatus(int orderId, String newStatus) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        android.content.ContentValues values = new android.content.ContentValues();
+        values.put(STATUS, newStatus);
+
+        String whereClause = ORDER_ID + "=?";
+        String[] whereArgs = {String.valueOf(orderId)};
+
+        int rowsAffected = db.update(ORDERS_TABLE, values, whereClause, whereArgs);
+        return rowsAffected > 0;
+    }
+
+    // ========== STATISTICS METHODS ==========
+
+    public int getPendingOrderCount() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selection = STATUS + "=?";
+        String[] selectionArgs = {STATUS_PENDING};
+
+        Cursor cursor = db.query(ORDERS_TABLE, null, selection, selectionArgs, null, null, null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
+    }
+
+    public int getTotalOrderCount() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(ORDERS_TABLE, null, null, null, null, null, null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
+    }
+
+    public double getTotalRevenue() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        double totalRevenue = 0.0;
+
+        String query = "SELECT SUM(" + TOTAL_AMOUNT + ") FROM " + ORDERS_TABLE;
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            totalRevenue = cursor.getDouble(0);
+        }
+        cursor.close();
+        return totalRevenue;
+    }
+
+    public int getTodayOrderCount() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String query = "SELECT COUNT(*) FROM " + ORDERS_TABLE +
+                " WHERE DATE(" + ORDER_DATE + ") = DATE('now')";
+        Cursor cursor = db.rawQuery(query, null);
+
+        int count = 0;
+        if (cursor.moveToFirst()) {
+            count = cursor.getInt(0);
+        }
+        cursor.close();
+        return count;
+    }
+
+    public double getTodayRevenue() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String query = "SELECT SUM(" + TOTAL_AMOUNT + ") FROM " + ORDERS_TABLE +
+                " WHERE DATE(" + ORDER_DATE + ") = DATE('now')";
+        Cursor cursor = db.rawQuery(query, null);
+
+        double revenue = 0.0;
+        if (cursor.moveToFirst()) {
+            revenue = cursor.getDouble(0);
+        }
+        cursor.close();
+        return revenue;
+    }
+
+    public double getWeekRevenue() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String query = "SELECT SUM(" + TOTAL_AMOUNT + ") FROM " + ORDERS_TABLE +
+                " WHERE DATE(" + ORDER_DATE + ") >= DATE('now', '-7 days')";
+        Cursor cursor = db.rawQuery(query, null);
+
+        double revenue = 0.0;
+        if (cursor.moveToFirst()) {
+            revenue = cursor.getDouble(0);
+        }
+        cursor.close();
+        return revenue;
+    }
+
+    public int getUserCount() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(USERS_TABLE, null, null, null, null, null, null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
     }
 }

@@ -43,6 +43,22 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
+            android:name="com.delaroystudios.pizza.activities.AdminPizzaManagementActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.delaroystudios.pizza.activities.AdminCustomersActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.delaroystudios.pizza.activities.ActivitydminRevenueA"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.delaroystudios.pizza.activities.AdminSettingsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.delaroystudios.pizza.activities.RegisterActivity"
             android:exported="false"
             android:parentActivityName="com.delaroystudios.pizza.activities.LoginActivity"

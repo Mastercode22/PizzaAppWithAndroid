@@ -3,14 +3,18 @@ package com.delaroystudios.pizza.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.BounceInterpolator;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ProgressBar; // Import ProgressBar
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,17 +23,23 @@ import com.delaroystudios.pizza.utils.SessionManager;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private static final int SPLASH_DURATION = 5000; // 5 seconds
+    private static final int SPLASH_DURATION = 15000; // 15 seconds
     private ImageView ivLogo;
     private TextView tvAppName;
     private SessionManager sessionManager;
+    private ProgressBar progressBar; // Declare ProgressBar
 
-    // CHOOSE YOUR ANIMATION STYLE HERE:
-    // 1 = Bouncing/Pulsing (recommended)
-    // 2 = Fade In with Scale
-    // 3 = Bounce from top
-    // 4 = Rotate and Scale
-    private static final int ANIMATION_STYLE = 1;
+    // Removed dot1, dot2, dot3, dot4 declarations
+
+    // CHOOSE YOUR LOGO ROTATION STYLE:
+    // 1 = Single smooth 360° rotation over 5 seconds
+    // 2 = Continuous rotation (multiple spins)
+    // 3 = Rotate with pulse effect
+    // 4 = Rotate with bounce effect
+    private static final int ROTATION_STYLE = 1;
+
+    // The LOADING_ANIMATION switch is now obsolete, but kept the value.
+    private static final int LOADING_ANIMATION = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +50,15 @@ public class SplashActivity extends AppCompatActivity {
         ivLogo = findViewById(R.id.iv_logo);
         tvAppName = findViewById(R.id.tv_app_name);
 
-        // Start animation based on selected style
-        startAnimation();
+        // Initialize ProgressBar
+        progressBar = findViewById(R.id.progress_bar);
+
+        // Removed initialization of dot1, dot2, dot3, dot4
+
+        // Start animations (Logo Rotation remains, Loading Animation removed)
+        startLogoRotation();
+
+        // No custom loading animation is started, the ProgressBar will just be visible
 
         // Navigate after delay
         new Handler().postDelayed(new Runnable() {
@@ -52,148 +69,158 @@ public class SplashActivity extends AppCompatActivity {
         }, SPLASH_DURATION);
     }
 
-    private void startAnimation() {
-        switch (ANIMATION_STYLE) {
+    // ==================== LOGO ROTATION ANIMATIONS ====================
+
+    private void startLogoRotation() {
+        switch (ROTATION_STYLE) {
             case 1:
-                startBouncingAnimation();
+                startSmoothRotation();
                 break;
             case 2:
-                startFadeInScaleAnimation();
+                startContinuousRotation();
                 break;
             case 3:
-                startBounceFromTopAnimation();
+                startRotateWithPulse();
                 break;
             case 4:
-                startRotateScaleAnimation();
+                startRotateWithBounce();
                 break;
             default:
-                startBouncingAnimation();
+                startSmoothRotation();
         }
     }
 
-    // ANIMATION STYLE 1: Continuous bouncing/pulsing effect
-    private void startBouncingAnimation() {
-        ScaleAnimation scaleAnimation = new ScaleAnimation(
-                1.0f, 1.2f,  // X axis: from 100% to 120%
-                1.0f, 1.2f,  // Y axis: from 100% to 120%
+    // ROTATION STYLE 1: Single smooth 360° rotation over 5 seconds (RECOMMENDED)
+    private void startSmoothRotation() {
+        RotateAnimation rotate = new RotateAnimation(
+                0f, 360f,  // From 0° to 360°
                 Animation.RELATIVE_TO_SELF, 0.5f,  // Pivot X at center
                 Animation.RELATIVE_TO_SELF, 0.5f   // Pivot Y at center
         );
 
-        scaleAnimation.setDuration(800);
-        scaleAnimation.setRepeatCount(Animation.INFINITE);
-        scaleAnimation.setRepeatMode(Animation.REVERSE);
-        scaleAnimation.setInterpolator(new BounceInterpolator());
+        rotate.setDuration(SPLASH_DURATION);  // Exactly 5 seconds
+        rotate.setInterpolator(new LinearInterpolator());  // Smooth, constant speed
+        rotate.setFillAfter(true);  // Stay at final position
 
-        ivLogo.startAnimation(scaleAnimation);
+        ivLogo.startAnimation(rotate);
 
-        // Subtle fade animation for text
-        AlphaAnimation alphaAnimation = new AlphaAnimation(0.7f, 1.0f);
-        alphaAnimation.setDuration(1000);
-        alphaAnimation.setRepeatCount(Animation.INFINITE);
-        alphaAnimation.setRepeatMode(Animation.REVERSE);
+        // Fade in text during rotation
         if (tvAppName != null) {
-            tvAppName.startAnimation(alphaAnimation);
+            AlphaAnimation fadeIn = new AlphaAnimation(0.0f, 1.0f);
+            fadeIn.setDuration(2000);
+            fadeIn.setStartOffset(1000);
+            fadeIn.setFillAfter(true);
+            tvAppName.startAnimation(fadeIn);
         }
     }
 
-    // ANIMATION STYLE 2: Fade in with scale
-    private void startFadeInScaleAnimation() {
-        AnimationSet animationSet = new AnimationSet(true);
-
-        // Fade in
-        AlphaAnimation fadeIn = new AlphaAnimation(0.0f, 1.0f);
-        fadeIn.setDuration(1500);
-
-        // Scale up
-        ScaleAnimation scaleUp = new ScaleAnimation(
-                0.5f, 1.0f,
-                0.5f, 1.0f,
+    // ROTATION STYLE 2: Continuous rotation (multiple spins in 5 seconds)
+    private void startContinuousRotation() {
+        RotateAnimation rotate = new RotateAnimation(
+                0f, 360f,
                 Animation.RELATIVE_TO_SELF, 0.5f,
                 Animation.RELATIVE_TO_SELF, 0.5f
         );
-        scaleUp.setDuration(1500);
 
-        animationSet.addAnimation(fadeIn);
-        animationSet.addAnimation(scaleUp);
-        animationSet.setFillAfter(true);
+        rotate.setDuration(2000);  // Each rotation takes 2 seconds
+        rotate.setRepeatCount(2);  // Repeat 2 times (total 3 rotations in 6 seconds)
+        rotate.setInterpolator(new LinearInterpolator());
+        rotate.setFillAfter(true);
 
-        ivLogo.startAnimation(animationSet);
+        ivLogo.startAnimation(rotate);
 
-        // Delayed animation for text
+        // Fade in text
         if (tvAppName != null) {
-            AlphaAnimation textFadeIn = new AlphaAnimation(0.0f, 1.0f);
-            textFadeIn.setDuration(1000);
-            textFadeIn.setStartOffset(800);
-            tvAppName.startAnimation(textFadeIn);
+            AlphaAnimation fadeIn = new AlphaAnimation(0.0f, 1.0f);
+            fadeIn.setDuration(1500);
+            fadeIn.setStartOffset(500);
+            fadeIn.setFillAfter(true);
+            tvAppName.startAnimation(fadeIn);
         }
     }
 
-    // ANIMATION STYLE 3: Bounce from top
-    private void startBounceFromTopAnimation() {
-        TranslateAnimation translateAnimation = new TranslateAnimation(
-                0, 0,  // X axis: no movement
-                -1000, 0  // Y axis: from -1000px to 0
+    // ROTATION STYLE 3: Rotate with pulse effect
+    private void startRotateWithPulse() {
+        AnimationSet animSet = new AnimationSet(false);
+
+        // Rotation
+        RotateAnimation rotate = new RotateAnimation(
+                0f, 360f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f
         );
-        translateAnimation.setDuration(1500);
-        translateAnimation.setInterpolator(new BounceInterpolator());
-        translateAnimation.setFillAfter(true);
+        rotate.setDuration(SPLASH_DURATION);
+        rotate.setInterpolator(new LinearInterpolator());
 
-        ivLogo.startAnimation(translateAnimation);
+        // Scale/Pulse effect
+        ScaleAnimation pulse = new ScaleAnimation(
+                1.0f, 1.15f,
+                1.0f, 1.15f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f
+        );
+        pulse.setDuration(1000);
+        pulse.setRepeatCount(4);  // Pulse 5 times during rotation
+        pulse.setRepeatMode(Animation.REVERSE);
 
-        // Add continuous gentle pulsing after bounce
+        animSet.addAnimation(rotate);
+        animSet.addAnimation(pulse);
+        animSet.setFillAfter(true);
+
+        ivLogo.startAnimation(animSet);
+
+        // Fade text
+        if (tvAppName != null) {
+            AlphaAnimation fadeIn = new AlphaAnimation(0.0f, 1.0f);
+            fadeIn.setDuration(1500);
+            fadeIn.setFillAfter(true);
+            tvAppName.startAnimation(fadeIn);
+        }
+    }
+
+    // ROTATION STYLE 4: Rotate with bounce effect
+    private void startRotateWithBounce() {
+        // First: Bounce in from top
+        TranslateAnimation bounceIn = new TranslateAnimation(
+                0, 0,
+                -800, 0
+        );
+        bounceIn.setDuration(1500);
+        bounceIn.setInterpolator(new BounceInterpolator());
+        bounceIn.setFillAfter(true);
+
+        ivLogo.startAnimation(bounceIn);
+
+        // Then: Start rotating after bounce
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                ScaleAnimation pulse = new ScaleAnimation(
-                        1.0f, 1.1f,
-                        1.0f, 1.1f,
+                RotateAnimation rotate = new RotateAnimation(
+                        0f, 360f,
                         Animation.RELATIVE_TO_SELF, 0.5f,
                         Animation.RELATIVE_TO_SELF, 0.5f
                 );
-                pulse.setDuration(1000);
-                pulse.setRepeatCount(Animation.INFINITE);
-                pulse.setRepeatMode(Animation.REVERSE);
-                ivLogo.startAnimation(pulse);
+                rotate.setDuration(3500);  // Remaining time
+                rotate.setInterpolator(new LinearInterpolator());
+                rotate.setFillAfter(true);
+                ivLogo.startAnimation(rotate);
             }
         }, 1500);
+
+        // Fade text
+        if (tvAppName != null) {
+            AlphaAnimation fadeIn = new AlphaAnimation(0.0f, 1.0f);
+            fadeIn.setDuration(1000);
+            fadeIn.setStartOffset(2000);
+            fadeIn.setFillAfter(true);
+            tvAppName.startAnimation(fadeIn);
+        }
     }
 
-    // ANIMATION STYLE 4: Rotate and scale
-    private void startRotateScaleAnimation() {
-        AnimationSet animationSet = new AnimationSet(true);
+    // ==================== LOADING ANIMATIONS (All dot methods removed) ====================
 
-        // Scale animation
-        ScaleAnimation scaleAnimation = new ScaleAnimation(
-                0.0f, 1.0f,
-                0.0f, 1.0f,
-                Animation.RELATIVE_TO_SELF, 0.5f,
-                Animation.RELATIVE_TO_SELF, 0.5f
-        );
-        scaleAnimation.setDuration(2000);
-
-        animationSet.addAnimation(scaleAnimation);
-        animationSet.setFillAfter(true);
-
-        ivLogo.startAnimation(animationSet);
-
-        // Add gentle pulsing after initial animation
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ScaleAnimation pulse = new ScaleAnimation(
-                        1.0f, 1.15f,
-                        1.0f, 1.15f,
-                        Animation.RELATIVE_TO_SELF, 0.5f,
-                        Animation.RELATIVE_TO_SELF, 0.5f
-                );
-                pulse.setDuration(600);
-                pulse.setRepeatCount(Animation.INFINITE);
-                pulse.setRepeatMode(Animation.REVERSE);
-                ivLogo.startAnimation(pulse);
-            }
-        }, 2000);
-    }
+    // The previous 'startLoadingAnimation' method and all dot-related sub-methods are removed.
+    // The built-in ProgressBar handles the loading visual now.
 
     private void navigateToNextScreen() {
         Intent intent;

@@ -24,7 +24,12 @@
 	<color name="status_cancelled">#F44336</color>
 
 	<!-- Admin Colors -->
-	<color name="admin_primary">#3F51B5</color>
+
+
+		<!-- Add missing admin colors -->
+		<color name="admin_primary">#E53935</color>
+		<color name="admin_primary_dark">#B71C1C</color>
+
 
 	<!-- Success/Error Colors -->
 	<color name="success_light">#C8E6C9</color>

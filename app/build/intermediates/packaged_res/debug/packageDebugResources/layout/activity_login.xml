@@ -1,162 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#F5F5F5">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:background="@drawable/gradient_background">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center">
 
-        <LinearLayout
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
+            android:src="@android:drawable/ic_dialog_email"
+            android:contentDescription="Logo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pizza Parlor"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome Back!"
+            android:textSize="16sp"
+            android:textColor="#666666"
+            android:layout_marginBottom="32dp" />
+
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="24dp"
-            android:gravity="center">
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp">
 
-            <!-- Logo Section -->
-            <ImageView
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginBottom="32dp"
-                android:src="@drawable/logo"
-                android:contentDescription="@string/pizza_parlor_logo" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pizza Parlor"
-                android:textSize="32sp"
-                android:textColor="@color/primary_text"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Delicious pizza at your fingertips"
-                android:textSize="16sp"
-                android:textColor="@color/secondary_text"
-                android:layout_marginBottom="48dp" />
-
-            <!-- Login Form Card -->
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="8dp">
+                android:orientation="vertical"
+                android:padding="24dp">
 
-                <LinearLayout
+                <EditText
+                    android:id="@+id/et_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="24dp">
+                    android:hint="Username or Email"
+                    android:inputType="text"
+                    android:background="@android:drawable/editbox_background"
+                    android:padding="16dp"
+                    android:layout_marginBottom="16dp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Welcome Back!"
-                        android:textSize="24sp"
-                        android:textColor="@color/primary_text"
-                        android:textStyle="bold"
-                        android:layout_marginBottom="24dp"
-                        android:layout_gravity="center" />
+                <EditText
+                    android:id="@+id/et_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:background="@android:drawable/editbox_background"
+                    android:padding="16dp"
+                    android:layout_marginBottom="24dp" />
 
-                    <!-- Username Input -->
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                <Button
+                    android:id="@+id/btn_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:text="Login"
+                    android:textSize="16sp"
+                    android:textColor="#FFFFFF"
+                    android:backgroundTint="#FF6B35" />
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/et_username"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Email or Username"
-                            android:inputType="textEmailAddress" />
-                    </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
 
-                    <!-- Password Input -->
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="24dp"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        app:passwordToggleEnabled="true">
+        </androidx.cardview.widget.CardView>
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/et_password"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Password"
-                            android:inputType="textPassword" />
-                    </com.google.android.material.textfield.TextInputLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="24dp">
 
-                    <!-- Login Button -->
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_login"
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:text="Login"
-                        android:textSize="16sp"
-                        android:textColor="@color/white"
-                        android:backgroundTint="@color/primary_color"
-                        app:cornerRadius="8dp"
-                        android:layout_marginBottom="16dp" />
-
-                    <!-- Register Link -->
-                    <TextView
-                        android:id="@+id/tv_register"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Don't have an account? Sign up"
-                        android:textColor="@color/primary_color"
-                        android:textSize="14sp"
-                        android:layout_gravity="center"
-                        android:padding="8dp" />
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <!-- Admin Login -->
             <TextView
-                android:id="@+id/tv_admin_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Admin Login"
-                android:textColor="@color/accent_color"
+                android:text="Don't have an account? "
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Register"
+                android:textColor="#FF6B35"
+                android:textStyle="bold"
                 android:textSize="14sp"
-                android:layout_marginTop="32dp"
-                android:padding="8dp"
-                android:background="?android:attr/selectableItemBackground" />
+                android:clickable="true" />
 
         </LinearLayout>
-    </ScrollView>
 
-    <!-- Loading Overlay -->
-    <View
-        android:id="@+id/loading_overlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#B3000000"
-        android:visibility="gone"
-        android:clickable="true"
-        android:focusable="true" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E0E0E0"
+            android:layout_marginVertical="24dp"
+            android:layout_marginHorizontal="32dp" />
 
-    <!-- Progress Bar -->
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        android:indeterminate="true"
-        android:indeterminateTint="@color/white" />
+        <TextView
+            android:id="@+id/tv_admin_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Admin Login →"
+            android:textColor="#2196F3"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:padding="12dp"
+            android:clickable="true" />
 
-</FrameLayout>
+    </LinearLayout>
+</ScrollView>

@@ -91,7 +91,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingVertical="16dp"
-                android:background="@color/card_background" android:paddingHorizontal="16dp"
+                android:background="@color/card_background"
+                android:paddingHorizontal="16dp"
                 android:layout_marginTop="8dp"
                 android:elevation="4dp">
 

@@ -9,20 +9,10 @@ public class Pizza {
     private int imageResource;
     private boolean isAvailable;
 
-    // Constructors
     public Pizza() {
+        this.isAvailable = true; // Default to available
     }
 
-    public Pizza(int pizzaId, String name, String description, double basePrice, int categoryId) {
-        this.pizzaId = pizzaId;
-        this.name = name;
-        this.description = description;
-        this.basePrice = basePrice;
-        this.categoryId = categoryId;
-        this.isAvailable = true;
-    }
-
-    // Getters and Setters
     public int getPizzaId() {
         return pizzaId;
     }

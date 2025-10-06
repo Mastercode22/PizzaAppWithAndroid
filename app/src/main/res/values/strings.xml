@@ -98,5 +98,6 @@ you have completed your order, select "Checkout" to know the total and what time
   <string name="todo">TODO</string>
   <string name="customize_this_pizza">Customize this pizza</string>
     <string name="already_have_an_account_sign_in">Already have an account? Sign in</string>
+    <string name="account_security"><![CDATA[Account & Security]]></string>
 
 </resources>

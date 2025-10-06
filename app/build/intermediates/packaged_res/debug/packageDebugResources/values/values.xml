@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <array name="order_status_filter">
-		<item>All Orders</item>
+    <string-array name="order_status_filter">
+		<item>All</item>
 		<item>Pending</item>
 		<item>In Progress</item>
 		<item>Completed</item>
 		<item>Cancelled</item>
-	</array>
+	</string-array>
+    <string-array name="pizza_categories">
+		<item>Classic</item>
+		<item>Specialty</item>
+		<item>Vegetarian</item>
+	</string-array>
     <array name="pizza_crust">
 		<item>@string/thin_label</item>
 		<item>@string/thick_label</item>
@@ -32,7 +37,8 @@
     <color name="accent_color">#FFC107</color>
     <color name="accent_light">#FFF59D</color>
     <color name="accent_red">#e74c3c</color>
-    <color name="admin_primary">#3F51B5</color>
+    <color name="admin_primary">#E53935</color>
+    <color name="admin_primary_dark">#B71C1C</color>
     <color name="app_background">#FFFFFF</color>
     <color name="background_light">#F5F5F5</color>
     <color name="card_background">#FFFFFF</color>
@@ -60,6 +66,7 @@
     <color name="text_primary">#000000</color>
     <color name="text_secondary">#888888</color>
     <color name="white">#FFFFFF</color>
+    <string name="account_security"><![CDATA[Account & Security]]></string>
     <string name="add_ingredients_help">To add ingredients to the pizza, slide the pictures at 
 the top of the screen until the topping desired is shown.  Choose which side of the pizza, 
 left, right or whole,  you would like the topping on, and click the picture. "Whole"  adds 

@@ -233,7 +233,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         EditText etCurrentPassword = dialogView.findViewById(R.id.et_current_password);
         EditText etNewPassword = dialogView.findViewById(R.id.et_new_password);
-        EditText etConfirmNewPassword = dialogView.findViewById(R.id.et_confirm_new_password);
+        EditText etConfirmNewPassword = dialogView.findViewById(R.id.et_confirm_password);
 
         builder.setTitle("Change Password")
                 .setView(dialogView)

@@ -1,6 +1,5 @@
 package com.delaroystudios.pizza.activities;
 
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -9,10 +8,12 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,12 +29,13 @@ import java.util.List;
 
 import static com.delaroystudios.pizza.database.Constants.*;
 
-public class CheckoutActivity extends Activity implements View.OnClickListener {
+public class CheckoutActivity extends AppCompatActivity implements View.OnClickListener {
 
     private RecyclerView rvOrderSummary;
     private EditText etDeliveryAddress, etSpecialInstructions, etPhoneNumber;
     private TextView tvSubtotal, tvTax, tvTotal, tvCustomerName;
     private Button btnPlaceOrder, btnCancel;
+    private ImageButton btnBack;
 
     private PizzaData database;
     private SessionManager sessionManager;
@@ -75,11 +77,13 @@ public class CheckoutActivity extends Activity implements View.OnClickListener {
         tvCustomerName = findViewById(R.id.tv_customer_name);
         btnPlaceOrder = findViewById(R.id.btn_place_order);
         btnCancel = findViewById(R.id.btn_cancel);
+        btnBack = findViewById(R.id.btn_back);
     }
 
     private void setupClickListeners() {
         btnPlaceOrder.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
+        btnBack.setOnClickListener(this);
     }
 
     private void loadCartItems() {
@@ -92,35 +96,23 @@ public class CheckoutActivity extends Activity implements View.OnClickListener {
 
         Cursor cursor = db.query(CART_TABLE, null, selection, selectionArgs, null, null, ADDED_AT + " DESC");
 
-        while (cursor.moveToNext()) {
-            CartItem item = new CartItem();
-            item.setCartId(cursor.getInt(cursor.getColumnIndex(CART_ID)));
-            item.setPizzaId(cursor.getInt(cursor.getColumnIndex(PIZZA_ID)));
-            item.setQuantity(cursor.getInt(cursor.getColumnIndex(QUANTITY)));
-
-            // Get pizza details
-            loadPizzaDetails(item);
-            cartItems.add(item);
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                CartItem item = new CartItem();
+                item.setCartId(cursor.getInt(cursor.getColumnIndexOrThrow(CART_ID)));
+                item.setPizzaId(cursor.getInt(cursor.getColumnIndexOrThrow(PIZZA_ID)));
+                item.setSizeId(cursor.getInt(cursor.getColumnIndexOrThrow(SIZE_ID)));
+                item.setCrustId(cursor.getInt(cursor.getColumnIndexOrThrow(CRUST_ID)));
+                item.setQuantity(cursor.getInt(cursor.getColumnIndexOrThrow(QUANTITY)));
+                cartItems.add(item);
+            } while (cursor.moveToNext());
+            cursor.close();
         }
-        cursor.close();
 
-        // Setup RecyclerView
+        // Setup RecyclerView (read-only, so pass null for listener)
         CartAdapter adapter = new CartAdapter(cartItems, this, null);
         rvOrderSummary.setLayoutManager(new LinearLayoutManager(this));
         rvOrderSummary.setAdapter(adapter);
-    }
-
-    private void loadPizzaDetails(CartItem item) {
-        SQLiteDatabase db = database.getReadableDatabase();
-        String selection = PIZZA_ID + "=?";
-        String[] selectionArgs = {String.valueOf(item.getPizzaId())};
-
-        Cursor cursor = db.query(PIZZAS_TABLE, null, selection, selectionArgs, null, null, null);
-        if (cursor.moveToFirst()) {
-            item.setPizzaName(cursor.getString(cursor.getColumnIndex(PIZZA_NAME)));
-            item.setBasePrice(cursor.getDouble(cursor.getColumnIndex(BASE_PRICE)));
-        }
-        cursor.close();
     }
 
     private void populateCustomerInfo() {
@@ -133,11 +125,7 @@ public class CheckoutActivity extends Activity implements View.OnClickListener {
     }
 
     private void calculateTotals() {
-        subtotal = 0.0;
-        for (CartItem item : cartItems) {
-            subtotal += item.getTotalPrice();
-        }
-
+        subtotal = calculateSubtotalFromDatabase();
         tax = subtotal * 0.1; // 10% tax
         total = subtotal + tax;
 
@@ -146,12 +134,53 @@ public class CheckoutActivity extends Activity implements View.OnClickListener {
         tvTotal.setText(String.format("GHS %.2f", total));
     }
 
+    private double calculateSubtotalFromDatabase() {
+        double calculatedSubtotal = 0.0;
+        SQLiteDatabase db = database.getReadableDatabase();
+
+        for (CartItem item : cartItems) {
+            // Query to get pizza base price, size multiplier, and crust additional price
+            String query = "SELECT p." + BASE_PRICE + ", s." + PRICE_MULTIPLIER + ", c." + ADDITIONAL_PRICE +
+                    " FROM " + PIZZAS_TABLE + " p " +
+                    "INNER JOIN " + SIZES_TABLE + " s ON s." + SIZE_ID + " = ? " +
+                    "INNER JOIN " + CRUST_TABLE + " c ON c." + CRUST_ID + " = ? " +
+                    "WHERE p." + PIZZA_ID + " = ?";
+
+            Cursor cursor = db.rawQuery(query, new String[]{
+                    String.valueOf(item.getSizeId()),
+                    String.valueOf(item.getCrustId()),
+                    String.valueOf(item.getPizzaId())
+            });
+
+            if (cursor != null && cursor.moveToFirst()) {
+                try {
+                    double basePrice = cursor.getDouble(0);
+                    double sizeMultiplier = cursor.getDouble(1);
+                    double crustPrice = cursor.getDouble(2);
+
+                    // Calculate item price: (base price * size multiplier) + crust price
+                    double itemPrice = (basePrice * sizeMultiplier) + crustPrice;
+                    calculatedSubtotal += itemPrice * item.getQuantity();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                cursor.close();
+            }
+        }
+
+        return calculatedSubtotal;
+    }
+
     @Override
     public void onClick(View v) {
         int viewId = v.getId();
         if (viewId == R.id.btn_place_order) {
             placeOrder();
         } else if (viewId == R.id.btn_cancel) {
+            finish();
+        } else if (viewId == R.id.btn_back) {
+            // Navigate back to CartActivity
             finish();
         }
     }
@@ -197,15 +226,18 @@ public class CheckoutActivity extends Activity implements View.OnClickListener {
             long orderId = db.insert(ORDERS_TABLE, null, orderValues);
 
             if (orderId != -1) {
-                // Insert order items
+                // Insert order items with calculated prices from database
                 for (CartItem cartItem : cartItems) {
+                    // Get the actual price for this item
+                    double itemPrice = getItemPrice(cartItem);
+
                     ContentValues itemValues = new ContentValues();
                     itemValues.put(ORDER_ID, orderId);
                     itemValues.put(PIZZA_ID, cartItem.getPizzaId());
                     itemValues.put(SIZE_ID, cartItem.getSizeId());
                     itemValues.put(CRUST_ID, cartItem.getCrustId());
                     itemValues.put(QUANTITY, cartItem.getQuantity());
-                    itemValues.put(ITEM_PRICE, cartItem.getBasePrice());
+                    itemValues.put(ITEM_PRICE, itemPrice);
 
                     db.insert(ORDER_ITEMS_TABLE, null, itemValues);
                 }
@@ -217,17 +249,21 @@ public class CheckoutActivity extends Activity implements View.OnClickListener {
 
                 db.setTransactionSuccessful();
 
-                // Show success message
-                Toast.makeText(this, "Order placed successfully! Order ID: " + orderId, Toast.LENGTH_LONG).show();
+                // Show detailed success message
+                String pizzaCount = cartItems.size() == 1 ? "1 pizza" : cartItems.size() + " pizzas";
+                Toast.makeText(this,
+                        "Order #" + orderId + " placed successfully!\n" +
+                                pizzaCount + " - Total: GHS " + String.format("%.2f", total),
+                        Toast.LENGTH_LONG).show();
 
-                // Go to order confirmation or main menu
+                // Go to main menu
                 Intent intent = new Intent(this, PizzaMenuActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
 
             } else {
-                Toast.makeText(this, "Failed to place order", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Failed to place order. Please try again.", Toast.LENGTH_SHORT).show();
             }
 
         } catch (Exception e) {
@@ -235,6 +271,37 @@ public class CheckoutActivity extends Activity implements View.OnClickListener {
         } finally {
             db.endTransaction();
         }
+    }
+
+    private double getItemPrice(CartItem item) {
+        SQLiteDatabase db = database.getReadableDatabase();
+        double itemPrice = 0.0;
+
+        String query = "SELECT p." + BASE_PRICE + ", s." + PRICE_MULTIPLIER + ", c." + ADDITIONAL_PRICE +
+                " FROM " + PIZZAS_TABLE + " p " +
+                "INNER JOIN " + SIZES_TABLE + " s ON s." + SIZE_ID + " = ? " +
+                "INNER JOIN " + CRUST_TABLE + " c ON c." + CRUST_ID + " = ? " +
+                "WHERE p." + PIZZA_ID + " = ?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{
+                String.valueOf(item.getSizeId()),
+                String.valueOf(item.getCrustId()),
+                String.valueOf(item.getPizzaId())
+        });
+
+        if (cursor != null && cursor.moveToFirst()) {
+            try {
+                double basePrice = cursor.getDouble(0);
+                double sizeMultiplier = cursor.getDouble(1);
+                double crustPrice = cursor.getDouble(2);
+                itemPrice = (basePrice * sizeMultiplier) + crustPrice;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            cursor.close();
+        }
+
+        return itemPrice;
     }
 
     @Override

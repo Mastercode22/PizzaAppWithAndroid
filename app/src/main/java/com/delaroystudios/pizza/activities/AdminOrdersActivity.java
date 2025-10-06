@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.LinearLayout;
+import android.widget.ImageButton;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,12 +32,15 @@ public class AdminOrdersActivity extends Activity implements OrderAdapter.OnOrde
     private RecyclerView rvOrders;
     private EditText etSearch;
     private Spinner spinnerStatus;
-    private TextView tvTotalOrders, tvEmptyState;
+    private TextView tvTotalOrders;
+    private LinearLayout tvEmptyState; // The container
+    private TextView tvEmptyTitle;     // The empty state title (new)
+    private TextView tvEmptyCaption;   // The empty state caption (new)
 
     private OrderAdapter orderAdapter;
     private List<Order> orderList;
     private List<Order> filteredOrderList;
-    private PizzaData database; // Using PizzaData instead of DatabaseHelper for consistency
+    private PizzaData database;
     private String currentStatusFilter = "all";
 
     // Status options for the spinner
@@ -61,6 +66,10 @@ public class AdminOrdersActivity extends Activity implements OrderAdapter.OnOrde
         spinnerStatus = findViewById(R.id.spinner_status);
         tvTotalOrders = findViewById(R.id.tv_total_orders);
         tvEmptyState = findViewById(R.id.tv_empty_state);
+
+        // Find the inner TextViews using the IDs added to the XML
+        tvEmptyTitle = findViewById(R.id.empty_state_title);
+        tvEmptyCaption = findViewById(R.id.empty_state_caption);
 
         // Back button
         findViewById(R.id.btn_back).setOnClickListener(v -> finish());
@@ -118,8 +127,7 @@ public class AdminOrdersActivity extends Activity implements OrderAdapter.OnOrde
     }
 
     private void loadOrders() {
-        // Since the original code used DatabaseHelper.getAllOrders(),
-        // we'll implement this using PizzaData methods
+        // Now call the actual database method
         orderList = getAllOrdersFromDatabase();
         filterOrders();
         updateUI();
@@ -128,17 +136,12 @@ public class AdminOrdersActivity extends Activity implements OrderAdapter.OnOrde
     private List<Order> getAllOrdersFromDatabase() {
         List<Order> orders = new ArrayList<>();
 
-        // You'll need to implement this method in your PizzaData class
-        // For now, returning empty list to prevent compilation errors
-        // TODO: Implement getAllOrders() in PizzaData class
-
         try {
-            // This would be the actual implementation:
-            // orders = database.getAllOrders();
+            // FIX 1: Use the actual implemented database method.
+            orders = database.getAllOrders();
 
-            // Placeholder - you need to add getAllOrders() method to PizzaData
-            showMessage("getAllOrders() method needs to be implemented in PizzaData class");
         } catch (Exception e) {
+            // Only show a message on a genuine error
             showMessage("Error loading orders: " + e.getMessage());
         }
 
@@ -174,10 +177,13 @@ public class AdminOrdersActivity extends Activity implements OrderAdapter.OnOrde
             rvOrders.setVisibility(View.GONE);
             tvEmptyState.setVisibility(View.VISIBLE);
 
+            // Logic to set dynamic text using the TextView fields
             if (orderList.isEmpty()) {
-                tvEmptyState.setText("No orders found");
+                tvEmptyTitle.setText("No orders found yet");
+                tvEmptyCaption.setText("Start accepting orders to see them here.");
             } else {
-                tvEmptyState.setText("No orders match your filters");
+                tvEmptyTitle.setText("No orders match your filters");
+                tvEmptyCaption.setText("Try adjusting the search or status filter.");
             }
         } else {
             rvOrders.setVisibility(View.VISIBLE);
@@ -194,12 +200,13 @@ public class AdminOrdersActivity extends Activity implements OrderAdapter.OnOrde
 
     @Override
     public void onUpdateStatus(Order order, String newStatus) {
-        // You'll need to implement updateOrderStatus in PizzaData
+        // Call the actual database method
         boolean success = updateOrderStatusInDatabase(order.getOrderId(), newStatus);
 
         if (success) {
             order.setStatus(newStatus);
-            orderAdapter.notifyDataSetChanged();
+            // Re-run filter and updateUI to apply status change and potential filter changes
+            loadOrders();
             showMessage("Order #" + order.getOrderId() + " status updated to " + getStatusDisplayName(newStatus));
         } else {
             showMessage("Failed to update order status");
@@ -208,12 +215,9 @@ public class AdminOrdersActivity extends Activity implements OrderAdapter.OnOrde
 
     private boolean updateOrderStatusInDatabase(int orderId, String newStatus) {
         try {
-            // TODO: Implement updateOrderStatus in PizzaData class
-            // return database.updateOrderStatus(orderId, newStatus);
+            // FIX 2: Use the actual implemented database method.
+            return database.updateOrderStatus(orderId, newStatus);
 
-            // Placeholder implementation
-            showMessage("updateOrderStatus() method needs to be implemented in PizzaData class");
-            return false;
         } catch (Exception e) {
             showMessage("Error updating order status: " + e.getMessage());
             return false;
