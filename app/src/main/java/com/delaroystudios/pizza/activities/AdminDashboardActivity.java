@@ -5,13 +5,19 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +26,7 @@ import com.delaroystudios.pizza.adapters.OrderAdapter;
 import com.delaroystudios.pizza.database.DatabaseHelper;
 import com.delaroystudios.pizza.database.PizzaData;
 import com.delaroystudios.pizza.models.Order;
+import com.google.android.material.navigation.NavigationView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -28,16 +35,25 @@ import java.util.Locale;
 
 import static com.delaroystudios.pizza.database.Constants.*;
 
-public class AdminDashboardActivity extends AppCompatActivity implements View.OnClickListener, OrderAdapter.OnOrderClickListener {
+public class AdminDashboardActivity extends AppCompatActivity implements
+        View.OnClickListener,
+        OrderAdapter.OnOrderClickListener,
+        NavigationView.OnNavigationItemSelectedListener {
 
     private TextView tvTotalOrders, tvTotalRevenue, tvPendingOrders;
     private TextView tvTodayOrders, tvWeekRevenue, tvTotalCustomers;
+    private TextView tvViewAllReports, tvViewAllOrders;
     private RecyclerView rvRecentOrders;
     private WebView webViewChart;
+    private ImageButton btnRefresh, btnMenu;
     private DatabaseHelper databaseHelper;
     private PizzaData pizzaData;
     private OrderAdapter recentOrdersAdapter;
     private List<Order> recentOrdersList;
+
+    // Sidebar components
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +67,7 @@ public class AdminDashboardActivity extends AppCompatActivity implements View.On
         pizzaData = new PizzaData(this);
 
         initViews();
+        setupSidebar();
         setupClickListeners();
         setupRecentOrdersRecyclerView();
         loadDashboardData();
@@ -59,21 +76,55 @@ public class AdminDashboardActivity extends AppCompatActivity implements View.On
     }
 
     private void initViews() {
+        // Initialize main statistics TextViews
         tvTotalOrders = findViewById(R.id.tv_total_orders);
         tvTotalRevenue = findViewById(R.id.tv_total_revenue);
         tvPendingOrders = findViewById(R.id.tv_pending_orders);
         tvTodayOrders = findViewById(R.id.tv_today_orders);
         tvWeekRevenue = findViewById(R.id.tv_week_revenue);
         tvTotalCustomers = findViewById(R.id.tv_total_customers);
+
+        // Initialize new views
+        tvViewAllReports = findViewById(R.id.tv_view_all_reports);
+        tvViewAllOrders = findViewById(R.id.tv_view_all_orders);
+        btnRefresh = findViewById(R.id.btn_refresh);
+        btnMenu = findViewById(R.id.btn_menu);
+
+        // Initialize RecyclerView and WebView
         rvRecentOrders = findViewById(R.id.rv_recent_orders);
         webViewChart = findViewById(R.id.webview_chart);
 
-        // Enable JavaScript for chart
+        // Initialize sidebar components
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+
+        // WebView configuration for charts
         webViewChart.getSettings().setJavaScriptEnabled(true);
         webViewChart.getSettings().setDomStorageEnabled(true);
+        webViewChart.getSettings().setLoadWithOverviewMode(true);
+        webViewChart.getSettings().setUseWideViewPort(true);
         webViewChart.setBackgroundColor(Color.TRANSPARENT);
 
+        // Set click listeners for buttons
         findViewById(R.id.btn_logout).setOnClickListener(this);
+        btnRefresh.setOnClickListener(this);
+        btnMenu.setOnClickListener(this);
+        tvViewAllReports.setOnClickListener(this);
+        tvViewAllOrders.setOnClickListener(this);
+    }
+
+    private void setupSidebar() {
+        // Set navigation item selected listener
+        navigationView.setNavigationItemSelectedListener(this);
+
+        // Set up header view if needed
+        View headerView = navigationView.getHeaderView(0);
+        TextView tvAdminName = headerView.findViewById(R.id.tv_admin_name);
+        TextView tvAdminEmail = headerView.findViewById(R.id.tv_admin_email);
+
+        // Set admin info (you can get this from shared preferences or database)
+        tvAdminName.setText("Admin User");
+        tvAdminEmail.setText("admin@pizzastore.com");
     }
 
     private void setupClickListeners() {
@@ -89,13 +140,14 @@ public class AdminDashboardActivity extends AppCompatActivity implements View.On
     private void setupRecentOrdersRecyclerView() {
         rvRecentOrders.setLayoutManager(new LinearLayoutManager(this));
         rvRecentOrders.setNestedScrollingEnabled(false);
+        rvRecentOrders.setHasFixedSize(true);
     }
 
     private void setupChart() {
         int[] currentYearData = getMonthlyRevenueData(0);
         int[] previousYearData = getMonthlyRevenueData(-1);
 
-        String htmlData = generateChartHTML(currentYearData, previousYearData);
+        String htmlData = generateModernChartHTML(currentYearData, previousYearData);
         webViewChart.loadDataWithBaseURL(null, htmlData, "text/html", "UTF-8", null);
     }
 
@@ -133,7 +185,7 @@ public class AdminDashboardActivity extends AppCompatActivity implements View.On
         return data;
     }
 
-    private String generateChartHTML(int[] currYear, int[] prevYear) {
+    private String generateModernChartHTML(int[] currYear, int[] prevYear) {
         StringBuilder sbCurr = new StringBuilder();
         StringBuilder sbPrev = new StringBuilder();
         for (int i = 0; i < 12; i++) {
@@ -149,69 +201,93 @@ public class AdminDashboardActivity extends AppCompatActivity implements View.On
                 "<html>\n" +
                 "<head>\n" +
                 "  <meta name='viewport' content='width=device-width, initial-scale=1'>\n" +
-                "  <link href='https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Roboto:wght@300;400&display=swap' rel='stylesheet'>\n" +
+                "  <link href='https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap' rel='stylesheet'>\n" +
                 "  <script src='https://cdn.jsdelivr.net/npm/chart.js'></script>\n" +
                 "  <style>\n" +
-                "    body { margin:0; padding:20px; padding-bottom:80px; background:#ffffff; font-family:Roboto,sans-serif; }\n" +
-                "    .title { text-align:center; color:#E04843; font-family:'Montserrat',sans-serif; font-weight:700; letter-spacing:3px; font-size:24px; }\n" +
-                "    #chart-wrap { width:100%; height:280px; padding-bottom:60px; margin-bottom:20px; }\n" +
+                "    * { margin: 0; padding: 0; box-sizing: border-box; }\n" +
+                "    body { margin:0; padding:20px; background:transparent; font-family:'Inter',sans-serif; }\n" +
+                "    .chart-container { position:relative; width:100%; height:300px; }\n" +
                 "    canvas { width:100% !important; height:100% !important; }\n" +
                 "  </style>\n" +
                 "</head>\n" +
                 "<body>\n" +
-                "  <div id='chart-wrap'><canvas id='myChart'></canvas></div>\n" +
+                "  <div class='chart-container'><canvas id='revenueChart'></canvas></div>\n" +
                 "  <script>\n" +
-                "    const ctx = document.getElementById('myChart').getContext('2d');\n" +
-                "    const gradientCurr = ctx.createLinearGradient(0,0,0,400);\n" +
-                "    gradientCurr.addColorStop(0, 'rgba(46, 204, 113, 0.95)');\n" +
-                "    gradientCurr.addColorStop(1, 'rgba(34, 139, 34, 0.95)');\n" +
-                "    const gradientPrev = ctx.createLinearGradient(0,0,0,400);\n" +
-                "    gradientPrev.addColorStop(0, 'rgba(175, 230, 150, 0.95)');\n" +
-                "    gradientPrev.addColorStop(1, 'rgba(120, 200, 100, 0.95)');\n" +
+                "    const ctx = document.getElementById('revenueChart').getContext('2d');\n" +
                 "    \n" +
-                "    let tooltipTimeout;\n" +
+                "    // Create modern gradients\n" +
+                "    const gradientCurrent = ctx.createLinearGradient(0, 0, 0, 400);\n" +
+                "    gradientCurrent.addColorStop(0, 'rgba(79, 70, 229, 0.8)');\n" +
+                "    gradientCurrent.addColorStop(1, 'rgba(79, 70, 229, 0.1)');\n" +
+                "    \n" +
+                "    const gradientPrevious = ctx.createLinearGradient(0, 0, 0, 400);\n" +
+                "    gradientPrevious.addColorStop(0, 'rgba(16, 185, 129, 0.6)');\n" +
+                "    gradientPrevious.addColorStop(1, 'rgba(16, 185, 129, 0.1)');\n" +
                 "    \n" +
                 "    const data = {\n" +
-                "      labels: ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'],\n" +
+                "      labels: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],\n" +
                 "      datasets: [\n" +
-                "        { label: 'Previous Year', data: [" + sbPrev + "], backgroundColor: gradientPrev, borderRadius:8 },\n" +
-                "        { label: 'Current Year', data: [" + sbCurr + "], backgroundColor: gradientCurr, borderRadius:8 }\n" +
+                "        {\n" +
+                "          label: 'Current Year',\n" +
+                "          data: [" + sbCurr + "],\n" +
+                "          backgroundColor: gradientCurrent,\n" +
+                "          borderColor: '#4F46E5',\n" +
+                "          borderWidth: 2,\n" +
+                "          borderRadius: 12,\n" +
+                "          borderSkipped: false,\n" +
+                "          barPercentage: 0.6,\n" +
+                "          categoryPercentage: 0.7\n" +
+                "        },\n" +
+                "        {\n" +
+                "          label: 'Previous Year',\n" +
+                "          data: [" + sbPrev + "],\n" +
+                "          backgroundColor: gradientPrevious,\n" +
+                "          borderColor: '#10B981',\n" +
+                "          borderWidth: 2,\n" +
+                "          borderRadius: 12,\n" +
+                "          borderSkipped: false,\n" +
+                "          barPercentage: 0.6,\n" +
+                "          categoryPercentage: 0.7\n" +
+                "        }\n" +
                 "      ]\n" +
                 "    };\n" +
+                "    \n" +
                 "    const config = {\n" +
                 "      type: 'bar',\n" +
                 "      data: data,\n" +
                 "      options: {\n" +
                 "        responsive: true,\n" +
                 "        maintainAspectRatio: false,\n" +
-                "        interaction: {\n" +
-                "          mode: 'index',\n" +
-                "          intersect: false\n" +
-                "        },\n" +
+                "        interaction: { mode: 'index', intersect: false },\n" +
                 "        plugins: {\n" +
                 "          legend: { \n" +
                 "            display: true,\n" +
-                "            position: 'bottom',\n" +
+                "            position: 'top',\n" +
                 "            labels: {\n" +
-                "              color: '#333',\n" +
-                "              font: { size: 11, weight: 'bold' },\n" +
-                "              padding: 15,\n" +
+                "              color: '#374151',\n" +
+                "              font: { size: 12, weight: '500', family: 'Inter' },\n" +
+                "              padding: 20,\n" +
                 "              usePointStyle: true,\n" +
-                "              pointStyle: 'circle'\n" +
+                "              pointStyle: 'circle',\n" +
+                "              boxWidth: 8,\n" +
+                "              boxHeight: 8\n" +
                 "            }\n" +
                 "          },\n" +
                 "          tooltip: {\n" +
                 "            enabled: true,\n" +
-                "            backgroundColor: 'rgba(0,0,0,0.85)',\n" +
-                "            titleFont: { size: 14, weight: 'bold', family: 'Montserrat' },\n" +
-                "            bodyFont: { size: 13, family: 'Roboto' },\n" +
+                "            backgroundColor: 'rgba(17, 24, 39, 0.95)',\n" +
+                "            titleColor: '#F9FAFB',\n" +
+                "            bodyColor: '#F9FAFB',\n" +
+                "            titleFont: { size: 13, weight: '500', family: 'Inter' },\n" +
+                "            bodyFont: { size: 12, family: 'Inter' },\n" +
                 "            padding: 12,\n" +
                 "            cornerRadius: 8,\n" +
                 "            displayColors: true,\n" +
-                "            boxWidth: 10,\n" +
-                "            boxHeight: 10,\n" +
-                "            boxPadding: 5,\n" +
-                "            multiKeyBackground: '#fff',\n" +
+                "            boxWidth: 8,\n" +
+                "            boxHeight: 8,\n" +
+                "            boxPadding: 4,\n" +
+                "            borderColor: 'rgba(255, 255, 255, 0.1)',\n" +
+                "            borderWidth: 1,\n" +
                 "            callbacks: {\n" +
                 "              title: function(tooltipItems) {\n" +
                 "                return tooltipItems[0].label + ' Revenue';\n" +
@@ -223,60 +299,47 @@ public class AdminDashboardActivity extends AppCompatActivity implements View.On
                 "                  minimumFractionDigits: 2,\n" +
                 "                  maximumFractionDigits: 2 \n" +
                 "                });\n" +
-                "              },\n" +
-                "              afterBody: function(tooltipItems) {\n" +
-                "                let total = 0;\n" +
-                "                tooltipItems.forEach(function(tooltipItem) {\n" +
-                "                  total += tooltipItem.parsed.y || 0;\n" +
-                "                });\n" +
-                "                return '\\nTotal: GHS ' + total.toLocaleString('en-US', { \n" +
-                "                  minimumFractionDigits: 2,\n" +
-                "                  maximumFractionDigits: 2 \n" +
-                "                });\n" +
                 "              }\n" +
                 "            }\n" +
                 "          }\n" +
                 "        },\n" +
                 "        scales: {\n" +
                 "          x: {\n" +
-                "            grid: { display: false },\n" +
+                "            grid: { \n" +
+                "              display: false,\n" +
+                "              drawBorder: false\n" +
+                "            },\n" +
                 "            ticks: {\n" +
-                "              autoSkip: false,\n" +
-                "              color: '#333',\n" +
-                "              font: { weight: '700', size: 12 },\n" +
-                "              callback: function(value, index, ticks) {\n" +
-                "                const width = window.innerWidth;\n" +
-                "                this.minRotation = width < 400 ? 45 : 0;\n" +
-                "                this.maxRotation = width < 400 ? 45 : 0;\n" +
-                "                return this.getLabelForValue(value);\n" +
-                "              }\n" +
+                "              color: '#6B7280',\n" +
+                "              font: { size: 11, weight: '500', family: 'Inter' },\n" +
+                "              maxRotation: 0\n" +
                 "            }\n" +
                 "          },\n" +
                 "          y: {\n" +
                 "            beginAtZero: true,\n" +
-                "            grid: { color: 'rgba(0,0,0,0.06)' },\n" +
+                "            grid: { \n" +
+                "              color: 'rgba(107, 114, 128, 0.1)',\n" +
+                "              drawBorder: false\n" +
+                "            },\n" +
                 "            ticks: { \n" +
-                "              color: '#333', \n" +
-                "              font: { size: 11 },\n" +
+                "              color: '#6B7280', \n" +
+                "              font: { size: 11, family: 'Inter' },\n" +
                 "              callback: function(value) {\n" +
                 "                return 'GHS ' + value.toLocaleString();\n" +
                 "              }\n" +
                 "            }\n" +
                 "          }\n" +
                 "        },\n" +
-                "        onHover: function(event, activeElements) {\n" +
-                "          event.native.target.style.cursor = activeElements.length > 0 ? 'pointer' : 'default';\n" +
-                "          \n" +
-                "          if (activeElements.length > 0) {\n" +
-                "            clearTimeout(tooltipTimeout);\n" +
-                "            tooltipTimeout = setTimeout(() => {\n" +
-                "              this.tooltip.setActiveElements([], {x: 0, y: 0});\n" +
-                "              this.update();\n" +
-                "            }, 2000);\n" +
-                "          }\n" +
+                "        animation: {\n" +
+                "          duration: 1000,\n" +
+                "          easing: 'easeOutQuart'\n" +
+                "        },\n" +
+                "        onHover: function(event, elements) {\n" +
+                "          event.native.target.style.cursor = elements.length > 0 ? 'pointer' : 'default';\n" +
                 "        }\n" +
                 "      }\n" +
                 "    };\n" +
+                "    \n" +
                 "    new Chart(ctx, config);\n" +
                 "  </script>\n" +
                 "</body>\n" +
@@ -322,37 +385,165 @@ public class AdminDashboardActivity extends AppCompatActivity implements View.On
         int totalCustomers = customersCursor.moveToFirst() ? customersCursor.getInt(0) : 0;
         customersCursor.close();
 
-        // Update UI
-        tvTotalOrders.setText(String.valueOf(totalOrders));
-        tvTodayOrders.setText(String.valueOf(todayOrders));
-        tvTotalRevenue.setText(String.format("GHS %.2f", totalRevenue));
-        tvWeekRevenue.setText(String.format("GHS %.2f", weekRevenue));
-        tvPendingOrders.setText(String.valueOf(pendingOrders));
-        tvTotalCustomers.setText(String.valueOf(totalCustomers));
+        // Update UI with smooth animations
+        animateTextChange(tvTotalOrders, String.valueOf(totalOrders));
+        animateTextChange(tvTodayOrders, String.valueOf(todayOrders));
+        animateTextChange(tvTotalRevenue, String.format("GHS %.2f", totalRevenue));
+        animateTextChange(tvWeekRevenue, String.format("GHS %.2f", weekRevenue));
+        animateTextChange(tvPendingOrders, String.valueOf(pendingOrders));
+        animateTextChange(tvTotalCustomers, String.valueOf(totalCustomers));
+    }
+
+    private void animateTextChange(final TextView textView, final String newText) {
+        textView.animate()
+                .scaleX(0.8f)
+                .scaleY(0.8f)
+                .setDuration(150)
+                .withEndAction(new Runnable() {
+                    @Override
+                    public void run() {
+                        textView.setText(newText);
+                        textView.animate()
+                                .scaleX(1f)
+                                .scaleY(1f)
+                                .setDuration(150)
+                                .start();
+                    }
+                })
+                .start();
     }
 
     private void loadRecentOrders() {
         recentOrdersList = databaseHelper.getAllOrders();
-        if (recentOrdersList.size() > 10) recentOrdersList = recentOrdersList.subList(0, 10);
-        recentOrdersAdapter = new OrderAdapter(recentOrdersList, this, this, true);
-        rvRecentOrders.setAdapter(recentOrdersAdapter);
+        if (recentOrdersList.size() > 5) recentOrdersList = recentOrdersList.subList(0, 5); // Show only 5 recent orders
+
+        if (recentOrdersAdapter == null) {
+            recentOrdersAdapter = new OrderAdapter(recentOrdersList, this, this, true);
+            rvRecentOrders.setAdapter(recentOrdersAdapter);
+        } else {
+            recentOrdersAdapter.updateOrderList(recentOrdersList);
+        }
     }
 
     @Override
     public void onClick(View v) {
         int viewId = v.getId();
-        if (viewId == R.id.card_view_orders || viewId == R.id.card_total_orders || viewId == R.id.card_pending_orders) {
-            startActivity(new Intent(this, AdminOrdersActivity.class));
-        } else if (viewId == R.id.card_manage_pizzas) {
-            startActivity(new Intent(this, AdminPizzaManagementActivity.class));
-        } else if (viewId == R.id.card_view_customers) {
-            startActivity(new Intent(this, AdminCustomersActivity.class));
-        } else if (viewId == R.id.card_settings) {
-            startActivity(new Intent(this, AdminSettingsActivity.class));
-        } else if (viewId == R.id.card_revenue) {
-            startActivity(new Intent(this, ActivitydminRevenueA.class));
-        } else if (viewId == R.id.btn_logout) {
+
+        // Add ripple effect
+        v.postDelayed(() -> {
+            if (viewId == R.id.btn_menu) {
+                openSidebar();
+            } else if (viewId == R.id.card_view_orders || viewId == R.id.card_total_orders ||
+                    viewId == R.id.card_pending_orders || viewId == R.id.tv_view_all_orders) {
+                navigateToOrders();
+            } else if (viewId == R.id.card_manage_pizzas) {
+                navigateToPizzaManagement();
+            } else if (viewId == R.id.card_view_customers) {
+                navigateToCustomers();
+            } else if (viewId == R.id.card_settings) {
+                navigateToSettings();
+            } else if (viewId == R.id.card_revenue || viewId == R.id.tv_view_all_reports) {
+                navigateToRevenue();
+            } else if (viewId == R.id.btn_logout) {
+                logout();
+            } else if (viewId == R.id.btn_refresh) {
+                refreshData();
+            }
+        }, 150);
+    }
+
+    private void openSidebar() {
+        drawerLayout.openDrawer(GravityCompat.START);
+    }
+
+    private void closeSidebar() {
+        drawerLayout.closeDrawer(GravityCompat.START);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        // Handle sidebar menu item clicks
+        if (id == R.id.nav_dashboard) {
+            // Already on dashboard, just close drawer
+            closeSidebar();
+        } else if (id == R.id.nav_orders) {
+            navigateToOrders();
+        } else if (id == R.id.nav_pizzas) {
+            navigateToPizzaManagement();
+        } else if (id == R.id.nav_customers) {
+            navigateToCustomers();
+        } else if (id == R.id.nav_revenue) {
+            navigateToRevenue();
+        } else if (id == R.id.nav_settings) {
+            navigateToSettings();
+        } else if (id == R.id.nav_logout) {
             logout();
+        }
+
+        return true;
+    }
+
+    private void navigateToOrders() {
+        closeSidebar();
+        startActivity(new Intent(this, AdminOrdersActivity.class));
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
+    private void navigateToPizzaManagement() {
+        closeSidebar();
+        startActivity(new Intent(this, AdminPizzaManagementActivity.class));
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
+    private void navigateToCustomers() {
+        closeSidebar();
+        startActivity(new Intent(this, AdminCustomersActivity.class));
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
+    private void navigateToSettings() {
+        closeSidebar();
+        startActivity(new Intent(this, AdminSettingsActivity.class));
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
+    private void navigateToRevenue() {
+        closeSidebar();
+        startActivity(new Intent(this, ActivitydminRevenueA.class));
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
+    private void refreshData() {
+        // Show refresh animation
+        btnRefresh.animate()
+                .rotationBy(360)
+                .setDuration(500)
+                .start();
+
+        // Disable refresh button temporarily
+        btnRefresh.setEnabled(false);
+
+        // Refresh data with delay to show animation
+        new Handler().postDelayed(() -> {
+            loadDashboardData();
+            loadRecentOrders();
+            setupChart();
+
+            // Re-enable refresh button
+            btnRefresh.setEnabled(true);
+
+            showMessage("Dashboard refreshed");
+        }, 800);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            closeSidebar();
+        } else {
+            super.onBackPressed();
         }
     }
 
@@ -361,6 +552,7 @@ public class AdminDashboardActivity extends AppCompatActivity implements View.On
         Intent intent = new Intent(this, AdminOrderDetailActivity.class);
         intent.putExtra("order_id", order.getOrderId());
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     @Override
@@ -382,10 +574,17 @@ public class AdminDashboardActivity extends AppCompatActivity implements View.On
     }
 
     private void logout() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
+        closeSidebar();
+        // Show confirmation dialog or directly logout
+        Toast.makeText(this, "Logging out...", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(() -> {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+            finish();
+        }, 500);
     }
 
     private void showMessage(String message) {
@@ -395,9 +594,9 @@ public class AdminDashboardActivity extends AppCompatActivity implements View.On
     @Override
     protected void onResume() {
         super.onResume();
+        // Refresh data when returning to dashboard
         loadDashboardData();
         loadRecentOrders();
-        setupChart();
     }
 
     @Override

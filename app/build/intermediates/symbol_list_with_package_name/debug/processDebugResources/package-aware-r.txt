@@ -43,6 +43,10 @@ anim m3_side_sheet_exit_to_right
 anim mtrl_bottom_sheet_slide_in
 anim mtrl_bottom_sheet_slide_out
 anim mtrl_card_lowers_interpolator
+anim slide_in_left
+anim slide_in_right
+anim slide_out_left
+anim slide_out_right
 animator design_appbar_state_list_animator
 animator design_fab_hide_motion_spec
 animator design_fab_show_motion_spec
@@ -1377,9 +1381,11 @@ color androidx_core_secondary_text_default_material_light
 color app_background
 color background_floating_material_dark
 color background_floating_material_light
+color background_gray
 color background_light
 color background_material_dark
 color background_material_light
+color background_white
 color bod
 color bright_foreground_disabled_material_dark
 color bright_foreground_disabled_material_light
@@ -1390,6 +1396,7 @@ color bright_foreground_material_light
 color button_material_dark
 color button_material_light
 color card_background
+color card_shadow
 color cardview_dark_background
 color cardview_light_background
 color cardview_shadow_end_color
@@ -1447,6 +1454,12 @@ color foreground_material_dark
 color foreground_material_light
 color highlighted_text_material_dark
 color highlighted_text_material_light
+color icon_blue
+color icon_green
+color icon_orange
+color icon_purple
+color icon_red
+color icon_teal
 color light_gray
 color m3_appbar_overlay_color
 color m3_assist_chip_icon_tint_color
@@ -2072,6 +2085,9 @@ color mtrl_textinput_disabled_color
 color mtrl_textinput_filled_box_default_background_color
 color mtrl_textinput_focused_box_stroke_color
 color mtrl_textinput_hovered_box_stroke_color
+color nav_background
+color nav_item_color
+color nav_item_selected
 color notification_action_color_filter
 color notification_icon_bg_color
 color primary_color
@@ -2101,6 +2117,7 @@ color status_in_progress
 color status_in_progress_bg
 color status_pending
 color status_pending_bg
+color status_preparing
 color success_dark
 color success_light
 color switch_thumb_disabled_material_dark
@@ -2111,6 +2128,7 @@ color switch_thumb_normal_material_dark
 color switch_thumb_normal_material_light
 color text_primary
 color text_secondary
+color text_tertiary
 color tooltip_background_dark
 color tooltip_background_light
 color white
@@ -3014,6 +3032,7 @@ drawable chicken
 drawable circle_background
 drawable circle_button
 drawable circle_shape
+drawable circle_white
 drawable colorful_progress
 drawable design_fab_background
 drawable design_ic_visibility
@@ -3025,11 +3044,17 @@ drawable equalizer
 drawable exit
 drawable gradient_background
 drawable gradient_blue
+drawable gradient_blue_light
 drawable gradient_green
+drawable gradient_green_light
 drawable gradient_indigo
 drawable gradient_orange
+drawable gradient_orange_light
 drawable gradient_pink
+drawable gradient_primary
 drawable gradient_purple
+drawable gradient_purple_light
+drawable gradient_red
 drawable gradient_teal
 drawable greenpeppers
 drawable ham
@@ -3043,6 +3068,8 @@ drawable ic_cart
 drawable ic_clear_black_24
 drawable ic_clock_black_24dp
 drawable ic_customers
+drawable ic_customers_list
+drawable ic_dashboard
 drawable ic_edit
 drawable ic_empty_orders
 drawable ic_history
@@ -3054,6 +3081,8 @@ drawable ic_logout
 drawable ic_m3_chip_check
 drawable ic_m3_chip_checked_circle
 drawable ic_m3_chip_close
+drawable ic_manage_orders
+drawable ic_manage_pizzas
 drawable ic_menu
 drawable ic_money
 drawable ic_mtrl_checked_circle
@@ -3067,10 +3096,14 @@ drawable ic_phone
 drawable ic_pizza
 drawable ic_pizza_default
 drawable ic_profile
+drawable ic_refresh
+drawable ic_revenue
 drawable ic_search
 drawable ic_search_black_24
 drawable ic_settings
+drawable ic_today
 drawable ic_user_avatar
+drawable ic_week_revenue
 drawable icon
 drawable image_selector_border
 drawable info_background
@@ -3147,6 +3180,7 @@ drawable mtrl_switch_track
 drawable mtrl_switch_track_decoration
 drawable mtrl_tabs_default_indicator
 drawable mushrooms
+drawable nav_item_background
 drawable navigation_empty_icon
 drawable notification_action_background
 drawable notification_bg
@@ -3319,6 +3353,7 @@ id btn_notifications
 id btn_order_now
 id btn_orders
 id btn_place_order
+id btn_refresh
 id btn_register
 id btn_remove
 id btn_select_image
@@ -3411,6 +3446,7 @@ id dragLeft
 id dragRight
 id dragStart
 id dragUp
+id drawer_layout
 id dropdown_menu
 id easeIn
 id easeInOut
@@ -3589,6 +3625,14 @@ id mtrl_picker_title_text
 id mtrl_view_tag_bottom_padding
 id multiply
 id name
+id nav_customers
+id nav_dashboard
+id nav_logout
+id nav_orders
+id nav_pizzas
+id nav_revenue
+id nav_settings
+id nav_view
 id navigation_bar_item_active_indicator_view
 id navigation_bar_item_icon_container
 id navigation_bar_item_icon_view
@@ -3800,7 +3844,9 @@ id transition_position
 id transition_scene_layoutid_cache
 id transition_transform
 id triangle
+id tv_admin_email
 id tv_admin_login
+id tv_admin_name
 id tv_app_name
 id tv_avg_order_value
 id tv_back_to_login
@@ -3857,6 +3903,8 @@ id tv_total_orders
 id tv_total_price
 id tv_total_revenue
 id tv_username
+id tv_view_all_orders
+id tv_view_all_reports
 id tv_week_orders
 id tv_week_revenue
 id tv_whole_toppings
@@ -4105,6 +4153,7 @@ layout mtrl_picker_text_input_date
 layout mtrl_picker_text_input_date_range
 layout mtrl_search_bar
 layout mtrl_search_view
+layout nav_header_admin
 layout new_pizza
 layout notification_action
 layout notification_action_tombstone
@@ -4121,6 +4170,7 @@ layout support_simple_spinner_dropdown_item
 layout topping_item
 menu main_menu
 menu menu
+menu menu_admin_drawer
 plurals mtrl_badge_content_description
 string abc_action_bar_home_description
 string abc_action_bar_up_description

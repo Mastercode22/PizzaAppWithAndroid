@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.webkit.WebView;
 import android.widget.TextView;
@@ -35,7 +36,11 @@ public class ActivitydminRevenueA extends Activity {
         database = new PizzaData(this);
         initViews();
         loadRevenueData();
-        setupCharts();
+
+        // Delay chart setup to ensure WebView is fully initialized
+        new Handler().postDelayed(() -> {
+            setupChartsWithDebug();
+        }, 500);
     }
 
     @Override
@@ -44,7 +49,10 @@ public class ActivitydminRevenueA extends Activity {
         // Refresh all data when activity becomes visible
         Log.d("REVENUE_REFRESH", "onResume() called - Refreshing data");
         loadRevenueData();
-        setupCharts();
+
+        new Handler().postDelayed(() -> {
+            setupChartsWithDebug();
+        }, 500);
 
         // Show toast to confirm refresh
         Toast.makeText(this, "Revenue data refreshed", Toast.LENGTH_SHORT).show();
@@ -78,30 +86,23 @@ public class ActivitydminRevenueA extends Activity {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         String today = sdf.format(new Date());
 
-        // Debug: Check all orders and their status
-        debugOrders(db);
-
         // Today's Revenue (ONLY COMPLETED ORDERS)
         double todayRevenue = getRevenue(db, today, today);
         tvTodayRevenue.setText(String.format(Locale.getDefault(), "GHS %.2f", todayRevenue));
-        Log.d("REVENUE_REFRESH", "Today's Revenue: " + todayRevenue);
 
         // Week's Revenue (ONLY COMPLETED ORDERS)
         String weekStart = getDateDaysAgo(7);
         double weekRevenue = getRevenue(db, weekStart, today);
         tvWeekRevenue.setText(String.format(Locale.getDefault(), "GHS %.2f", weekRevenue));
-        Log.d("REVENUE_REFRESH", "Week's Revenue: " + weekRevenue);
 
         // Month's Revenue (ONLY COMPLETED ORDERS)
         String monthStart = getDateDaysAgo(30);
         double monthRevenue = getRevenue(db, monthStart, today);
         tvMonthRevenue.setText(String.format(Locale.getDefault(), "GHS %.2f", monthRevenue));
-        Log.d("REVENUE_REFRESH", "Month's Revenue: " + monthRevenue);
 
         // Total Revenue (ONLY COMPLETED ORDERS)
         double totalRevenue = getTotalRevenue(db);
         tvTotalRevenue.setText(String.format(Locale.getDefault(), "GHS %.2f", totalRevenue));
-        Log.d("REVENUE_REFRESH", "Total Revenue: " + totalRevenue);
 
         // Today's Orders (ONLY COMPLETED ORDERS)
         int todayOrders = getOrderCount(db, today, today);
@@ -130,55 +131,13 @@ public class ActivitydminRevenueA extends Activity {
         // Total Customers
         int totalCustomers = getTotalCustomers(db);
         tvTotalCustomers.setText(String.valueOf(totalCustomers));
-
-        Log.d("REVENUE_REFRESH", "Data load completed successfully");
-    }
-
-    private void debugOrders(SQLiteDatabase db) {
-        Cursor debugCursor = db.rawQuery(
-                "SELECT " + ORDER_ID + ", " + STATUS + ", " + TOTAL_AMOUNT + ", " + ORDER_DATE +
-                        " FROM " + ORDERS_TABLE + " ORDER BY " + ORDER_DATE + " DESC LIMIT 10", null);
-
-        Log.d("REVENUE_DEBUG", "=== RECENT ORDERS ===");
-        while (debugCursor.moveToNext()) {
-            String orderId = debugCursor.getString(0);
-            String status = debugCursor.getString(1);
-            double amount = debugCursor.getDouble(2);
-            String date = debugCursor.getString(3);
-            Log.d("REVENUE_DEBUG", "Order: " + orderId + ", Status: " + status + ", Amount: " + amount + ", Date: " + date);
-        }
-        debugCursor.close();
-
-        // Check completed orders revenue
-        Cursor completedCursor = db.rawQuery(
-                "SELECT SUM(" + TOTAL_AMOUNT + ") FROM " + ORDERS_TABLE +
-                        " WHERE " + STATUS + " = '" + STATUS_COMPLETED + "'", null);
-
-        if (completedCursor.moveToFirst()) {
-            double completedRevenue = completedCursor.getDouble(0);
-            Log.d("REVENUE_DEBUG", "TOTAL COMPLETED REVENUE: " + completedRevenue);
-        }
-        completedCursor.close();
-
-        // Check order count by status
-        String[] statuses = {STATUS_PENDING, STATUS_COMPLETED, STATUS_CANCELLED};
-        for (String status : statuses) {
-            Cursor statusCursor = db.rawQuery(
-                    "SELECT COUNT(*) FROM " + ORDERS_TABLE + " WHERE " + STATUS + " = ?",
-                    new String[]{status});
-            if (statusCursor.moveToFirst()) {
-                int count = statusCursor.getInt(0);
-                Log.d("REVENUE_DEBUG", status + " orders: " + count);
-            }
-            statusCursor.close();
-        }
     }
 
     private double getRevenue(SQLiteDatabase db, String startDate, String endDate) {
         Cursor cursor = db.rawQuery(
                 "SELECT SUM(" + TOTAL_AMOUNT + ") FROM " + ORDERS_TABLE +
                         " WHERE DATE(" + ORDER_DATE + ") >= ? AND DATE(" + ORDER_DATE + ") <= ?" +
-                        " AND " + STATUS + " = '" + STATUS_COMPLETED + "'", // ONLY COMPLETED ORDERS
+                        " AND " + STATUS + " = '" + STATUS_COMPLETED + "'",
                 new String[]{startDate, endDate}
         );
 
@@ -193,7 +152,7 @@ public class ActivitydminRevenueA extends Activity {
     private double getTotalRevenue(SQLiteDatabase db) {
         Cursor cursor = db.rawQuery(
                 "SELECT SUM(" + TOTAL_AMOUNT + ") FROM " + ORDERS_TABLE +
-                        " WHERE " + STATUS + " = '" + STATUS_COMPLETED + "'", // ONLY COMPLETED ORDERS
+                        " WHERE " + STATUS + " = '" + STATUS_COMPLETED + "'",
                 null
         );
 
@@ -209,7 +168,7 @@ public class ActivitydminRevenueA extends Activity {
         Cursor cursor = db.rawQuery(
                 "SELECT COUNT(*) FROM " + ORDERS_TABLE +
                         " WHERE DATE(" + ORDER_DATE + ") >= ? AND DATE(" + ORDER_DATE + ") <= ?" +
-                        " AND " + STATUS + " = '" + STATUS_COMPLETED + "'", // ONLY COMPLETED ORDERS
+                        " AND " + STATUS + " = '" + STATUS_COMPLETED + "'",
                 new String[]{startDate, endDate}
         );
 
@@ -224,7 +183,7 @@ public class ActivitydminRevenueA extends Activity {
     private int getTotalOrderCount(SQLiteDatabase db) {
         Cursor cursor = db.rawQuery(
                 "SELECT COUNT(*) FROM " + ORDERS_TABLE +
-                        " WHERE " + STATUS + " = '" + STATUS_COMPLETED + "'", // ONLY COMPLETED ORDERS
+                        " WHERE " + STATUS + " = '" + STATUS_COMPLETED + "'",
                 null
         );
 
@@ -241,7 +200,7 @@ public class ActivitydminRevenueA extends Activity {
                 "SELECT p." + PIZZA_NAME + ", COUNT(*) as order_count FROM " + ORDER_ITEMS_TABLE + " oi " +
                         "INNER JOIN " + PIZZAS_TABLE + " p ON oi." + PIZZA_ID + " = p." + PIZZA_ID +
                         " INNER JOIN " + ORDERS_TABLE + " o ON oi." + ORDER_ID + " = o." + ORDER_ID +
-                        " WHERE o." + STATUS + " = '" + STATUS_COMPLETED + "'" + // ONLY FROM COMPLETED ORDERS
+                        " WHERE o." + STATUS + " = '" + STATUS_COMPLETED + "'" +
                         " GROUP BY p." + PIZZA_NAME +
                         " ORDER BY order_count DESC LIMIT 1", null
         );
@@ -257,7 +216,7 @@ public class ActivitydminRevenueA extends Activity {
     private int getTotalCustomers(SQLiteDatabase db) {
         Cursor cursor = db.rawQuery(
                 "SELECT COUNT(DISTINCT " + USER_ID + ") FROM " + ORDERS_TABLE +
-                        " WHERE " + STATUS + " = '" + STATUS_COMPLETED + "'", // ONLY CUSTOMERS WITH COMPLETED ORDERS
+                        " WHERE " + STATUS + " = '" + STATUS_COMPLETED + "'",
                 null
         );
 
@@ -276,34 +235,90 @@ public class ActivitydminRevenueA extends Activity {
         return sdf.format(date);
     }
 
+    private void setupChartsWithDebug() {
+        Log.d("CHART_DEBUG", "Starting enhanced chart setup...");
+
+        // Enhanced WebView settings for physical devices
+        WebView[] webViews = {webViewBarChart, webViewPieChart, webViewLineChart, webViewDoughnutChart};
+        for (WebView webView : webViews) {
+            webView.getSettings().setJavaScriptEnabled(true);
+            webView.getSettings().setDomStorageEnabled(true);
+            webView.getSettings().setDatabaseEnabled(true);
+            webView.getSettings().setLoadWithOverviewMode(true);
+            webView.getSettings().setUseWideViewPort(true);
+            webView.getSettings().setBuiltInZoomControls(false);
+            webView.getSettings().setDisplayZoomControls(false);
+            webView.getSettings().setSupportZoom(false);
+            webView.getSettings().setAllowFileAccess(true);
+            webView.setBackgroundColor(Color.TRANSPARENT);
+
+            // Try software rendering first for better compatibility
+            webView.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null);
+
+            // Clear cache to avoid stale content
+            webView.clearCache(true);
+            webView.clearHistory();
+        }
+
+        // Check WebView dimensions
+        webViewBarChart.post(() -> {
+            Log.d("CHART_DEBUG", "Bar Chart WebView dimensions: " +
+                    webViewBarChart.getWidth() + "x" + webViewBarChart.getHeight());
+            Log.d("CHART_DEBUG", "Bar Chart WebView isShown: " + webViewBarChart.isShown());
+        });
+
+        // Load charts with delay to ensure WebView is ready
+        new Handler().postDelayed(() -> {
+            int[] monthlyData = getMonthlyRevenueData();
+            Log.d("CHART_DEBUG", "Monthly data: " + java.util.Arrays.toString(monthlyData));
+
+            webViewBarChart.loadDataWithBaseURL("https://example.com/",
+                    generateEnhancedBarChartHTML(monthlyData), "text/html", "UTF-8", null);
+
+            int[] categoryData = getCategoryData();
+            webViewPieChart.loadDataWithBaseURL("https://example.com/",
+                    generateEnhancedPieChartHTML(categoryData), "text/html", "UTF-8", null);
+
+            webViewLineChart.loadDataWithBaseURL("https://example.com/",
+                    generateEnhancedLineChartHTML(monthlyData), "text/html", "UTF-8", null);
+
+            int[] statusData = getOrderStatusData();
+            webViewDoughnutChart.loadDataWithBaseURL("https://example.com/",
+                    generateEnhancedDoughnutChartHTML(statusData), "text/html", "UTF-8", null);
+        }, 300);
+    }
+
     private void setupCharts() {
         Log.d("REVENUE_REFRESH", "setupCharts() called - Refreshing all charts");
 
-        // Enable JavaScript for all WebViews
-        webViewBarChart.getSettings().setJavaScriptEnabled(true);
-        webViewPieChart.getSettings().setJavaScriptEnabled(true);
-        webViewLineChart.getSettings().setJavaScriptEnabled(true);
-        webViewDoughnutChart.getSettings().setJavaScriptEnabled(true);
-
-        webViewBarChart.setBackgroundColor(Color.TRANSPARENT);
-        webViewPieChart.setBackgroundColor(Color.TRANSPARENT);
-        webViewLineChart.setBackgroundColor(Color.TRANSPARENT);
-        webViewDoughnutChart.setBackgroundColor(Color.TRANSPARENT);
+        // Enhanced WebView settings
+        WebView[] webViews = {webViewBarChart, webViewPieChart, webViewLineChart, webViewDoughnutChart};
+        for (WebView webView : webViews) {
+            webView.getSettings().setJavaScriptEnabled(true);
+            webView.getSettings().setDomStorageEnabled(true);
+            webView.getSettings().setLoadWithOverviewMode(true);
+            webView.getSettings().setUseWideViewPort(true);
+            webView.getSettings().setBuiltInZoomControls(false);
+            webView.getSettings().setDisplayZoomControls(false);
+            webView.setBackgroundColor(Color.TRANSPARENT);
+            webView.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null);
+        }
 
         // Load charts with fresh data
         int[] monthlyData = getMonthlyRevenueData();
-        Log.d("REVENUE_REFRESH", "Monthly data refreshed");
-        webViewBarChart.loadDataWithBaseURL(null, generateBarChartHTML(monthlyData), "text/html", "UTF-8", null);
+        webViewBarChart.loadDataWithBaseURL("https://example.com/",
+                generateEnhancedBarChartHTML(monthlyData), "text/html", "UTF-8", null);
 
         int[] categoryData = getCategoryData();
-        Log.d("REVENUE_REFRESH", "Category data refreshed");
-        webViewPieChart.loadDataWithBaseURL(null, generatePieChartHTML(categoryData), "text/html", "UTF-8", null);
+        webViewPieChart.loadDataWithBaseURL("https://example.com/",
+                generateEnhancedPieChartHTML(categoryData), "text/html", "UTF-8", null);
 
-        webViewLineChart.loadDataWithBaseURL(null, generateLineChartHTML(monthlyData), "text/html", "UTF-8", null);
+        webViewLineChart.loadDataWithBaseURL("https://example.com/",
+                generateEnhancedLineChartHTML(monthlyData), "text/html", "UTF-8", null);
 
         int[] statusData = getOrderStatusData();
-        Log.d("REVENUE_REFRESH", "Status data refreshed");
-        webViewDoughnutChart.loadDataWithBaseURL(null, generateDoughnutChartHTML(statusData), "text/html", "UTF-8", null);
+        webViewDoughnutChart.loadDataWithBaseURL("https://example.com/",
+                generateEnhancedDoughnutChartHTML(statusData), "text/html", "UTF-8", null);
     }
 
     private int[] getMonthlyRevenueData() {
@@ -320,7 +335,7 @@ public class ActivitydminRevenueA extends Activity {
             Cursor cursor = db.rawQuery(
                     "SELECT SUM(" + TOTAL_AMOUNT + ") FROM " + ORDERS_TABLE +
                             " WHERE DATE(" + ORDER_DATE + ") >= ? AND DATE(" + ORDER_DATE + ") <= ?" +
-                            " AND " + STATUS + " = '" + STATUS_COMPLETED + "'", // ONLY COMPLETED ORDERS
+                            " AND " + STATUS + " = '" + STATUS_COMPLETED + "'",
                     new String[]{monthStart, monthEnd}
             );
 
@@ -345,7 +360,7 @@ public class ActivitydminRevenueA extends Activity {
                             "INNER JOIN " + PIZZAS_TABLE + " p ON oi." + PIZZA_ID + " = p." + PIZZA_ID +
                             " INNER JOIN " + ORDERS_TABLE + " o ON oi." + ORDER_ID + " = o." + ORDER_ID +
                             " WHERE p." + CATEGORY_ID + " = ?" +
-                            " AND o." + STATUS + " = '" + STATUS_COMPLETED + "'", // ONLY FROM COMPLETED ORDERS
+                            " AND o." + STATUS + " = '" + STATUS_COMPLETED + "'",
                     new String[]{String.valueOf(i)}
             );
 
@@ -382,7 +397,7 @@ public class ActivitydminRevenueA extends Activity {
         return data;
     }
 
-    private String generateBarChartHTML(int[] data) {
+    private String generateEnhancedBarChartHTML(int[] data) {
         StringBuilder dataStr = new StringBuilder();
         for (int i = 0; i < data.length; i++) {
             dataStr.append(data[i]);
@@ -392,133 +407,217 @@ public class ActivitydminRevenueA extends Activity {
         return "<!DOCTYPE html>\n" +
                 "<html>\n" +
                 "<head>\n" +
-                "    <meta name='viewport' content='width=device-width, initial-scale=1.0'>\n" +
-                "    <script src='https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js'></script>\n" +
+                "    <meta charset='UTF-8'>\n" +
+                "    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no'>\n" +
+                "    <script src='https://cdn.jsdelivr.net/npm/chart.js'></script>\n" +
                 "    <style>\n" +
-                "        body { margin: 0; padding: 10px; background: transparent; }\n" +
-                "        #chartContainer { position: relative; height: 300px; width: 100%; }\n" +
+                "        * { margin: 0; padding: 0; box-sizing: border-box; }\n" +
+                "        html, body { width: 100%; height: 100%; background: transparent; overflow: hidden; }\n" +
+                "        .chart-wrapper { \n" +
+                "            width: 100%; \n" +
+                "            height: 100%; \n" +
+                "            padding: 15px 10px 60px 10px;\n" +
+                "            background: transparent;\n" +
+                "        }\n" +
+                "        .chart-container { \n" +
+                "            width: 100%; \n" +
+                "            height: 100%; \n" +
+                "            position: relative;\n" +
+                "            background: transparent;\n" +
+                "        }\n" +
+                "        canvas { \n" +
+                "            display: block !important; \n" +
+                "            width: 100% !important; \n" +
+                "            height: 100% !important; \n" +
+                "            background: transparent;\n" +
+                "        }\n" +
                 "    </style>\n" +
                 "</head>\n" +
                 "<body>\n" +
-                "    <div id='chartContainer'><canvas id='myChart'></canvas></div>\n" +
+                "    <div class='chart-wrapper'>\n" +
+                "        <div class='chart-container'>\n" +
+                "            <canvas id='barChart'></canvas>\n" +
+                "        </div>\n" +
+                "    </div>\n" +
                 "    <script>\n" +
-                "        const ctx = document.getElementById('myChart').getContext('2d');\n" +
-                "        const gradient = ctx.createLinearGradient(0, 0, 0, 300);\n" +
-                "        gradient.addColorStop(0, 'rgba(54, 162, 235, 0.9)');\n" +
-                "        gradient.addColorStop(1, 'rgba(54, 162, 235, 0.3)');\n" +
-                "        \n" +
-                "        new Chart(ctx, {\n" +
-                "            type: 'bar',\n" +
-                "            data: {\n" +
-                "                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],\n" +
-                "                datasets: [{\n" +
-                "                    label: 'Monthly Revenue (GHS)',\n" +
-                "                    data: [" + dataStr + "],\n" +
-                "                    backgroundColor: gradient,\n" +
-                "                    borderColor: 'rgba(54, 162, 235, 1)',\n" +
-                "                    borderWidth: 2,\n" +
-                "                    borderRadius: 10,\n" +
-                "                    borderSkipped: false\n" +
-                "                }]\n" +
-                "            },\n" +
-                "            options: {\n" +
-                "                responsive: true,\n" +
-                "                maintainAspectRatio: false,\n" +
-                "                plugins: {\n" +
-                "                    legend: { display: true, position: 'bottom', labels: { color: '#666', padding: 15, font: { size: 13, weight: '500' } } },\n" +
-                "                    tooltip: { backgroundColor: 'rgba(0, 0, 0, 0.8)', padding: 12, cornerRadius: 8 }\n" +
-                "                },\n" +
-                "                scales: {\n" +
-                "                    y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#666', font: { size: 11 } } },\n" +
-                "                    x: { grid: { display: false }, ticks: { color: '#666', font: { size: 11 } } }\n" +
-                "                },\n" +
-                "                animation: { duration: 1200, easing: 'easeInOutQuart' }\n" +
+                "        function initializeChart() {\n" +
+                "            console.log('Initializing chart...');\n" +
+                "            \n" +
+                "            // Check if canvas element exists\n" +
+                "            var canvas = document.getElementById('barChart');\n" +
+                "            if (!canvas) {\n" +
+                "                console.error('Canvas element not found!');\n" +
+                "                return;\n" +
                 "            }\n" +
-                "        });\n" +
+                "            \n" +
+                "            var ctx = canvas.getContext('2d');\n" +
+                "            \n" +
+                "            // Force canvas dimensions\n" +
+                "            var container = canvas.parentElement.parentElement;\n" +
+                "            canvas.width = container.offsetWidth;\n" +
+                "            canvas.height = container.offsetHeight;\n" +
+                "            \n" +
+                "            console.log('Canvas dimensions:', canvas.width, 'x', canvas.height);\n" +
+                "            \n" +
+                "            try {\n" +
+                "                var chart = new Chart(ctx, {\n" +
+                "                    type: 'bar',\n" +
+                "                    data: {\n" +
+                "                        labels: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],\n" +
+                "                        datasets: [{\n" +
+                "                            label: 'Monthly Revenue (GHS)',\n" +
+                "                            data: [" + dataStr + "],\n" +
+                "                            backgroundColor: '#4F46E5',\n" +
+                "                            borderColor: '#3730A3',\n" +
+                "                            borderWidth: 1,\n" +
+                "                            borderRadius: 4,\n" +
+                "                            barPercentage: 0.7\n" +
+                "                        }]\n" +
+                "                    },\n" +
+                "                    options: {\n" +
+                "                        responsive: true,\n" +
+                "                        maintainAspectRatio: false,\n" +
+                "                        layout: {\n" +
+                "                            padding: {\n" +
+                "                                top: 10,\n" +
+                "                                right: 10,\n" +
+                "                                bottom: 50,\n" +
+                "                                left: 10\n" +
+                "                            }\n" +
+                "                        },\n" +
+                "                        plugins: {\n" +
+                "                            legend: {\n" +
+                "                                display: true,\n" +
+                "                                position: 'top',\n" +
+                "                                labels: {\n" +
+                "                                    color: '#374151',\n" +
+                "                                    font: { size: 14, weight: 'bold' },\n" +
+                "                                    padding: 20\n" +
+                "                                }\n" +
+                "                            },\n" +
+                "                            tooltip: {\n" +
+                "                                backgroundColor: 'rgba(0,0,0,0.8)',\n" +
+                "                                padding: 12,\n" +
+                "                                cornerRadius: 6,\n" +
+                "                                titleFont: { size: 14 },\n" +
+                "                                bodyFont: { size: 14 }\n" +
+                "                            }\n" +
+                "                        },\n" +
+                "                        scales: {\n" +
+                "                            y: {\n" +
+                "                                beginAtZero: true,\n" +
+                "                                grid: {\n" +
+                "                                    color: 'rgba(0,0,0,0.1)',\n" +
+                "                                    drawBorder: false\n" +
+                "                                },\n" +
+                "                                ticks: {\n" +
+                "                                    color: '#6B7280',\n" +
+                "                                    font: { size: 12 },\n" +
+                "                                    padding: 8,\n" +
+                "                                    callback: function(value) {\n" +
+                "                                        return 'GHS ' + value.toLocaleString();\n" +
+                "                                    }\n" +
+                "                                }\n" +
+                "                            },\n" +
+                "                            x: {\n" +
+                "                                grid: {\n" +
+                "                                    display: false,\n" +
+                "                                    drawBorder: false\n" +
+                "                                },\n" +
+                "                                ticks: {\n" +
+                "                                    color: '#374151',\n" +
+                "                                    font: { size: 12, weight: 'bold' },\n" +
+                "                                    padding: 10,\n" +
+                "                                    maxRotation: 0,\n" +
+                "                                    minRotation: 0\n" +
+                "                                }\n" +
+                "                            }\n" +
+                "                        },\n" +
+                "                        animation: {\n" +
+                "                            duration: 1000,\n" +
+                "                            easing: 'easeOutQuart'\n" +
+                "                        }\n" +
+                "                    }\n" +
+                "                });\n" +
+                "                \n" +
+                "                console.log('Chart created successfully');\n" +
+                "                \n" +
+                "            } catch (error) {\n" +
+                "                console.error('Chart creation failed:', error);\n" +
+                "            }\n" +
+                "        }\n" +
+                "        \n" +
+                "        // Initialize when DOM is ready\n" +
+                "        if (document.readyState === 'loading') {\n" +
+                "            document.addEventListener('DOMContentLoaded', initializeChart);\n" +
+                "        } else {\n" +
+                "            initializeChart();\n" +
+                "        }\n" +
+                "        \n" +
+                "        // Also try initializing after a short delay\n" +
+                "        setTimeout(initializeChart, 100);\n" +
                 "    </script>\n" +
                 "</body>\n" +
                 "</html>";
     }
 
-    private String generateDoughnutChartHTML(int[] data) {
+    private String generateEnhancedPieChartHTML(int[] data) {
         return "<!DOCTYPE html>\n" +
                 "<html>\n" +
                 "<head>\n" +
-                "    <meta name='viewport' content='width=device-width, initial-scale=1.0'>\n" +
-                "    <script src='https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js'></script>\n" +
+                "    <meta charset='UTF-8'>\n" +
+                "    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no'>\n" +
+                "    <script src='https://cdn.jsdelivr.net/npm/chart.js'></script>\n" +
                 "    <style>\n" +
-                "        body { margin: 0; padding: 10px; background: transparent; }\n" +
-                "        #chartContainer { position: relative; height: 280px; width: 100%; }\n" +
+                "        * { margin: 0; padding: 0; box-sizing: border-box; }\n" +
+                "        html, body { width: 100%; height: 100%; background: transparent; overflow: hidden; }\n" +
+                "        .chart-wrapper { width: 100%; height: 100%; padding: 20px; background: transparent; }\n" +
                 "    </style>\n" +
                 "</head>\n" +
                 "<body>\n" +
-                "    <div id='chartContainer'><canvas id='myChart'></canvas></div>\n" +
+                "    <div class='chart-wrapper'><canvas id='pieChart'></canvas></div>\n" +
                 "    <script>\n" +
-                "        const ctx = document.getElementById('myChart').getContext('2d');\n" +
-                "        new Chart(ctx, {\n" +
-                "            type: 'doughnut',\n" +
-                "            data: {\n" +
-                "                labels: ['Pending', 'Completed', 'Cancelled'],\n" +
-                "                datasets: [{\n" +
-                "                    data: [" + data[0] + ", " + data[1] + ", " + data[2] + "],\n" +
-                "                    backgroundColor: [\n" +
-                "                        'rgba(255, 206, 86, 0.8)',\n" +
-                "                        'rgba(75, 192, 192, 0.8)',\n" +
-                "                        'rgba(255, 99, 132, 0.8)'\n" +
-                "                    ],\n" +
-                "                    borderColor: [\n" +
-                "                        'rgba(255, 206, 86, 1)',\n" +
-                "                        'rgba(75, 192, 192, 1)',\n" +
-                "                        'rgba(255, 99, 132, 1)'\n" +
-                "                    ],\n" +
-                "                    borderWidth: 2,\n" +
-                "                    hoverOffset: 15\n" +
-                "                }]\n" +
-                "            },\n" +
-                "            options: {\n" +
-                "                responsive: true,\n" +
-                "                maintainAspectRatio: false,\n" +
-                "                cutout: '65%',\n" +
-                "                plugins: {\n" +
-                "                    legend: {\n" +
-                "                        display: true,\n" +
-                "                        position: 'bottom',\n" +
-                "                        labels: {\n" +
-                "                            color: '#666',\n" +
-                "                            padding: 15,\n" +
-                "                            font: { size: 12 },\n" +
-                "                            usePointStyle: true,\n" +
-                "                            pointStyle: 'circle'\n" +
-                "                        }\n" +
-                "                    },\n" +
-                "                    tooltip: {\n" +
-                "                        backgroundColor: 'rgba(0, 0, 0, 0.8)',\n" +
-                "                        padding: 12,\n" +
-                "                        cornerRadius: 8,\n" +
-                "                        callbacks: {\n" +
-                "                            label: function(context) {\n" +
-                "                                let label = context.label || '';\n" +
-                "                                let value = context.parsed || 0;\n" +
-                "                                let total = context.dataset.data.reduce((a, b) => a + b, 0);\n" +
-                "                                let percentage = ((value / total) * 100).toFixed(1);\n" +
-                "                                return label + ': ' + value + ' (' + percentage + '%)';\n" +
-                "                            }\n" +
-                "                        }\n" +
-                "                    }\n" +
+                "        function initializeChart() {\n" +
+                "            var canvas = document.getElementById('pieChart');\n" +
+                "            if (!canvas) return;\n" +
+                "            \n" +
+                "            var ctx = canvas.getContext('2d');\n" +
+                "            var container = canvas.parentElement;\n" +
+                "            canvas.width = container.offsetWidth;\n" +
+                "            canvas.height = container.offsetHeight;\n" +
+                "            \n" +
+                "            new Chart(ctx, {\n" +
+                "                type: 'pie',\n" +
+                "                data: {\n" +
+                "                    labels: ['Classic', 'Specialty', 'Vegetarian'],\n" +
+                "                    datasets: [{\n" +
+                "                        data: [" + data[0] + ", " + data[1] + ", " + data[2] + "],\n" +
+                "                        backgroundColor: ['#FF6384', '#36A2EB', '#4BC0C0'],\n" +
+                "                        borderWidth: 2\n" +
+                "                    }]\n" +
                 "                },\n" +
-                "                animation: {\n" +
-                "                    animateRotate: true,\n" +
-                "                    animateScale: true,\n" +
-                "                    duration: 1000\n" +
+                "                options: {\n" +
+                "                    responsive: true,\n" +
+                "                    maintainAspectRatio: false,\n" +
+                "                    plugins: {\n" +
+                "                        legend: { position: 'bottom' }\n" +
+                "                    }\n" +
                 "                }\n" +
-                "            }\n" +
-                "        });\n" +
+                "            });\n" +
+                "        }\n" +
+                "        \n" +
+                "        if (document.readyState === 'loading') {\n" +
+                "            document.addEventListener('DOMContentLoaded', initializeChart);\n" +
+                "        } else {\n" +
+                "            initializeChart();\n" +
+                "        }\n" +
+                "        setTimeout(initializeChart, 100);\n" +
                 "    </script>\n" +
                 "</body>\n" +
                 "</html>";
     }
 
-    private String generateLineChartHTML(int[] data) {
+    private String generateEnhancedLineChartHTML(int[] data) {
         StringBuilder dataStr = new StringBuilder();
         for (int i = 0; i < data.length; i++) {
             dataStr.append(data[i]);
@@ -528,132 +627,141 @@ public class ActivitydminRevenueA extends Activity {
         return "<!DOCTYPE html>\n" +
                 "<html>\n" +
                 "<head>\n" +
-                "    <meta name='viewport' content='width=device-width, initial-scale=1.0'>\n" +
-                "    <script src='https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js'></script>\n" +
+                "    <meta charset='UTF-8'>\n" +
+                "    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no'>\n" +
+                "    <script src='https://cdn.jsdelivr.net/npm/chart.js'></script>\n" +
                 "    <style>\n" +
-                "        body { margin: 0; padding: 10px; background: transparent; }\n" +
-                "        #chartContainer { position: relative; height: 250px; width: 100%; }\n" +
+                "        * { margin: 0; padding: 0; box-sizing: border-box; }\n" +
+                "        html, body { width: 100%; height: 100%; background: transparent; overflow: hidden; }\n" +
+                "        .chart-wrapper { width: 100%; height: 100%; padding: 20px; background: transparent; }\n" +
                 "    </style>\n" +
                 "</head>\n" +
                 "<body>\n" +
-                "    <div id='chartContainer'><canvas id='myChart'></canvas></div>\n" +
+                "    <div class='chart-wrapper'><canvas id='lineChart'></canvas></div>\n" +
                 "    <script>\n" +
-                "        const ctx = document.getElementById('myChart').getContext('2d');\n" +
-                "        const gradient = ctx.createLinearGradient(0, 0, 0, 250);\n" +
-                "        gradient.addColorStop(0, 'rgba(75, 192, 192, 0.4)');\n" +
-                "        gradient.addColorStop(1, 'rgba(75, 192, 192, 0.0)');\n" +
-                "        \n" +
-                "        new Chart(ctx, {\n" +
-                "            type: 'line',\n" +
-                "            data: {\n" +
-                "                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],\n" +
-                "                datasets: [{\n" +
-                "                    label: 'Revenue Trend',\n" +
-                "                    data: [" + dataStr + "],\n" +
-                "                    backgroundColor: gradient,\n" +
-                "                    borderColor: 'rgba(75, 192, 192, 1)',\n" +
-                "                    borderWidth: 3,\n" +
-                "                    fill: true,\n" +
-                "                    tension: 0.4,\n" +
-                "                    pointBackgroundColor: 'rgba(75, 192, 192, 1)',\n" +
-                "                    pointBorderColor: '#fff',\n" +
-                "                    pointBorderWidth: 2,\n" +
-                "                    pointRadius: 5,\n" +
-                "                    pointHoverRadius: 7\n" +
-                "                }]\n" +
-                "            },\n" +
-                "            options: {\n" +
-                "                responsive: true,\n" +
-                "                maintainAspectRatio: false,\n" +
-                "                plugins: {\n" +
-                "                    legend: { display: true, position: 'bottom', labels: { color: '#666', padding: 15 } }\n" +
+                "        function initializeChart() {\n" +
+                "            var canvas = document.getElementById('lineChart');\n" +
+                "            if (!canvas) return;\n" +
+                "            \n" +
+                "            var ctx = canvas.getContext('2d');\n" +
+                "            var container = canvas.parentElement;\n" +
+                "            canvas.width = container.offsetWidth;\n" +
+                "            canvas.height = container.offsetHeight;\n" +
+                "            \n" +
+                "            new Chart(ctx, {\n" +
+                "                type: 'line',\n" +
+                "                data: {\n" +
+                "                    labels: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],\n" +
+                "                    datasets: [{\n" +
+                "                        label: 'Revenue Trend',\n" +
+                "                        data: [" + dataStr + "],\n" +
+                "                        borderColor: '#4BC0C0',\n" +
+                "                        backgroundColor: 'rgba(75, 192, 192, 0.1)',\n" +
+                "                        borderWidth: 3,\n" +
+                "                        fill: true,\n" +
+                "                        tension: 0.4\n" +
+                "                    }]\n" +
                 "                },\n" +
-                "                scales: {\n" +
-                "                    y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#666' } },\n" +
-                "                    x: { grid: { display: false }, ticks: { color: '#666' } }\n" +
+                "                options: {\n" +
+                "                    responsive: true,\n" +
+                "                    maintainAspectRatio: false,\n" +
+                "                    plugins: {\n" +
+                "                        legend: { position: 'top' }\n" +
+                "                    },\n" +
+                "                    scales: {\n" +
+                "                        x: {\n" +
+                "                            ticks: {\n" +
+                "                                maxRotation: 0,\n" +
+                "                                minRotation: 0\n" +
+                "                            }\n" +
+                "                        }\n" +
+                "                    }\n" +
                 "                }\n" +
-                "            }\n" +
-                "        });\n" +
+                "            });\n" +
+                "        }\n" +
+                "        \n" +
+                "        if (document.readyState === 'loading') {\n" +
+                "            document.addEventListener('DOMContentLoaded', initializeChart);\n" +
+                "        } else {\n" +
+                "            initializeChart();\n" +
+                "        }\n" +
+                "        setTimeout(initializeChart, 100);\n" +
                 "    </script>\n" +
                 "</body>\n" +
                 "</html>";
     }
 
-    private String generatePieChartHTML(int[] data) {
+    private String generateEnhancedDoughnutChartHTML(int[] data) {
         return "<!DOCTYPE html>\n" +
                 "<html>\n" +
                 "<head>\n" +
-                "    <meta name='viewport' content='width=device-width, initial-scale=1.0'>\n" +
-                "    <script src='https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js'></script>\n" +
+                "    <meta charset='UTF-8'>\n" +
+                "    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no'>\n" +
+                "    <script src='https://cdn.jsdelivr.net/npm/chart.js'></script>\n" +
                 "    <style>\n" +
-                "        body { margin: 0; padding: 10px; background: transparent; }\n" +
-                "        #chartContainer { position: relative; height: 280px; width: 100%; }\n" +
+                "        * { margin: 0; padding: 0; box-sizing: border-box; }\n" +
+                "        html, body { width: 100%; height: 100%; background: transparent; overflow: hidden; }\n" +
+                "        .chart-wrapper { width: 100%; height: 100%; padding: 20px; background: transparent; }\n" +
                 "    </style>\n" +
                 "</head>\n" +
                 "<body>\n" +
-                "    <div id='chartContainer'><canvas id='myChart'></canvas></div>\n" +
+                "    <div class='chart-wrapper'><canvas id='doughnutChart'></canvas></div>\n" +
                 "    <script>\n" +
-                "        const ctx = document.getElementById('myChart').getContext('2d');\n" +
-                "        new Chart(ctx, {\n" +
-                "            type: 'pie',\n" +
-                "            data: {\n" +
-                "                labels: ['Classic', 'Specialty', 'Vegetarian'],\n" +
-                "                datasets: [{\n" +
-                "                    data: [" + data[0] + ", " + data[1] + ", " + data[2] + "],\n" +
-                "                    backgroundColor: [\n" +
-                "                        'rgba(255, 99, 132, 0.8)',\n" +
-                "                        'rgba(54, 162, 235, 0.8)',\n" +
-                "                        'rgba(75, 192, 192, 0.8)'\n" +
-                "                    ],\n" +
-                "                    borderColor: [\n" +
-                "                        'rgba(255, 99, 132, 1)',\n" +
-                "                        'rgba(54, 162, 235, 1)',\n" +
-                "                        'rgba(75, 192, 192, 1)'\n" +
-                "                    ],\n" +
-                "                    borderWidth: 2,\n" +
-                "                    hoverOffset: 15\n" +
-                "                }]\n" +
-                "            },\n" +
-                "            options: {\n" +
-                "                responsive: true,\n" +
-                "                maintainAspectRatio: false,\n" +
-                "                plugins: {\n" +
-                "                    legend: {\n" +
-                "                        display: true,\n" +
-                "                        position: 'bottom',\n" +
-                "                        labels: {\n" +
-                "                            color: '#666',\n" +
-                "                            padding: 15,\n" +
-                "                            font: { size: 12 },\n" +
-                "                            usePointStyle: true,\n" +
-                "                            pointStyle: 'circle'\n" +
-                "                        }\n" +
-                "                    },\n" +
-                "                    tooltip: {\n" +
-                "                        backgroundColor: 'rgba(0, 0, 0, 0.8)',\n" +
-                "                        padding: 12,\n" +
-                "                        cornerRadius: 8,\n" +
-                "                        callbacks: {\n" +
-                "                            label: function(context) {\n" +
-                "                                let label = context.label || '';\n" +
-                "                                let value = context.parsed || 0;\n" +
-                "                                let total = context.dataset.data.reduce((a, b) => a + b, 0);\n" +
-                "                                let percentage = ((value / total) * 100).toFixed(1);\n" +
-                "                                return label + ': ' + value + ' orders (' + percentage + '%)';\n" +
-                "                            }\n" +
-                "                        }\n" +
-                "                    }\n" +
+                "        function initializeChart() {\n" +
+                "            var canvas = document.getElementById('doughnutChart');\n" +
+                "            if (!canvas) return;\n" +
+                "            \n" +
+                "            var ctx = canvas.getContext('2d');\n" +
+                "            var container = canvas.parentElement;\n" +
+                "            canvas.width = container.offsetWidth;\n" +
+                "            canvas.height = container.offsetHeight;\n" +
+                "            \n" +
+                "            new Chart(ctx, {\n" +
+                "                type: 'doughnut',\n" +
+                "                data: {\n" +
+                "                    labels: ['Pending', 'Completed', 'Cancelled'],\n" +
+                "                    datasets: [{\n" +
+                "                        data: [" + data[0] + ", " + data[1] + ", " + data[2] + "],\n" +
+                "                        backgroundColor: ['#FFCE56', '#4BC0C0', '#FF6384'],\n" +
+                "                        borderWidth: 2\n" +
+                "                    }]\n" +
                 "                },\n" +
-                "                animation: {\n" +
-                "                    animateRotate: true,\n" +
-                "                    animateScale: true,\n" +
-                "                    duration: 1000\n" +
+                "                options: {\n" +
+                "                    responsive: true,\n" +
+                "                    maintainAspectRatio: false,\n" +
+                "                    cutout: '60%',\n" +
+                "                    plugins: {\n" +
+                "                        legend: { position: 'bottom' }\n" +
+                "                    }\n" +
                 "                }\n" +
-                "            }\n" +
-                "        });\n" +
+                "            });\n" +
+                "        }\n" +
+                "        \n" +
+                "        if (document.readyState === 'loading') {\n" +
+                "            document.addEventListener('DOMContentLoaded', initializeChart);\n" +
+                "        } else {\n" +
+                "            initializeChart();\n" +
+                "        }\n" +
+                "        setTimeout(initializeChart, 100);\n" +
                 "    </script>\n" +
                 "</body>\n" +
                 "</html>";
+    }
+
+    // Force refresh method
+    private void forceRefreshCharts() {
+        Log.d("CHART_DEBUG", "Forcing chart refresh...");
+
+        // Clear WebView cache
+        webViewBarChart.clearCache(true);
+        webViewPieChart.clearCache(true);
+        webViewLineChart.clearCache(true);
+        webViewDoughnutChart.clearCache(true);
+
+        // Reload charts with delay
+        new Handler().postDelayed(() -> {
+            setupChartsWithDebug();
+        }, 1000);
     }
 
     @Override

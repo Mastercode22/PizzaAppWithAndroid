@@ -47,8 +47,7 @@
 
 	<color name="app_background">#FFFFFF</color>
 	<color name="accent_red">#e74c3c</color>
-	<color name="text_primary">#000000</color>
-	<color name="text_secondary">#888888</color>
+
 
 
 	<!-- Background Colors -->
@@ -57,8 +56,41 @@
 	<color name="bod">#FFFFFF</color>
 	<color name="card_background">#FFFFFF</color>
 
-	<!-- Material Design Colors -->
-	<color name="colorPrimary">@color/primary_color</color>
-	<color name="colorPrimaryDark">@color/primary_dark</color>
-	<color name="colorAccent">@color/accent_color</color>
-</resources>
+
+
+		<!-- Primary Colors -->
+		<color name="colorPrimary">#FF6B35</color>
+		<color name="colorPrimaryDark">#E55A2B</color>
+		<color name="colorAccent">#2196F3</color>
+
+		<!-- Navigation Colors -->
+		<color name="nav_item_color">#333333</color>
+		<color name="nav_item_selected">#FF6B35</color>
+		<color name="nav_background">#FFFFFF</color>
+
+		<!-- Text Colors -->
+		<color name="text_primary">#1A1A1A</color>
+		<color name="text_secondary">#666666</color>
+		<color name="text_tertiary">#999999</color>
+
+		<!-- Background Colors -->
+
+		<color name="background_white">#FFFFFF</color>
+		<color name="background_gray">#F5F5F5</color>
+
+		<!-- Status Colors -->
+
+		<color name="status_preparing">#FF9800</color>
+
+		<!-- Card Colors -->
+
+		<color name="card_shadow">#1A000000</color>
+
+		<!-- Icon Colors -->
+		<color name="icon_blue">#2196F3</color>
+		<color name="icon_green">#4CAF50</color>
+		<color name="icon_orange">#FF9800</color>
+		<color name="icon_red">#F44336</color>
+		<color name="icon_purple">#9C27B0</color>
+		<color name="icon_teal">#009688</color>
+	</resources>
