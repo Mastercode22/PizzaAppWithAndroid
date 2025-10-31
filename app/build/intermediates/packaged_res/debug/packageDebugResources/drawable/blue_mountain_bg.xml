@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="1440dp"
+    android:height="170dp"
+    android:viewportWidth="1440"
+    android:viewportHeight="310">
+    <!-- Background with orange gradient feel -->
+    <path
+        android:pathData="M0,0 L1440,0 L1440,400 L0,400 Z"
+        android:fillColor="#FF6B35"/>
+
+    <!-- Overlay for depth - coral -->
+    <path
+        android:pathData="M0,0 L1440,0 L1440,300 L0,350 Z"
+        android:fillColor="#FF8C42"
+        android:fillAlpha="0.6"/>
+
+    <!-- Background geometric shapes - purple accent -->
+    <path
+        android:pathData="M800,150 L950,250 L650,250 Z"
+        android:fillColor="#9B59B6"
+        android:fillAlpha="0.3"/>
+
+    <path
+        android:pathData="M1100,100 L1300,300 L900,300 Z"
+        android:fillColor="#8E44AD"
+        android:fillAlpha="0.25"/>
+
+    <!-- Main mountain/triangle shape - teal/blue -->
+    <path
+        android:pathData="M1440,200 L1200,400 L1440,400 Z"
+        android:fillColor="#00BCD4"
+        android:fillAlpha="0.5"/>
+
+    <!-- Large geometric triangle accent - deep blue -->
+    <path
+        android:pathData="M1320,250 L1440,400 L1440,250 Z"
+        android:fillColor="#0097A7"
+        android:fillAlpha="0.6"/>
+
+    <!-- Additional accent triangle - yellow/gold -->
+    <path
+        android:pathData="M300,100 L450,280 L150,280 Z"
+        android:fillColor="#FFC107"
+        android:fillAlpha="0.4"/>
+
+    <!-- Bottom wave curves - white -->
+    <path
+        android:pathData="M0,300 Q200,250 400,280 T800,300 L800,400 L0,400 Z"
+        android:fillColor="#FFFFFF"/>
+
+    <path
+        android:pathData="M800,300 Q1000,320 1200,290 T1440,320 L1440,400 L800,400 Z"
+        android:fillColor="#F5F5F5"/>
+
+</vector>
