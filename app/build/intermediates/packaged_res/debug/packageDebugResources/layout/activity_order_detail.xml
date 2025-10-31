@@ -200,6 +200,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             android:background="@android:color/white"
             android:elevation="2dp">
 
@@ -285,6 +286,19 @@
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
+
+        <!-- UPDATE STATUS BUTTON - NEW -->
+        <Button
+            android:id="@+id/btn_update_status"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="Update Order Status"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:background="@color/primary_color"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp" />
 
     </LinearLayout>
 

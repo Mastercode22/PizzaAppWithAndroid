@@ -1,0 +1,19 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Vertical line (power button top) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M11,2h2v10h-2z"/>
+
+    <!-- Circular arc (incomplete circle) -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M18.36,6.64C19.45,7.73 20.19,9.13 20.49,10.66C20.8,12.19 20.66,13.78 20.08,15.23C19.51,16.68 18.53,17.93 17.27,18.82C16.01,19.71 14.52,20.19 13,20.19C11.48,20.19 9.99,19.71 8.73,18.82C7.47,17.93 6.49,16.68 5.92,15.23C5.34,13.78 5.2,12.19 5.51,10.66C5.81,9.13 6.55,7.73 7.64,6.64"/>
+</vector>

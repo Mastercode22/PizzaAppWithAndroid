@@ -225,12 +225,14 @@
                         android:layout_height="24dp"
                         android:src="@android:drawable/ic_menu_day"
                         android:contentDescription="Dark Mode Icon"
-                        app:tint="@color/accent_red" /> <TextView
+                        app:tint="@color/accent_red" />
+                    <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Dark Mode"
-                    android:textColor="@color/colorPrimary" android:textSize="16sp"
+                    android:textColor="@color/colorPrimary"
+                        android:textSize="16sp"
                     android:layout_marginStart="16dp" />
 
                     <androidx.appcompat.widget.SwitchCompat

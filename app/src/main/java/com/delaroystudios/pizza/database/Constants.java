@@ -1,107 +1,166 @@
 package com.delaroystudios.pizza.database;
 
-import android.provider.BaseColumns;
+public class Constants {
 
-public interface Constants extends BaseColumns {
+    // Database info
+    public static final String DATABASE_NAME = "pizza_enhanced.db";
+    public static final int DATABASE_VERSION = 6; // INCREMENT THIS to trigger database upgrade
 
-    // Users table
-    String USERS_TABLE = "users";
-    String USER_ID = "user_id";
-    String USERNAME = "username";
-    String EMAIL = "email";
-    String PASSWORD_HASH = "password_hash";
-    String FULL_NAME = "full_name";
-    String PHONE = "phone";
-    String ADDRESS = "address";
-    String CREATED_AT = "created_at";
-    String IS_ACTIVE = "is_active";
+    // Table names
+    public static final String USERS_TABLE = "users";
+    public static final String ADMINS_TABLE = "admins";
+    public static final String CATEGORIES_TABLE = "categories";
+    public static final String PIZZAS_TABLE = "pizzas";
+    public static final String SIZES_TABLE = "sizes";
+    public static final String CRUST_TABLE = "crust_types";
+    public static final String TOPPINGS_TABLE = "toppings";
+    public static final String ORDERS_TABLE = "orders";
+    public static final String ORDER_ITEMS_TABLE = "order_items";
+    public static final String CART_TABLE = "cart";
+    public static final String TABLE_NAME = "pizza_orders"; // Legacy table
 
-    // Admin table
-    String ADMINS_TABLE = "admins";
-    String ADMIN_ID = "admin_id";
-    String ROLE = "role";
+    // User columns
+    public static final String USER_ID = "user_id";
+    public static final String USERNAME = "username";
+    public static final String EMAIL = "email";
+    public static final String PASSWORD_HASH = "password_hash";
+    public static final String FULL_NAME = "full_name";
+    public static final String PHONE = "phone";
+    public static final String ADDRESS = "address";
+    public static final String CREATED_AT = "created_at";
+    public static final String IS_ACTIVE = "is_active";
 
-    // Categories table
-    String CATEGORIES_TABLE = "categories";
-    String CATEGORY_ID = "category_id";
-    String CATEGORY_NAME = "name";
-    String DESCRIPTION = "description";
+    // Admin columns
+    public static final String ADMIN_ID = "admin_id";
+    public static final String ROLE = "role";
 
-    // Enhanced pizzas table
-    String PIZZAS_TABLE = "pizzas";
-    String PIZZA_ID = "pizza_id";
-    String PIZZA_NAME = "name";
-    String PIZZA_DESCRIPTION = "description";
-    String BASE_PRICE = "base_price";
-    String IMAGE_URL = "image_url";
-    String IS_AVAILABLE = "is_available";
+    // Category columns
+    public static final String CATEGORY_ID = "category_id";
+    public static final String CATEGORY_NAME = "category_name";
+    public static final String DESCRIPTION = "description";
 
-    // Pizza sizes table
-    String SIZES_TABLE = "pizza_sizes";
-    String SIZE_ID = "size_id";
-    String SIZE_NAME = "size_name";
-    String PRICE_MULTIPLIER = "price_multiplier";
+    // Pizza columns
+    public static final String PIZZA_ID = "pizza_id";
+    public static final String PIZZA_NAME = "pizza_name";
+    public static final String PIZZA_DESCRIPTION = "pizza_description";
+    public static final String BASE_PRICE = "base_price";
+    public static final String IMAGE_URL = "image_url";
+    public static final String IMAGE_RESOURCE = "image_resource";
+    public static final String IS_AVAILABLE = "is_available";
 
-    // Crust types table
-    String CRUST_TABLE = "crust_types";
-    String CRUST_ID = "crust_id";
-    String CRUST_NAME = "crust_name";
-    String ADDITIONAL_PRICE = "additional_price";
+    // Size columns
+    public static final String SIZE_ID = "size_id";
+    public static final String SIZE_NAME = "size_name";
+    public static final String PRICE_MULTIPLIER = "price_multiplier";
 
-    // Toppings table
-    String TOPPINGS_TABLE = "toppings";
-    String TOPPING_ID = "topping_id";
-    String TOPPING_NAME = "name";
-    String TOPPING_PRICE = "price";
-    String TOPPING_CATEGORY = "category";
+    // Crust columns
+    public static final String CRUST_ID = "crust_id";
+    public static final String CRUST_NAME = "crust_name";
+    public static final String ADDITIONAL_PRICE = "additional_price";
 
-    // Orders table
-    String ORDERS_TABLE = "orders";
-    String ORDER_ID = "order_id";
-    String ORDER_DATE = "order_date";
-    String TOTAL_AMOUNT = "total_amount";
-    String STATUS = "status";
-    String CUSTOMER_NAME = "customer_name";
-    String CUSTOMER_PHONE = "customer_phone";
-    String DELIVERY_ADDRESS = "delivery_address";
-    String SPECIAL_INSTRUCTIONS = "special_instructions";
-    String ESTIMATED_COMPLETION = "estimated_completion_time";
+    // Topping columns
+    public static final String TOPPING_ID = "topping_id";
+    public static final String TOPPING_NAME = "topping_name";
+    public static final String TOPPING_PRICE = "topping_price";
+    public static final String TOPPING_CATEGORY = "topping_category";
 
-    // Order items table
-    String ORDER_ITEMS_TABLE = "order_items";
-    String ITEM_ID = "item_id";
-    String QUANTITY = "quantity";
-    String ITEM_PRICE = "item_price";
+    // Order columns
+    public static final String ORDER_ID = "order_id";
+    public static final String ORDER_DATE = "order_date";
+    public static final String TOTAL_AMOUNT = "total_amount";
+    public static final String STATUS = "status";
+    public static final String CUSTOMER_NAME = "customer_name";
+    public static final String CUSTOMER_PHONE = "customer_phone";
+    public static final String DELIVERY_ADDRESS = "delivery_address";
+    public static final String SPECIAL_INSTRUCTIONS = "special_instructions";
+    public static final String ESTIMATED_COMPLETION = "estimated_completion";
 
-    // Order item toppings table
-    String ORDER_TOPPINGS_TABLE = "order_item_toppings";
-    String PLACEMENT = "placement";
+    // Order Item columns
+    public static final String ITEM_ID = "item_id";
+    public static final String ITEM_PRICE = "item_price";
+    public static final String QUANTITY = "quantity";
 
-    // Cart tables
-    String CART_TABLE = "cart_items";
-    String CART_ID = "cart_id";
-    String ADDED_AT = "added_at";
+    // Cart columns
+    public static final String CART_ID = "cart_id";
+    public static final String ADDED_AT = "added_at";
 
-    String CART_TOPPINGS_TABLE = "cart_item_toppings";
+    // Legacy columns
+    public static final String _ID = "_id";
+    public static final String SIZE = "size";
+    public static final String CRUST = "crust";
+    public static final String TOPPINGS_WHOLE = "toppings_whole";
+    public static final String TOPPINGS_LEFT = "toppings_left";
+    public static final String TOPPINGS_RIGHT = "toppings_right";
 
-    // Legacy support (for backward compatibility)
-    String TABLE_NAME = "pizza";
-    String SIZE = "size";
-    String CRUST = "crust";
-    String TOPPINGS_WHOLE = "toppingsWhole";
-    String TOPPINGS_LEFT = "toppingsLeft";
-    String TOPPINGS_RIGHT = "toppingsRight";
+    // ============================================
+    // CRITICAL FIX: Order Status Constants
+    // MUST be lowercase to match Order.java and database
+    // ============================================
+    public static final String STATUS_PENDING = "pending";          // Changed from "Pending"
+    public static final String STATUS_IN_PROGRESS = "in_progress";  // NEW - was missing
+    public static final String STATUS_COMPLETED = "completed";      // Changed from "Completed"
+    public static final String STATUS_CANCELLED = "cancelled";      // Changed from "Cancelled"
 
-    // Order status constants
-    String STATUS_PENDING = "pending";
-    String STATUS_IN_PROGRESS = "in_progress";
-    String STATUS_COMPLETED = "completed";
-    String STATUS_CANCELLED = "cancelled";
+    // Legacy status (if needed for backward compatibility)
+    @Deprecated
+    public static final String STATUS_DELIVERED = "delivered";
+    @Deprecated
+    public static final String STATUS_PREPARING = "preparing";
 
-    // Placement constants
-    String PLACEMENT_WHOLE = "whole";
-    String PLACEMENT_LEFT = "left";
-    String PLACEMENT_RIGHT = "right";
+    // Helper method to validate status
+    public static boolean isValidStatus(String status) {
+        return STATUS_PENDING.equals(status) ||
+                STATUS_IN_PROGRESS.equals(status) ||
+                STATUS_COMPLETED.equals(status) ||
+                STATUS_CANCELLED.equals(status);
+    }
 
+    // Helper method to get display name for status (with proper capitalization)
+    public static String getStatusDisplayName(String status) {
+        if (status == null) return "Unknown";
 
+        switch (status.toLowerCase()) {
+            case STATUS_PENDING:
+                return "Pending";
+            case STATUS_IN_PROGRESS:
+                return "In Progress";
+            case STATUS_COMPLETED:
+                return "Completed";
+            case STATUS_CANCELLED:
+                return "Cancelled";
+            case STATUS_DELIVERED:
+                return "Delivered";
+            case STATUS_PREPARING:
+                return "Preparing";
+            default:
+                return "Unknown";
+        }
+    }
+
+    // Helper method to normalize status from any case to lowercase
+    public static String normalizeStatus(String status) {
+        if (status == null) return STATUS_PENDING;
+
+        String lower = status.toLowerCase().trim();
+        switch (lower) {
+            case "pending":
+                return STATUS_PENDING;
+            case "in progress":
+            case "in_progress":
+            case "inprogress":
+                return STATUS_IN_PROGRESS;
+            case "completed":
+            case "complete":
+                return STATUS_COMPLETED;
+            case "cancelled":
+            case "canceled":
+                return STATUS_CANCELLED;
+            default:
+                return status.toLowerCase();
+        }
+    }
+
+    // Private constructor to prevent instantiation
+    private Constants() {
+    }
 }

@@ -1,7 +1,10 @@
 package com.delaroystudios.pizza.activities;
 
+import android.content.BroadcastReceiver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -15,8 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity; // CRITICAL CHANGE: Use AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate; // Import for theme logic
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate; // Import for theme control
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,7 +37,6 @@ import java.util.Locale;
 
 import static com.delaroystudios.pizza.database.Constants.*;
 
-// CHANGE: Extend AppCompatActivity for theme compatibility
 public class PizzaMenuActivity extends AppCompatActivity implements PizzaAdapter.OnPizzaClickListener {
 
     private static final String TAG = "PizzaMenuActivity";
@@ -52,27 +54,25 @@ public class PizzaMenuActivity extends AppCompatActivity implements PizzaAdapter
     private SessionManager sessionManager;
     private String currentCategory = "all";
 
+    private BroadcastReceiver pizzaUpdateReceiver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Initialize SessionManager early to check preference
         sessionManager = new SessionManager(this);
 
-        // START OF CRITICAL DARK MODE LOGIC ADDITION
-        // This ensures the correct theme is applied on initial load or restart
+        // ** THEME CONTROL: Apply user's saved preference (Dark Mode or Light Mode) **
         if (sessionManager.isDarkModeEnabled()) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
+            // Force Light Mode if Dark Mode is not enabled by the user
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
-        // END OF CRITICAL DARK MODE LOGIC ADDITION
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pizza_menu);
 
         database = new PizzaData(this);
-        // sessionManager is already initialized above
 
-        // Check if user is logged in
         if (!sessionManager.isLoggedIn()) {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
@@ -83,12 +83,29 @@ public class PizzaMenuActivity extends AppCompatActivity implements PizzaAdapter
         setupRecyclerView();
         setupSearchFunctionality();
         setupCategoryButtons();
+        setupBroadcastReceiver();
 
-        // Initialize database with sample pizzas if empty
         initializeSamplePizzas();
-
         loadPizzas();
         updateCartSummary();
+    }
+
+    private void setupBroadcastReceiver() {
+        pizzaUpdateReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                loadPizzas();
+                Toast.makeText(PizzaMenuActivity.this, "Menu updated!", Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        IntentFilter filter = new IntentFilter("com.delaroystudios.pizza.PIZZA_UPDATED");
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(pizzaUpdateReceiver, filter, Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            registerReceiver(pizzaUpdateReceiver, filter);
+        }
     }
 
     private void initViews() {
@@ -103,7 +120,6 @@ public class PizzaMenuActivity extends AppCompatActivity implements PizzaAdapter
 
         btnCart.setOnClickListener(v -> startActivity(new Intent(this, CartActivity.class)));
 
-        // Profile Button Logic
         btnMenu.setOnClickListener(v -> {
             if (sessionManager.isLoggedIn()) {
                 startActivity(new Intent(this, ProfileActivity.class));
@@ -121,7 +137,6 @@ public class PizzaMenuActivity extends AppCompatActivity implements PizzaAdapter
         filteredPizzaList = new ArrayList<>();
         pizzaAdapter = new PizzaAdapter(filteredPizzaList, this);
 
-        // Use GridLayoutManager with 2 columns
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         rvPizzas.setLayoutManager(gridLayoutManager);
         rvPizzas.setAdapter(pizzaAdapter);
@@ -130,7 +145,8 @@ public class PizzaMenuActivity extends AppCompatActivity implements PizzaAdapter
     private void setupSearchFunctionality() {
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -138,7 +154,8 @@ public class PizzaMenuActivity extends AppCompatActivity implements PizzaAdapter
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
     }
 
@@ -163,19 +180,20 @@ public class PizzaMenuActivity extends AppCompatActivity implements PizzaAdapter
     private void addSamplePizzas() {
         SQLiteDatabase db = database.getWritableDatabase();
 
+        // Sample pizzas with unique images assigned
         String[][] pizzas = {
-                {"Supreme Special", "Loaded with premium toppings", "18.34", "1"},
-                {"Moonlight", "Special night edition pizza", "15.28", "2"},
-                {"Chicken Supreme", "Grilled chicken with veggies", "17.23", "2"},
-                {"Veggie Delight", "Fresh garden vegetables", "10.29", "3"},
-                {"Chilli Fresh", "Spicy peppers and onions", "14.99", "2"},
-                {"Ocean Hawaiian", "Ham and pineapple classic", "16.50", "2"},
-                {"Margherita Classic", "Fresh mozzarella and basil", "12.99", "1"},
-                {"Pepperoni Deluxe", "Double pepperoni lovers", "19.99", "1"},
-                {"BBQ Chicken", "Tangy BBQ sauce with chicken", "18.99", "2"},
-                {"Mushroom Truffle", "Premium mushrooms with truffle", "22.99", "2"},
-                {"Four Cheese", "Blend of four cheeses", "17.99", "1"},
-                {"Mediterranean", "Feta, olives, and tomatoes", "16.99", "3"}
+                {"Supreme Special", "Loaded with premium toppings", "18.34", "1", String.valueOf(R.drawable.sausage)},
+                {"Moonlight", "Special night edition pizza", "15.28", "2", String.valueOf(R.drawable.lbismarkpizza)},
+                {"Chicken Supreme", "Grilled chicken with veggies", "17.23", "2", String.valueOf(R.drawable.chicken)},
+                {"Veggie Delight", "Fresh garden vegetables", "10.29", "3", String.valueOf(R.drawable.greenpeppers)},
+                {"Chilli Fresh", "Spicy peppers and onions", "14.99", "2", String.valueOf(R.drawable.jalapenopeppers)},
+                {"Ocean Hawaiian", "Ham and pineapple classic", "16.50", "2", String.valueOf(R.drawable.pineapple)},
+                {"Margherita Classic", "Fresh mozzarella and basil", "12.99", "1", String.valueOf(R.drawable.mozzarella)},
+                {"Pepperoni Deluxe", "Double pepperoni lovers", "19.99", "1", String.valueOf(R.drawable.pepperoni)},
+                {"BBQ Chicken", "Tangy BBQ sauce with chicken", "18.99", "2", String.valueOf(R.drawable.bacon)},
+                {"Mushroom Truffle", "Premium mushrooms with truffle", "22.99", "2", String.valueOf(R.drawable.mushrooms)},
+                {"Four Cheese", "Blend of four cheeses", "17.99", "1", String.valueOf(R.drawable.lcaprese)},
+                {"Mediterranean", "Feta, olives, and tomatoes", "16.99", "3", String.valueOf(R.drawable.blackolives)}
         };
 
         for (String[] pizza : pizzas) {
@@ -184,12 +202,13 @@ public class PizzaMenuActivity extends AppCompatActivity implements PizzaAdapter
             values.put(PIZZA_DESCRIPTION, pizza[1]);
             values.put(BASE_PRICE, Double.parseDouble(pizza[2]));
             values.put(CATEGORY_ID, Integer.parseInt(pizza[3]));
+            values.put("image_resource", Integer.parseInt(pizza[4])); // Store the unique image
             values.put(IS_AVAILABLE, 1);
 
             db.insert(PIZZAS_TABLE, null, values);
         }
 
-        Log.d(TAG, "Sample pizzas added to database");
+        Log.d(TAG, "Sample pizzas added to database with unique images");
     }
 
     private void loadPizzas() {
@@ -207,7 +226,22 @@ public class PizzaMenuActivity extends AppCompatActivity implements PizzaAdapter
                     pizza.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(PIZZA_DESCRIPTION)));
                     pizza.setBasePrice(cursor.getDouble(cursor.getColumnIndexOrThrow(BASE_PRICE)));
                     pizza.setCategoryId(cursor.getInt(cursor.getColumnIndexOrThrow(CATEGORY_ID)));
-                    pizza.setImageResource(getPizzaImageResource(pizza.getName()));
+
+                    // CRITICAL FIX: Read image_resource from database instead of generating it
+                    int imageColIndex = cursor.getColumnIndex("image_resource");
+                    if (imageColIndex != -1) {
+                        int imageResource = cursor.getInt(imageColIndex);
+                        // Only use stored image if it's valid (non-zero)
+                        if (imageResource != 0) {
+                            pizza.setImageResource(imageResource);
+                        } else {
+                            // Fallback to generated image only if no image is stored
+                            pizza.setImageResource(getPizzaImageResourceFallback(pizza.getName()));
+                        }
+                    } else {
+                        // If column doesn't exist (old database), use fallback
+                        pizza.setImageResource(getPizzaImageResourceFallback(pizza.getName()));
+                    }
 
                     pizzaList.add(pizza);
                 } catch (IllegalArgumentException e) {
@@ -224,12 +258,17 @@ public class PizzaMenuActivity extends AppCompatActivity implements PizzaAdapter
         Log.d(TAG, "Loaded " + pizzaList.size() + " pizzas");
     }
 
-    private int getPizzaImageResource(String pizzaName) {
+    /**
+     * Fallback method - only used when database doesn't have image_resource stored
+     * This ensures backward compatibility with old pizzas
+     */
+    private int getPizzaImageResourceFallback(String pizzaName) {
         String name = pizzaName.toLowerCase();
 
         if (name.contains("margherita")) return R.drawable.mozzarella;
         if (name.contains("pepperoni")) return R.drawable.pepperoni;
-        if (name.contains("hawaiian") || name.contains("pineapple") || name.contains("ocean")) return R.drawable.pineapple;
+        if (name.contains("hawaiian") || name.contains("pineapple") || name.contains("ocean"))
+            return R.drawable.pineapple;
         if (name.contains("chicken")) return R.drawable.chicken;
         if (name.contains("veggie") || name.contains("vegetarian")) return R.drawable.greenpeppers;
         if (name.contains("mushroom")) return R.drawable.mushrooms;
@@ -275,11 +314,25 @@ public class PizzaMenuActivity extends AppCompatActivity implements PizzaAdapter
 
     private int getCategoryId(String categoryName) {
         switch (categoryName.toLowerCase()) {
-            case "classic": return 1;
-            case "specialty": return 2;
-            case "vegetarian": return 3;
-            default: return 1;
+            case "specialty":
+                return 2;
+            case "vegetarian":
+                return 3;
+            default:
+                return 1;
         }
+    }
+
+    @Override
+    public void onPizzaClick(Pizza pizza) {
+        Intent intent = new Intent(this, PizzaDetailActivity.class);
+        intent.putExtra("pizza_id", pizza.getPizzaId());
+        intent.putExtra("pizza_name", pizza.getName());
+        intent.putExtra("pizza_description", pizza.getDescription());
+        intent.putExtra("pizza_price", pizza.getBasePrice());
+        intent.putExtra("pizza_category", pizza.getCategoryId());
+        intent.putExtra("pizza_image", pizza.getImageResource());
+        startActivity(intent);
     }
 
     @Override
@@ -290,7 +343,6 @@ public class PizzaMenuActivity extends AppCompatActivity implements PizzaAdapter
             return;
         }
 
-        // Get size ID (1 = small, 2 = medium, 3 = large)
         int sizeId = size.equals("L") ? 3 : 2;
 
         SQLiteDatabase db = database.getWritableDatabase();
@@ -396,6 +448,9 @@ public class PizzaMenuActivity extends AppCompatActivity implements PizzaAdapter
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (pizzaUpdateReceiver != null) {
+            unregisterReceiver(pizzaUpdateReceiver);
+        }
         if (database != null) {
             database.close();
         }

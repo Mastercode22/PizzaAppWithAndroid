@@ -22,6 +22,7 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.PizzaViewHol
 
     public interface OnPizzaClickListener {
         void onAddToCart(Pizza pizza, String size);
+        void onPizzaClick(Pizza pizza);
     }
 
     public PizzaAdapter(List<Pizza> pizzaList, OnPizzaClickListener listener) {
@@ -45,12 +46,26 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.PizzaViewHol
         holder.tvPizzaDescription.setText(pizza.getDescription());
         holder.tvPizzaPrice.setText("GHS " + String.format("%.2f", pizza.getBasePrice()));
 
-        // Set pizza image
-        if (pizza.getImageResource() != 0) {
-            holder.ivPizza.setImageResource(pizza.getImageResource());
-        } else {
-            holder.ivPizza.setImageResource(R.drawable.mozzarella); // Default image
+        // CRITICAL FIX: Use the image resource directly from the Pizza object
+        // The Pizza object already has the correct image set from the database
+        try {
+            if (pizza.getImageResource() != 0) {
+                holder.ivPizza.setImageResource(pizza.getImageResource());
+            } else {
+                // Only use fallback if no image is set at all
+                holder.ivPizza.setImageResource(R.drawable.mozzarella);
+            }
+        } catch (Exception e) {
+            // If image resource is invalid, use default
+            holder.ivPizza.setImageResource(R.drawable.mozzarella);
         }
+
+        // Click on entire card to view pizza details
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onPizzaClick(pizza);
+            }
+        });
 
         // Add to Cart button - defaults to Medium size
         holder.btnAddToCart.setOnClickListener(v -> {
@@ -63,6 +78,22 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.PizzaViewHol
     @Override
     public int getItemCount() {
         return pizzaList.size();
+    }
+
+    /**
+     * Update the pizza list and refresh the adapter
+     */
+    public void updatePizzaList(List<Pizza> newPizzaList) {
+        this.pizzaList = newPizzaList;
+        notifyDataSetChanged();
+    }
+
+    /**
+     * Clear all pizzas from the list
+     */
+    public void clearPizzas() {
+        this.pizzaList.clear();
+        notifyDataSetChanged();
     }
 
     public static class PizzaViewHolder extends RecyclerView.ViewHolder {

@@ -8,6 +8,10 @@
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\layout\\activity_admin_revenue.xml"
     },
     {
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_gradient_teal.xml.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\gradient_teal.xml"
+    },
+    {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\layout_item_admin_order.xml.flat",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\layout\\item_admin_order.xml"
     },
@@ -28,12 +32,12 @@
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\circle_shape.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\layout_activity_cart.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\layout\\activity_cart.xml"
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_gradient_purple.xml.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\gradient_purple.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_woose.png.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\woose.png"
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\layout_activity_cart.xml.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\layout\\activity_cart.xml"
     },
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_profile_header_background.xml.flat",
@@ -44,8 +48,16 @@
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable-mdpi\\icon.png"
     },
     {
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_gradient_blue.xml.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\gradient_blue.xml"
+    },
+    {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_ic_person.xml.flat",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\ic_person.xml"
+    },
+    {
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_luffalo.jpg.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\luffalo.jpg"
     },
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\layout_listview.xml.flat",
@@ -68,6 +80,10 @@
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\gradient_background.xml"
     },
     {
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_gradient_indigo.xml.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\gradient_indigo.xml"
+    },
+    {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_jalapenopeppers.jpg.flat",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\jalapenopeppers.jpg"
     },
@@ -82,6 +98,10 @@
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\layout_activity_admin_orders.xml.flat",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\layout\\activity_admin_orders.xml"
+    },
+    {
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_ic_lock_power_off.xml.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\ic_lock_power_off.xml"
     },
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_woos.png.flat",
@@ -100,12 +120,12 @@
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\layout\\item_order_item.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable-ldpi_icon.png.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable-ldpi\\icon.png"
-    },
-    {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\layout_item_pizza.xml.flat",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\layout\\item_pizza.xml"
+    },
+    {
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable-ldpi_icon.png.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable-ldpi\\icon.png"
     },
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_ic_back.xml.flat",
@@ -124,12 +144,12 @@
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\layout\\activity_splash.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\layout_item_order_history.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\layout\\item_order_history.xml"
-    },
-    {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_ic_money.xml.flat",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\ic_money.xml"
+    },
+    {
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\layout_item_order_history.xml.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\layout\\item_order_history.xml"
     },
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_greenpeppers.jpg.flat",
@@ -166,6 +186,10 @@
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_exit.png.flat",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\exit.png"
+    },
+    {
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_selected_image_border.xml.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\selected_image_border.xml"
     },
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_mozzarella.jpg.flat",
@@ -240,12 +264,20 @@
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\ic_cart.xml"
     },
     {
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_lcaprese.jpg.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\lcaprese.jpg"
+    },
+    {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_ic_search.xml.flat",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\ic_search.xml"
     },
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_more.png.flat",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\more.png"
+    },
+    {
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_card_bg.xml.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\card_bg.xml"
     },
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_ic_menu.xml.flat",
@@ -296,6 +328,14 @@
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\layout\\topping_item.xml"
     },
     {
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_lbismarkpizza.jpg.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\lbismarkpizza.jpg"
+    },
+    {
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_image_selector_border.xml.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\image_selector_border.xml"
+    },
+    {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_ic_arrow_right.xml.flat",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\ic_arrow_right.xml"
     },
@@ -310,6 +350,10 @@
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_edit_text_background.xml.flat",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\edit_text_background.xml"
+    },
+    {
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_gradient_green.xml.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\gradient_green.xml"
     },
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_ic_pizza.xml.flat",
@@ -334,6 +378,14 @@
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_price_badge.xml.flat",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\price_badge.xml"
+    },
+    {
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_chart_bg.xml.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\chart_bg.xml"
+    },
+    {
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_rounded_corners.xml.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\rounded_corners.xml"
     },
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_mushrooms.jpg.flat",
@@ -376,6 +428,10 @@
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\layout\\item_cart.xml"
     },
     {
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_app.png.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\app.png"
+    },
+    {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_bacon.jpg.flat",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\bacon.jpg"
     },
@@ -392,12 +448,12 @@
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\blackolives.jpg"
     },
     {
-        "merged": "com.delaroystudios.pizza.app-debug-33:/layout_activity_admin_orders.xml.flat",
-        "source": "com.delaroystudios.pizza.app-main-35:/layout/activity_admin_orders.xml"
-    },
-    {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_profile_menu.xml.flat",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\profile_menu.xml"
+    },
+    {
+        "merged": "com.delaroystudios.pizza.app-debug-33:/layout_item_cart.xml.flat",
+        "source": "com.delaroystudios.pizza.app-main-35:/layout/item_cart.xml"
     },
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_ic_history.xml.flat",
@@ -416,12 +472,24 @@
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\ic_empty_orders.xml"
     },
     {
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_gradient_orange.xml.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\gradient_orange.xml"
+    },
+    {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_onion.jpg.flat",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\onion.jpg"
     },
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_chicken.jpg.flat",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\chicken.jpg"
+    },
+    {
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\layout_dialog_select_image.xml.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\layout\\dialog_select_image.xml"
+    },
+    {
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_gradient_pink.xml.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\gradient_pink.xml"
     },
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_shopping.png.flat",
@@ -460,8 +528,20 @@
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\layout\\activity_admin_dashboard.xml"
     },
     {
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_lcalifornia.jpg.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\lcalifornia.jpg"
+    },
+    {
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\layout_activity_pizza_detail.xml.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\layout\\activity_pizza_detail.xml"
+    },
+    {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_ic_location.xml.flat",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\ic_location.xml"
+    },
+    {
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\layout_item_image_selector.xml.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\layout\\item_image_selector.xml"
     },
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\layout_item_admin_pizza.xml.flat",

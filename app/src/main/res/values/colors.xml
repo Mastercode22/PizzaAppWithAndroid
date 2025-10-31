@@ -54,6 +54,7 @@
 	<!-- Background Colors -->
 	<color name="light_gray">#F5F5F5</color>
 	<color name="divider_color">#BDBDBD</color>
+	<color name="bod">#FFFFFF</color>
 	<color name="card_background">#FFFFFF</color>
 
 	<!-- Material Design Colors -->

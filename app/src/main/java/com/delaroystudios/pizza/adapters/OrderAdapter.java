@@ -21,6 +21,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     private OnOrderClickListener onOrderClickListener;
     private boolean isAdminView;
 
+    // FIX: Use consistent status constants that match database queries
+    public static final String STATUS_PENDING = "pending";
+    public static final String STATUS_IN_PROGRESS = "in_progress";
+    public static final String STATUS_COMPLETED = "completed";  // This must match revenue queries
+    public static final String STATUS_CANCELLED = "cancelled";
+
     public interface OnOrderClickListener {
         void onOrderClick(Order order);
         void onUpdateStatus(Order order, String newStatus);
@@ -64,7 +70,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         holder.tvCustomerName.setText(order.getCustomerName());
         holder.tvOrderDate.setText(order.getFormattedOrderDate());
         holder.tvOrderTotal.setText(order.getFormattedTotal());
-        holder.tvOrderStatus.setText(order.getStatusDisplayName());
+        holder.tvOrderStatus.setText(getStatusDisplayName(order.getStatus()));
 
         // Set status color
         int statusColor = getStatusColor(order.getStatus());
@@ -127,11 +133,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     }
 
     private String getNextStatus(String currentStatus) {
-        switch (currentStatus) {
-            case Order.STATUS_PENDING:
-                return Order.STATUS_IN_PROGRESS;
-            case Order.STATUS_IN_PROGRESS:
-                return Order.STATUS_COMPLETED;
+        // FIX: Use the consistent status constants
+        switch (currentStatus.toLowerCase()) {
+            case STATUS_PENDING:
+                return STATUS_IN_PROGRESS;
+            case STATUS_IN_PROGRESS:
+                return STATUS_COMPLETED;  // This will now match revenue queries
             default:
                 return null; // No next status available
         }
@@ -139,24 +146,40 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
 
     private String getStatusButtonText(String status) {
         switch (status) {
-            case Order.STATUS_IN_PROGRESS:
+            case STATUS_IN_PROGRESS:
                 return "Start Preparation";
-            case Order.STATUS_COMPLETED:
+            case STATUS_COMPLETED:
                 return "Mark Complete";
             default:
                 return "Update Status";
         }
     }
 
+    private String getStatusDisplayName(String status) {
+        // FIX: Use consistent status values
+        switch (status.toLowerCase()) {
+            case STATUS_PENDING:
+                return "⏳ Pending";
+            case STATUS_IN_PROGRESS:
+                return "👨‍🍳 In Progress";
+            case STATUS_COMPLETED:
+                return "✅ Completed";
+            case STATUS_CANCELLED:
+                return "❌ Cancelled";
+            default:
+                return status;
+        }
+    }
+
     private int getStatusColor(String status) {
         switch (status.toLowerCase()) {
-            case Order.STATUS_PENDING:
+            case STATUS_PENDING:
                 return context.getResources().getColor(R.color.status_pending);
-            case Order.STATUS_IN_PROGRESS:
+            case STATUS_IN_PROGRESS:
                 return context.getResources().getColor(R.color.status_in_progress);
-            case Order.STATUS_COMPLETED:
+            case STATUS_COMPLETED:
                 return context.getResources().getColor(R.color.status_completed);
-            case Order.STATUS_CANCELLED:
+            case STATUS_CANCELLED:
                 return context.getResources().getColor(R.color.status_cancelled);
             default:
                 return context.getResources().getColor(R.color.secondary_text);
@@ -166,16 +189,16 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     private void setStatusBackground(View itemView, String status) {
         int backgroundColor;
         switch (status.toLowerCase()) {
-            case Order.STATUS_PENDING:
+            case STATUS_PENDING:
                 backgroundColor = context.getResources().getColor(R.color.status_pending_bg);
                 break;
-            case Order.STATUS_IN_PROGRESS:
+            case STATUS_IN_PROGRESS:
                 backgroundColor = context.getResources().getColor(R.color.status_in_progress_bg);
                 break;
-            case Order.STATUS_COMPLETED:
+            case STATUS_COMPLETED:
                 backgroundColor = context.getResources().getColor(R.color.status_completed_bg);
                 break;
-            case Order.STATUS_CANCELLED:
+            case STATUS_CANCELLED:
                 backgroundColor = context.getResources().getColor(R.color.status_cancelled_bg);
                 break;
             default:
@@ -219,4 +242,3 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         }
     }
 }
-

@@ -17,9 +17,12 @@ public class ImageAdapter extends BaseAdapter {
     private Integer[] mImageIds = {
             R.drawable.anchovies,
             R.drawable.bacon,
+            R.drawable.lbismarkpizza,
+            R.drawable.lcaprese,
             R.drawable.bananapepper,
             R.drawable.blackolives,
             R.drawable.chicken,
+            R.drawable.lcalifornia,
             R.drawable.greenpeppers,
             R.drawable.ham,
             R.drawable.jalapenopeppers,

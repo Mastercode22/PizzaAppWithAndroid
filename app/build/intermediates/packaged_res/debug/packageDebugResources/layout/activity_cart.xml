@@ -24,8 +24,8 @@
         android:background="@drawable/circle_background"
         android:backgroundTint="@color/accent_red"
         android:scaleType="centerInside"
-        android:padding="12dp"
         app:tint="@color/white"
+        android:padding="12dp"
         android:layout_gravity="start"/>
 
 

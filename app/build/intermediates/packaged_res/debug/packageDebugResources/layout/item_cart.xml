@@ -20,8 +20,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/pizza_placeholder"
-            android:scaleType="centerCrop"
-            app:cornerRadius="8dp" />
+            android:scaleType="centerCrop" />
 
         <!-- Pizza Details -->
         <LinearLayout
@@ -68,7 +67,7 @@
             android:orientation="vertical"
             android:gravity="center">
 
-            <!-- Quantity Row -->
+            <!-- Quantity Row (Decrease - Quantity - Increase) -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -76,16 +75,24 @@
                 android:gravity="center_vertical"
                 android:layout_marginBottom="8dp">
 
+                <!-- DECREASE BUTTON -->
                 <Button
                     android:id="@+id/btn_decrease"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:text="-"
-                    android:textSize="18sp"
-                    android:background="@drawable/circle_button"
-                    android:backgroundTint="@color/accent_light"
-                    style="?android:attr/borderlessButtonStyle" />
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:background="@drawable/circle_background"
+                    android:backgroundTint="@color/primary_color"
+                    android:padding="0dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp" />
 
+                <!-- QUANTITY DISPLAY -->
                 <TextView
                     android:id="@+id/tv_quantity"
                     android:layout_width="40dp"
@@ -93,32 +100,46 @@
                     android:text="1"
                     android:textSize="16sp"
                     android:textStyle="bold"
+                    android:textColor="@color/primary_text"
                     android:gravity="center"
-                    android:layout_marginHorizontal="8dp" />
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp" />
 
+                <!-- INCREASE BUTTON -->
                 <Button
                     android:id="@+id/btn_increase"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:text="+"
-                    android:textSize="18sp"
-                    android:background="@drawable/circle_button"
-                    android:backgroundTint="@color/primary_color"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
                     android:textColor="@color/white"
-                    style="?android:attr/borderlessButtonStyle" />
+                    android:background="@drawable/circle_background"
+                    android:backgroundTint="@color/primary_color"
+                    android:padding="0dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp" />
 
             </LinearLayout>
 
-            <!-- Remove Button -->
+            <!-- REMOVE BUTTON -->
             <Button
                 android:id="@+id/btn_remove"
                 android:layout_width="wrap_content"
-                android:layout_height="24dp"
+                android:layout_height="32dp"
                 android:text="Remove"
                 android:textSize="12sp"
-                android:textColor="@color/error_color"
-                android:background="?android:attr/selectableItemBackground"
-                style="?android:attr/borderlessButtonStyle" />
+                android:textColor="@color/white"
+                android:background="@drawable/rounded_corners"
+                android:backgroundTint="@color/accent_red"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp" />
 
         </LinearLayout>
 

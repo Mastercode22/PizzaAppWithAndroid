@@ -53,11 +53,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
         CartItem item = cartItems.get(position);
 
-        // Fetch pizza details from database
+        // Fetch pizza details from database INCLUDING image_resource
         SQLiteDatabase db = database.getReadableDatabase();
 
-        // Query to get all necessary information
-        String query = "SELECT p." + PIZZA_NAME + ", p." + BASE_PRICE + ", " +
+        // Updated query to include image_resource from pizzas table
+        String query = "SELECT p." + PIZZA_NAME + ", p." + BASE_PRICE + ", p.image_resource, " +
                 "s." + SIZE_NAME + ", s." + PRICE_MULTIPLIER + ", " +
                 "c." + CRUST_NAME + ", c." + ADDITIONAL_PRICE +
                 " FROM " + PIZZAS_TABLE + " p " +
@@ -76,10 +76,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 // Get data from cursor
                 String pizzaName = cursor.getString(0);
                 double basePrice = cursor.getDouble(1);
-                String sizeName = cursor.getString(2);
-                double sizeMultiplier = cursor.getDouble(3);
-                String crustName = cursor.getString(4);
-                double crustPrice = cursor.getDouble(5);
+                int imageResource = cursor.getInt(2);
+                String sizeName = cursor.getString(3);
+                double sizeMultiplier = cursor.getDouble(4);
+                String crustName = cursor.getString(5);
+                double crustPrice = cursor.getDouble(6);
 
                 // Calculate final price
                 double itemPrice = (basePrice * sizeMultiplier) + crustPrice;
@@ -93,45 +94,65 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 // Set price
                 holder.tvPizzaPrice.setText("GHS " + String.format("%.2f", itemPrice));
 
-                // Set pizza image based on name
-                holder.ivPizza.setImageResource(getPizzaImageResource(pizzaName));
+                // Set the ACTUAL pizza image from database
+                if (imageResource != 0) {
+                    holder.ivPizza.setImageResource(imageResource);
+                } else {
+                    // Fallback only if no image is stored
+                    holder.ivPizza.setImageResource(R.drawable.mozzarella);
+                    Log.w(TAG, "No image resource found for pizza: " + pizzaName);
+                }
 
                 // Set quantity
                 holder.tvQuantity.setText(String.valueOf(item.getQuantity()));
 
-                // Increase quantity button
-                holder.btnIncrease.setOnClickListener(v -> {
-                    int currentPos = holder.getAdapterPosition();
-                    if (currentPos != RecyclerView.NO_POSITION) {
-                        CartItem currentItem = cartItems.get(currentPos);
-                        listener.onUpdateQuantity(currentItem, currentItem.getQuantity() + 1);
-                    }
-                });
+                // Only set up click listeners if listener is not null (i.e., not in checkout)
+                if (listener != null) {
+                    // Increase quantity button
+                    holder.btnIncrease.setOnClickListener(v -> {
+                        int currentPos = holder.getAdapterPosition();
+                        if (currentPos != RecyclerView.NO_POSITION) {
+                            CartItem currentItem = cartItems.get(currentPos);
+                            listener.onUpdateQuantity(currentItem, currentItem.getQuantity() + 1);
+                        }
+                    });
 
-                // Decrease quantity button
-                holder.btnDecrease.setOnClickListener(v -> {
-                    int currentPos = holder.getAdapterPosition();
-                    if (currentPos != RecyclerView.NO_POSITION) {
-                        CartItem currentItem = cartItems.get(currentPos);
-                        if (currentItem.getQuantity() > 1) {
-                            listener.onUpdateQuantity(currentItem, currentItem.getQuantity() - 1);
-                        } else {
+                    // Decrease quantity button
+                    holder.btnDecrease.setOnClickListener(v -> {
+                        int currentPos = holder.getAdapterPosition();
+                        if (currentPos != RecyclerView.NO_POSITION) {
+                            CartItem currentItem = cartItems.get(currentPos);
+                            if (currentItem.getQuantity() > 1) {
+                                listener.onUpdateQuantity(currentItem, currentItem.getQuantity() - 1);
+                            } else {
+                                listener.onRemoveItem(currentItem);
+                            }
+                        }
+                    });
+
+                    // Remove button
+                    holder.btnRemove.setOnClickListener(v -> {
+                        int currentPos = holder.getAdapterPosition();
+                        if (currentPos != RecyclerView.NO_POSITION) {
+                            CartItem currentItem = cartItems.get(currentPos);
                             listener.onRemoveItem(currentItem);
                         }
-                    }
-                });
+                    });
 
-                // Remove button
-                holder.btnRemove.setOnClickListener(v -> {
-                    int currentPos = holder.getAdapterPosition();
-                    if (currentPos != RecyclerView.NO_POSITION) {
-                        CartItem currentItem = cartItems.get(currentPos);
-                        listener.onRemoveItem(currentItem);
-                    }
-                });
+                    // Make buttons visible and enabled
+                    holder.btnIncrease.setVisibility(View.VISIBLE);
+                    holder.btnDecrease.setVisibility(View.VISIBLE);
+                    holder.btnRemove.setVisibility(View.VISIBLE);
+                } else {
+                    // Hide buttons in checkout view
+                    holder.btnIncrease.setVisibility(View.GONE);
+                    holder.btnDecrease.setVisibility(View.GONE);
+                    holder.btnRemove.setVisibility(View.GONE);
+                }
 
             } catch (Exception e) {
                 Log.e(TAG, "Error binding cart item: " + e.getMessage());
+                e.printStackTrace();
             } finally {
                 cursor.close();
             }
@@ -141,23 +162,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             }
             Log.e(TAG, "Failed to load cart item details for pizza ID: " + item.getPizzaId());
         }
-    }
-
-    private int getPizzaImageResource(String pizzaName) {
-        String name = pizzaName.toLowerCase();
-
-        if (name.contains("margherita")) return R.drawable.mozzarella;
-        if (name.contains("pepperoni")) return R.drawable.pepperoni;
-        if (name.contains("hawaiian") || name.contains("pineapple") || name.contains("ocean"))
-            return R.drawable.pineapple;
-        if (name.contains("chicken")) return R.drawable.chicken;
-        if (name.contains("veggie") || name.contains("vegetarian")) return R.drawable.greenpeppers;
-        if (name.contains("mushroom")) return R.drawable.mushrooms;
-        if (name.contains("bbq") || name.contains("bacon")) return R.drawable.bacon;
-        if (name.contains("sausage") || name.contains("meat")) return R.drawable.sausage;
-        if (name.contains("chilli") || name.contains("supreme")) return R.drawable.greenpeppers;
-
-        return R.drawable.mozzarella; // Default image
     }
 
     @Override
@@ -177,6 +181,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             tvPizzaDetails = itemView.findViewById(R.id.tv_pizza_details);
             tvPizzaPrice = itemView.findViewById(R.id.tv_pizza_price);
             tvQuantity = itemView.findViewById(R.id.tv_quantity);
+
+            // CRITICAL FIX: Initialize the buttons!
             btnIncrease = itemView.findViewById(R.id.btn_increase);
             btnDecrease = itemView.findViewById(R.id.btn_decrease);
             btnRemove = itemView.findViewById(R.id.btn_remove);

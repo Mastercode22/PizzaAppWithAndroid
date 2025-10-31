@@ -1,11 +1,14 @@
 package com.delaroystudios.pizza.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,7 +18,6 @@ import com.delaroystudios.pizza.adapters.OrderItemAdapter;
 import com.delaroystudios.pizza.models.OrderItem;
 import com.delaroystudios.pizza.database.PizzaData;
 import com.delaroystudios.pizza.models.Order;
-import com.delaroystudios.pizza.models.OrderItem;
 import com.delaroystudios.pizza.utils.SessionManager;
 
 import java.util.ArrayList;
@@ -29,6 +31,7 @@ public class OrderDetailActivity extends Activity {
     private TextView tvCustomerPhone, tvDeliveryAddress, tvSpecialInstructions;
     private TextView tvSubtotal, tvTax, tvTotal;
     private RecyclerView rvOrderItems;
+    private Button btnUpdateStatus;
 
     private PizzaData database;
     private SessionManager sessionManager;
@@ -46,6 +49,7 @@ public class OrderDetailActivity extends Activity {
 
         orderId = getIntent().getIntExtra("order_id", -1);
         if (orderId == -1) {
+            Toast.makeText(this, "Invalid order", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
@@ -67,8 +71,12 @@ public class OrderDetailActivity extends Activity {
         tvTax = findViewById(R.id.tv_tax);
         tvTotal = findViewById(R.id.tv_total);
         rvOrderItems = findViewById(R.id.rv_order_items);
+        btnUpdateStatus = findViewById(R.id.btn_update_status);
 
         findViewById(R.id.btn_back).setOnClickListener(v -> finish());
+
+        // Update status button click
+        btnUpdateStatus.setOnClickListener(v -> showUpdateStatusDialog());
     }
 
     private void loadOrderDetails() {
@@ -90,6 +98,9 @@ public class OrderDetailActivity extends Activity {
             currentOrder.setTotalAmount(cursor.getDouble(cursor.getColumnIndex(TOTAL_AMOUNT)));
 
             updateUI();
+        } else {
+            Toast.makeText(this, "Order not found", Toast.LENGTH_SHORT).show();
+            finish();
         }
         cursor.close();
     }
@@ -122,6 +133,78 @@ public class OrderDetailActivity extends Activity {
         tvSubtotal.setText(String.format("GHS %.2f", subtotal));
         tvTax.setText(String.format("GHS %.2f", tax));
         tvTotal.setText(String.format("GHS %.2f", total));
+
+        // Update button based on status
+        updateStatusButton();
+    }
+
+    private void updateStatusButton() {
+        String status = currentOrder.getStatus().toLowerCase().trim();
+
+        // Hide button for completed or cancelled orders
+        if (status.equals("completed") || status.equals("cancelled")) {
+            btnUpdateStatus.setVisibility(View.GONE);
+        } else {
+            btnUpdateStatus.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void showUpdateStatusDialog() {
+        String currentStatus = currentOrder.getStatus().toLowerCase().trim();
+
+        // Options based on current status
+        final String[] options;
+        final String[] values;
+
+        if (currentStatus.equals("pending")) {
+            options = new String[]{"Mark as In Progress", "Cancel Order"};
+            values = new String[]{"in_progress", "cancelled"};
+        } else if (currentStatus.equals("in_progress")) {
+            options = new String[]{"Mark as Completed", "Cancel Order"};
+            values = new String[]{"completed", "cancelled"};
+        } else {
+            Toast.makeText(this, "Cannot update this order", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Update Order Status");
+        builder.setItems(options, (dialog, which) -> {
+            updateStatus(values[which]);
+        });
+        builder.setNegativeButton("Cancel", null);
+        builder.show();
+    }
+
+    private void updateStatus(String newStatus) {
+        try {
+            boolean success = database.updateOrderStatus(orderId, newStatus);
+
+            if (success) {
+                currentOrder.setStatus(newStatus);
+                updateUI();
+                Toast.makeText(this, "Order updated to " + getStatusName(newStatus),
+                        Toast.LENGTH_SHORT).show();
+
+                // Notify previous activity
+                setResult(RESULT_OK);
+            } else {
+                Toast.makeText(this, "Failed to update status", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+    private String getStatusName(String status) {
+        switch (status.toLowerCase()) {
+            case "pending": return "Pending";
+            case "in_progress": return "In Progress";
+            case "completed": return "Completed";
+            case "cancelled": return "Cancelled";
+            default: return status;
+        }
     }
 
     private void loadOrderItems() {

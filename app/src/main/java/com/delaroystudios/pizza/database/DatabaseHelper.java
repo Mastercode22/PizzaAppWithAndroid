@@ -7,8 +7,11 @@ import android.database.sqlite.SQLiteDatabase;
 import com.delaroystudios.pizza.models.Order;
 import com.delaroystudios.pizza.models.OrderItem;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import static com.delaroystudios.pizza.database.Constants.*;
 
@@ -107,16 +110,109 @@ public class DatabaseHelper {
         return rowsAffected > 0;
     }
 
+    // FIXED: Proper implementation for today's order count (ALL orders for today)
     public int getTodayOrderCount() {
-        // Implementation for getting today's order count
-        // You'll need to implement this based on your date format
-        return 0; // Placeholder
+        SQLiteDatabase db = pizzaData.getReadableDatabase();
+        String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+
+        Cursor cursor = db.rawQuery(
+                "SELECT COUNT(*) FROM " + ORDERS_TABLE +
+                        " WHERE DATE(" + ORDER_DATE + ") = ?",
+                new String[]{today}
+        );
+
+        int count = 0;
+        if (cursor.moveToFirst()) {
+            count = cursor.getInt(0);
+        }
+        cursor.close();
+        return count;
     }
 
+    // FIXED: Proper implementation for today's revenue (ONLY COMPLETED orders)
     public double getTodayRevenue() {
-        // Implementation for getting today's revenue
-        // You'll need to implement this based on your date format
-        return 0.0; // Placeholder
+        SQLiteDatabase db = pizzaData.getReadableDatabase();
+        String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+
+        Cursor cursor = db.rawQuery(
+                "SELECT SUM(" + TOTAL_AMOUNT + ") FROM " + ORDERS_TABLE +
+                        " WHERE DATE(" + ORDER_DATE + ") = ?" +
+                        " AND " + STATUS + " = '" + STATUS_COMPLETED + "'",
+                new String[]{today}
+        );
+
+        double revenue = 0.0;
+        if (cursor.moveToFirst() && !cursor.isNull(0)) {
+            revenue = cursor.getDouble(0);
+        }
+        cursor.close();
+        return revenue;
+    }
+
+    // FIXED: Get total revenue (ONLY COMPLETED orders)
+    public double getTotalRevenue() {
+        SQLiteDatabase db = pizzaData.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT SUM(" + TOTAL_AMOUNT + ") FROM " + ORDERS_TABLE +
+                        " WHERE " + STATUS + " = '" + STATUS_COMPLETED + "'",
+                null
+        );
+
+        double revenue = 0.0;
+        if (cursor.moveToFirst() && !cursor.isNull(0)) {
+            revenue = cursor.getDouble(0);
+        }
+        cursor.close();
+        return revenue;
+    }
+
+    // FIXED: Get week revenue (ONLY COMPLETED orders)
+    public double getWeekRevenue() {
+        SQLiteDatabase db = pizzaData.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT SUM(" + TOTAL_AMOUNT + ") FROM " + ORDERS_TABLE +
+                        " WHERE DATE(" + ORDER_DATE + ") >= DATE('now', '-7 days')" +
+                        " AND " + STATUS + " = '" + STATUS_COMPLETED + "'",
+                null
+        );
+
+        double revenue = 0.0;
+        if (cursor.moveToFirst() && !cursor.isNull(0)) {
+            revenue = cursor.getDouble(0);
+        }
+        cursor.close();
+        return revenue;
+    }
+
+    // FIXED: Get total orders count (ALL orders)
+    public int getTotalOrderCount() {
+        SQLiteDatabase db = pizzaData.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT COUNT(*) FROM " + ORDERS_TABLE,
+                null
+        );
+
+        int count = 0;
+        if (cursor.moveToFirst()) {
+            count = cursor.getInt(0);
+        }
+        cursor.close();
+        return count;
+    }
+
+    // FIXED: Get completed orders count
+    public int getCompletedOrderCount() {
+        SQLiteDatabase db = pizzaData.getReadableDatabase();
+        String selection = STATUS + "=?";
+        String[] selectionArgs = {STATUS_COMPLETED};
+
+        Cursor cursor = db.query(ORDERS_TABLE, null, selection, selectionArgs, null, null, null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
     }
 
     public int getPendingOrderCount() {
@@ -128,6 +224,39 @@ public class DatabaseHelper {
         int count = cursor.getCount();
         cursor.close();
         return count;
+    }
+
+    // NEW: Debug method to check order statuses
+    public void debugOrderStatuses() {
+        SQLiteDatabase db = pizzaData.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT " + STATUS + ", COUNT(*) as count FROM " + ORDERS_TABLE +
+                        " GROUP BY " + STATUS,
+                null
+        );
+
+        System.out.println("=== ORDER STATUS DISTRIBUTION ===");
+        while (cursor.moveToNext()) {
+            String status = cursor.getString(0);
+            int count = cursor.getInt(1);
+            System.out.println(status + ": " + count + " orders");
+        }
+        cursor.close();
+
+        // Check if we have any completed orders with revenue
+        Cursor completedCursor = db.rawQuery(
+                "SELECT COUNT(*) FROM " + ORDERS_TABLE +
+                        " WHERE " + STATUS + " = '" + STATUS_COMPLETED + "'" +
+                        " AND " + TOTAL_AMOUNT + " > 0",
+                null
+        );
+
+        if (completedCursor.moveToFirst()) {
+            int completedWithRevenue = completedCursor.getInt(0);
+            System.out.println("Completed orders with revenue > 0: " + completedWithRevenue);
+        }
+        completedCursor.close();
     }
 
     public void close() {

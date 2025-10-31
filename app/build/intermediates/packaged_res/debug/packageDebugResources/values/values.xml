@@ -41,6 +41,7 @@
     <color name="admin_primary_dark">#B71C1C</color>
     <color name="app_background">#FFFFFF</color>
     <color name="background_light">#F5F5F5</color>
+    <color name="bod">#FFFFFF</color>
     <color name="card_background">#FFFFFF</color>
     <color name="colorAccent">@color/accent_color</color>
     <color name="colorPrimary">@color/primary_color</color>
@@ -76,7 +77,7 @@ To remove the item, simply click the picture again. Once all the items have been
     <string name="admin_login">Admin Login</string>
     <string name="all_pizzas">All</string>
     <string name="already_have_an_account_sign_in">Already have an account? Sign in</string>
-    <string name="app_name">Pizza Parlor</string>
+    <string name="app_name">Pizza Point</string>
     <string name="back">Back</string>
     <string name="cancel_label">Cancel Order</string>
     <string name="change_password">Change Password</string>

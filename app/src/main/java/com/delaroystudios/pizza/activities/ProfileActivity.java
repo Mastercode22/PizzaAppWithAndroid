@@ -17,7 +17,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ImageButton; // Import ImageButton
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -39,7 +39,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private Button btnUpdateProfile, btnChangePassword, btnLogout;
     private LinearLayout llViewOrderHistory;
     private SwitchCompat switchDarkMode;
-    private ImageButton btnBack; // NEW: Declare ImageButton
+    private ImageButton btnBack;
 
     private PizzaData database;
     private SessionManager sessionManager;
@@ -49,6 +49,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         // Apply theme preference before calling super.onCreate()
         sessionManager = new SessionManager(this); // Initialize sessionManager early to check preference
+
+        // ** THEME CONTROL: Apply user's saved preference (Dark Mode or Light Mode) **
         if (sessionManager.isDarkModeEnabled()) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
@@ -59,7 +61,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.activity_profile);
 
         database = new PizzaData(this);
-        // sessionManager is already initialized above
 
         currentUser = sessionManager.getCurrentUser();
 
@@ -73,35 +74,29 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         initViews();
         setupClickListeners();
         loadUserData();
-        setupDarkModeSwitch(); // Setup the dark mode logic
+        setupDarkModeSwitch();
     }
 
     private void initViews() {
-        // --- Profile Display Views (Header) ---
         tvUsername = findViewById(R.id.tv_username);
         tvEmail = findViewById(R.id.tv_email);
 
-        // --- Profile Edit Views (Input fields) ---
         etFullName = findViewById(R.id.et_full_name);
         etEmail = findViewById(R.id.et_email);
         etPhone = findViewById(R.id.et_phone);
         etAddress = findViewById(R.id.et_address);
 
-        // --- Buttons & Interactive Layouts ---
         btnUpdateProfile = findViewById(R.id.btn_update_profile);
         btnChangePassword = findViewById(R.id.btn_change_password);
         llViewOrderHistory = findViewById(R.id.btn_orders);
         btnLogout = findViewById(R.id.btn_logout);
 
-        // NEW: Initialize the back button
         btnBack = findViewById(R.id.btn_back);
 
-        // --- Dark Mode Switch ---
         switchDarkMode = findViewById(R.id.switch_dark_mode);
     }
 
     private void setupClickListeners() {
-        // NEW: Add click listener for the back button
         btnBack.setOnClickListener(this);
 
         btnUpdateProfile.setOnClickListener(this);
@@ -111,11 +106,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void loadUserData() {
-        // Populate display TextViews
         tvUsername.setText(sessionManager.getUserName());
         tvEmail.setText(currentUser.getEmail());
 
-        // Populate the editable EditText fields
         etFullName.setText(currentUser.getFullName());
         etEmail.setText(currentUser.getEmail());
         etPhone.setText(currentUser.getPhone());
@@ -134,14 +127,14 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 // 3. Save the new preference
                 sessionManager.setDarkModeEnabled(isChecked);
 
-                // 4. Apply the new theme (immediately for smooth transition)
+                // 4. Apply the new theme
                 if (isChecked) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 }
 
-                // 5. Restart the current activity for theme change to take full effect
+                // 5. Restart the current activity
                 recreate();
             }
         });
@@ -151,9 +144,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         int viewId = v.getId();
 
-        // NEW: Handle the back button click
         if (viewId == R.id.btn_back) {
-            // Navigate back to the previous activity (which should be PizzaMenuActivity)
             finish();
         } else if (viewId == R.id.btn_update_profile) {
             updateProfile();
@@ -166,15 +157,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    // ... (rest of the class methods remain unchanged)
-
     private void updateProfile() {
         String fullName = etFullName.getText().toString().trim();
         String email = etEmail.getText().toString().trim();
         String phone = etPhone.getText().toString().trim();
         String address = etAddress.getText().toString().trim();
 
-        // Validation
         if (TextUtils.isEmpty(fullName)) {
             etFullName.setError("Full name cannot be empty");
             etFullName.requestFocus();
@@ -193,7 +181,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             return;
         }
 
-        // Update database
         SQLiteDatabase db = database.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(FULL_NAME, fullName);
@@ -207,16 +194,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         int rowsUpdated = db.update(USERS_TABLE, values, whereClause, whereArgs);
 
         if (rowsUpdated > 0) {
-            // Update current user object
             currentUser.setFullName(fullName);
             currentUser.setEmail(email);
             currentUser.setPhone(phone);
             currentUser.setAddress(address);
 
-            // Update session
             sessionManager.updateUserProfile(currentUser);
 
-            // Update display TextViews immediately
             tvUsername.setText(fullName);
             tvEmail.setText(email);
 
@@ -228,7 +212,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     private void showChangePasswordDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        // Ensure you have R.layout.dialog_change_password
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_change_password, null);
 
         EditText etCurrentPassword = dialogView.findViewById(R.id.et_current_password);
@@ -252,7 +235,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void changePassword(String currentPassword, String newPassword, String confirmPassword) {
-        // Validate passwords
         if (TextUtils.isEmpty(currentPassword) || TextUtils.isEmpty(newPassword) || TextUtils.isEmpty(confirmPassword)) {
             Toast.makeText(this, "All password fields are required", Toast.LENGTH_SHORT).show();
             return;
@@ -268,7 +250,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             return;
         }
 
-        // Verify current password
         SQLiteDatabase db = database.getReadableDatabase();
         String selection = USER_ID + "=?";
         String[] selectionArgs = {String.valueOf(currentUser.getUserId())};
@@ -280,14 +261,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             String storedPassword = cursor.getString(cursor.getColumnIndexOrThrow(PASSWORD_HASH));
             cursor.close();
 
-            // NOTE: This assumes the stored password is the plain text current password.
-            // In a real app, you should use hashing (like bcrypt) for security.
             if (!storedPassword.equals(currentPassword)) {
                 Toast.makeText(this, "Current password is incorrect", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            // Update password
             ContentValues values = new ContentValues();
             values.put(PASSWORD_HASH, newPassword);
 
@@ -319,12 +297,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void logout() {
-        // Clear session
         sessionManager.logoutUser();
 
         Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show();
 
-        // Redirect to login and clear activity stack
+        // Redirect to login. LoginActivity is responsible for ensuring it starts in Light Mode.
         Intent intent = new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);

@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:2:1-136:12
-INJECTED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:2:1-136:12
-INJECTED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:2:1-136:12
-INJECTED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:2:1-136:12
+ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:2:1-141:12
+INJECTED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:2:1-141:12
+INJECTED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:2:1-141:12
+INJECTED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:2:1-141:12
 MERGED from [com.google.android.material:material:1.10.0] C:\Users\user\.gradle\caches\8.9\transforms\b75861bd7b64a84cb8186dd2cb997b05\transformed\material-1.10.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\user\.gradle\caches\8.9\transforms\7327455338dff4560c262aa7ae95e453\transformed\constraintlayout-2.1.4\AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.appcompat:appcompat-resources:1.6.1] C:\Users\user\.gradle\caches\8.9\transforms\b897aecef1a4d4ea8c206245b0ba6ada\transformed\jetified-appcompat-resources-1.6.1\AndroidManifest.xml:17:1-22:12
@@ -74,8 +74,8 @@ ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:7
 	android:name
 		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:7:22-66
 application
-ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:9:5-134:19
-INJECTED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:9:5-134:19
+ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:9:5-139:19
+INJECTED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:9:5-139:19
 MERGED from [com.google.android.material:material:1.10.0] C:\Users\user\.gradle\caches\8.9\transforms\b75861bd7b64a84cb8186dd2cb997b05\transformed\material-1.10.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.10.0] C:\Users\user\.gradle\caches\8.9\transforms\b75861bd7b64a84cb8186dd2cb997b05\transformed\material-1.10.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\user\.gradle\caches\8.9\transforms\7327455338dff4560c262aa7ae95e453\transformed\constraintlayout-2.1.4\AndroidManifest.xml:9:5-20
@@ -101,7 +101,7 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\user\.gradle\cache
 	tools:targetApi
 		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:14:9-29
 	android:icon
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:11:9-38
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:11:9-37
 	android:allowBackup
 		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:10:9-35
 	android:theme
@@ -158,150 +158,158 @@ ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:4
 		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:45:13-37
 	android:name
 		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:44:13-84
+activity#com.delaroystudios.pizza.activities.PizzaDetailActivity
+ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:48:9-51:52
+	android:screenOrientation
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:51:13-49
+	android:exported
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:50:13-37
+	android:name
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:49:13-59
 activity#com.delaroystudios.pizza.activities.AdminSettingsActivity
-ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:49:9-52:52
+ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:54:9-57:52
 	android:screenOrientation
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:52:13-49
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:57:13-49
 	android:exported
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:51:13-37
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:56:13-37
 	android:name
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:50:13-85
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:55:13-85
 activity#com.delaroystudios.pizza.activities.RegisterActivity
-ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:56:9-60:52
+ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:61:9-65:52
 	android:screenOrientation
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:60:13-49
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:65:13-49
 	android:parentActivityName
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:59:13-91
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:64:13-91
 	android:exported
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:58:13-37
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:63:13-37
 	android:name
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:57:13-80
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:62:13-80
 activity#com.delaroystudios.pizza.activities.PizzaMenuActivity
-ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:62:9-66:52
+ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:67:9-71:52
 	android:screenOrientation
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:66:13-49
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:71:13-49
 	android:exported
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:64:13-37
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:69:13-37
 	android:theme
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:65:13-65
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:70:13-65
 	android:name
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:63:13-81
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:68:13-81
 activity#com.delaroystudios.pizza.activities.PizzaCustomizeActivity
-ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:68:9-73:52
+ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:73:9-78:52
 	android:screenOrientation
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:73:13-49
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:78:13-49
 	android:parentActivityName
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:71:13-95
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:76:13-95
 	android:exported
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:70:13-37
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:75:13-37
 	android:theme
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:72:13-65
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:77:13-65
 	android:name
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:69:13-86
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:74:13-86
 activity#com.delaroystudios.pizza.activities.ProfileActivity
-ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:75:9-81:82
+ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:80:9-86:82
 	android:screenOrientation
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:80:13-49
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:85:13-49
 	android:parentActivityName
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:78:13-95
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:83:13-95
 	android:exported
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:77:13-37
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:82:13-37
 	android:configChanges
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:86:13-79
+	android:theme
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:84:13-65
+	android:name
 		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:81:13-79
-	android:theme
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:79:13-65
-	android:name
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:76:13-79
 activity#com.delaroystudios.pizza.activities.OrderHistoryActivity
-ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:81:83-86:48
+ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:86:83-91:48
 	android:screenOrientation
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:86:9-45
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:91:9-45
 	android:parentActivityName
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:84:9-89
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:89:9-89
 	android:exported
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:83:9-33
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:88:9-33
 	android:theme
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:85:9-61
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:90:9-61
 	android:name
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:82:9-80
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:87:9-80
 activity#com.delaroystudios.pizza.activities.OrderDetailActivity
-ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:88:9-93:52
+ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:93:9-98:52
 	android:screenOrientation
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:93:13-49
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:98:13-49
 	android:parentActivityName
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:91:13-98
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:96:13-98
 	android:exported
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:90:13-37
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:95:13-37
 	android:theme
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:92:13-65
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:97:13-65
 	android:name
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:89:13-83
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:94:13-83
 activity#com.delaroystudios.pizza.activities.CartActivity
-ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:95:9-100:52
+ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:100:9-105:52
 	android:screenOrientation
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:100:13-49
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:105:13-49
 	android:parentActivityName
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:98:13-95
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:103:13-95
 	android:exported
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:97:13-37
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:102:13-37
 	android:theme
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:99:13-65
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:104:13-65
 	android:name
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:96:13-76
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:101:13-76
 activity#com.delaroystudios.pizza.activities.CheckoutActivity
-ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:102:9-107:52
-	android:screenOrientation
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:107:13-49
-	android:parentActivityName
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:105:13-90
-	android:exported
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:104:13-37
-	android:theme
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:106:13-65
-	android:name
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:103:13-80
-activity#com.delaroystudios.pizza.activities.AdminLoginActivity
-ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:109:9-112:52
+ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:107:9-112:52
 	android:screenOrientation
 		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:112:13-49
+	android:parentActivityName
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:110:13-90
 	android:exported
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:111:13-37
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:109:13-37
+	android:theme
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:111:13-65
 	android:name
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:110:13-82
-activity#com.delaroystudios.pizza.activities.AdminDashboardActivity
-ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:114:9-118:52
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:108:13-80
+activity#com.delaroystudios.pizza.activities.AdminLoginActivity
+ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:114:9-117:52
 	android:screenOrientation
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:118:13-49
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:117:13-49
 	android:exported
 		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:116:13-37
-	android:theme
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:117:13-59
 	android:name
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:115:13-86
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:115:13-82
+activity#com.delaroystudios.pizza.activities.AdminDashboardActivity
+ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:119:9-123:52
+	android:screenOrientation
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:123:13-49
+	android:exported
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:121:13-37
+	android:theme
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:122:13-59
+	android:name
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:120:13-86
 activity#com.delaroystudios.pizza.activities.AdminOrdersActivity
-ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:120:9-125:52
+ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:125:9-130:52
 	android:screenOrientation
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:125:13-49
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:130:13-49
 	android:parentActivityName
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:123:13-100
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:128:13-100
 	android:exported
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:122:13-37
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:127:13-37
 	android:theme
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:124:13-59
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:129:13-59
 	android:name
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:121:13-83
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:126:13-83
 activity#com.delaroystudios.pizza.activities.AdminOrderDetailActivity
-ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:127:9-132:52
+ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:132:9-137:52
 	android:screenOrientation
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:132:13-49
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:137:13-49
 	android:parentActivityName
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:130:13-97
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:135:13-97
 	android:exported
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:129:13-37
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:134:13-37
 	android:theme
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:131:13-59
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:136:13-59
 	android:name
-		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:128:13-88
+		ADDED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml:133:13-88
 uses-sdk
 INJECTED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\user\Desktop\AndroidPizza\app\src\main\AndroidManifest.xml
