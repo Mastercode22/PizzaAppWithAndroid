@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ import com.delaroystudios.pizza.models.Order;
 import com.google.android.material.navigation.NavigationView;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -43,6 +45,11 @@ public class AdminDashboardActivity extends AppCompatActivity implements
     private TextView tvTotalOrders, tvTotalRevenue, tvPendingOrders;
     private TextView tvTodayOrders, tvWeekRevenue, tvTotalCustomers;
     private TextView tvViewAllReports, tvViewAllOrders;
+
+    // Revenue Goal Tracker Components (NEW)
+    private TextView tvActualRevenue, tvTargetRevenue, tvProgressPercentage;
+    private ProgressBar progressBarGoal;
+
     private RecyclerView rvRecentOrders;
     private WebView webViewChart;
     private ImageButton btnRefresh, btnMenu;
@@ -54,6 +61,9 @@ public class AdminDashboardActivity extends AppCompatActivity implements
     // Sidebar components
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+
+    // Revenue Goal Constant (NEW)
+    private static final float MONTHLY_TARGET = 5000f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +99,12 @@ public class AdminDashboardActivity extends AppCompatActivity implements
         tvViewAllOrders = findViewById(R.id.tv_view_all_orders);
         btnRefresh = findViewById(R.id.btn_refresh);
         btnMenu = findViewById(R.id.btn_menu);
+
+        // Initialize Revenue Goal Tracker Components (NEW)
+        tvActualRevenue = findViewById(R.id.tv_actual_revenue);
+        tvTargetRevenue = findViewById(R.id.tv_target_revenue);
+        tvProgressPercentage = findViewById(R.id.tv_progress_percentage);
+        progressBarGoal = findViewById(R.id.progress_bar_goal);
 
         // Initialize RecyclerView and WebView
         rvRecentOrders = findViewById(R.id.rv_recent_orders);
@@ -377,6 +393,14 @@ public class AdminDashboardActivity extends AppCompatActivity implements
         double weekRevenue = (weekRevenueCursor.moveToFirst() && !weekRevenueCursor.isNull(0)) ? weekRevenueCursor.getDouble(0) : 0.0;
         weekRevenueCursor.close();
 
+        // Month Revenue (ONLY COMPLETED ORDERS) - NEW
+        String monthStart = getFirstDayOfCurrentMonth();
+        Cursor monthRevenueCursor = db.rawQuery("SELECT SUM(" + TOTAL_AMOUNT + ") FROM " + ORDERS_TABLE +
+                " WHERE DATE(" + ORDER_DATE + ") >= ? AND DATE(" + ORDER_DATE + ") <= ?" +
+                " AND " + STATUS + " = '" + STATUS_COMPLETED + "'", new String[]{monthStart, today});
+        double monthRevenue = (monthRevenueCursor.moveToFirst() && !monthRevenueCursor.isNull(0)) ? monthRevenueCursor.getDouble(0) : 0.0;
+        monthRevenueCursor.close();
+
         // Pending Orders
         int pendingOrders = databaseHelper.getPendingOrderCount();
 
@@ -392,6 +416,121 @@ public class AdminDashboardActivity extends AppCompatActivity implements
         animateTextChange(tvWeekRevenue, String.format("GHS %.2f", weekRevenue));
         animateTextChange(tvPendingOrders, String.valueOf(pendingOrders));
         animateTextChange(tvTotalCustomers, String.valueOf(totalCustomers));
+
+        // Update Revenue Goal Tracker (NEW)
+        updateRevenueGoalTracker(monthRevenue);
+    }
+
+    /**
+     * Gets the first day of the current month in yyyy-MM-dd format (NEW)
+     */
+    private String getFirstDayOfCurrentMonth() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        return sdf.format(calendar.getTime());
+    }
+
+    /**
+     * Updates the Revenue Goal Tracker with current month's revenue
+     * @param actualRevenue The actual revenue for the current month
+     */
+    private void updateRevenueGoalTracker(double actualRevenue) {
+        // Convert to float for calculations
+        float actualRevenueFloat = (float) actualRevenue;
+
+        // Calculate percentage
+        float percentageComplete = (actualRevenueFloat / MONTHLY_TARGET) * 100f;
+        int progressInt = Math.min((int) percentageComplete, 100); // Cap at 100%
+
+        // Update Actual Revenue TextView
+        tvActualRevenue.setText(String.format(Locale.getDefault(), "GHS %.2f", actualRevenueFloat));
+
+        // Update Target Revenue TextView
+        tvTargetRevenue.setText(String.format(Locale.getDefault(), "Target: GHS %.2f", MONTHLY_TARGET));
+
+        // Update ProgressBar
+        progressBarGoal.setMax(100);
+
+        // DYNAMIC COLOR LOGIC - Change progress bar color based on percentage
+        int progressColor;
+        String statusMessage;
+        int statusColor;
+
+        if (percentageComplete >= 100) {
+            // GREEN - Target Achieved
+            statusMessage = String.format(Locale.getDefault(), "%.1f%% Complete - Target Achieved! 🎉", percentageComplete);
+            statusColor = Color.parseColor("#4CAF50"); // Green
+            progressColor = Color.parseColor("#4CAF50"); // Green
+        } else if (percentageComplete >= 50) {
+            // BLUE - Good Progress / On Track
+            statusMessage = String.format(Locale.getDefault(), "%.1f%% Complete - On Track ✓", percentageComplete);
+            statusColor = Color.parseColor("#2196F3"); // Blue
+            progressColor = Color.parseColor("#2196F3"); // Blue
+        } else {
+            // RED - Needs Attention (0-49%)
+            statusMessage = String.format(Locale.getDefault(), "%.1f%% Complete - Needs Attention", percentageComplete);
+            statusColor = Color.parseColor("#F44336"); // Red
+            progressColor = Color.parseColor("#F44336"); // Red
+        }
+
+        // Apply dynamic color to progress bar
+        setProgressBarColor(progressColor);
+
+        // Update status text and color
+        tvProgressPercentage.setText(statusMessage);
+        tvProgressPercentage.setTextColor(statusColor);
+
+        // Animate the progress bar
+        animateProgressBar(progressInt);
+    }
+
+    /**
+     * Sets the progress bar color dynamically
+     * @param color The color to apply to the progress bar
+     */
+    private void setProgressBarColor(int color) {
+        // Create a layer drawable for the progress bar
+        android.graphics.drawable.LayerDrawable layerDrawable =
+                (android.graphics.drawable.LayerDrawable) progressBarGoal.getProgressDrawable();
+
+        if (layerDrawable != null) {
+            // Get the progress drawable (index 1 in the layer list)
+            android.graphics.drawable.Drawable progressDrawable = layerDrawable.findDrawableByLayerId(android.R.id.progress);
+
+            if (progressDrawable != null) {
+                // Apply color filter to change the color
+                progressDrawable.setColorFilter(color, android.graphics.PorterDuff.Mode.SRC_IN);
+            }
+        } else {
+            // Fallback: If no layer drawable, apply color directly
+            progressBarGoal.getProgressDrawable().setColorFilter(color, android.graphics.PorterDuff.Mode.SRC_IN);
+        }
+    }
+
+    /**
+     * Animates the progress bar from 0 to target value
+     * @param targetProgress The target progress value
+     */
+    private void animateProgressBar(int targetProgress) {
+        progressBarGoal.setProgress(0);
+
+        Handler handler = new Handler();
+        final int[] currentProgress = {0};
+        final int step = Math.max(1, targetProgress / 50); // Animate in ~50 steps
+
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (currentProgress[0] < targetProgress) {
+                    currentProgress[0] = Math.min(currentProgress[0] + step, targetProgress);
+                    progressBarGoal.setProgress(currentProgress[0]);
+                    handler.postDelayed(this, 20); // Update every 20ms
+                }
+            }
+        };
+
+        handler.postDelayed(runnable, 100); // Start after 100ms delay
     }
 
     private void animateTextChange(final TextView textView, final String newText) {

@@ -39,13 +39,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:layout_toEndOf="@id/btn_menu"
+                    android:layout_toStartOf="@id/header_actions"
                     android:text="Admin Dashboard"
                     android:textColor="@android:color/white"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
-                    android:letterSpacing="0.02" />
+                    android:letterSpacing="0.02"
+                    android:gravity="center"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp" />
 
                 <LinearLayout
+                    android:id="@+id/header_actions"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
@@ -78,7 +84,7 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="16dp"
+            android:padding="12dp"
             android:fillViewport="true">
 
             <LinearLayout
@@ -92,9 +98,9 @@
                     android:layout_height="wrap_content"
                     android:text="Overview"
                     android:textColor="#1A1A1A"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="12dp"
                     android:letterSpacing="0.01" />
 
                 <!-- First Row -->
@@ -102,29 +108,30 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="16dp">
+                    android:layout_marginBottom="12dp">
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/card_total_orders"
                         android:layout_width="0dp"
-                        android:layout_height="130dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_marginEnd="8dp"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="8dp"
+                        android:layout_marginEnd="6dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="6dp"
                         android:foreground="?attr/selectableItemBackground">
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:padding="20dp"
+                            android:padding="16dp"
                             android:gravity="center"
-                            android:background="@drawable/gradient_blue">
+                            android:background="@drawable/gradient_blue"
+                            android:minHeight="110dp">
 
                             <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
                                 android:src="@drawable/ic_orders"
                                 app:tint="@android:color/white" />
 
@@ -134,16 +141,16 @@
                                 android:layout_height="wrap_content"
                                 android:text="0"
                                 android:textColor="@android:color/white"
-                                android:textSize="24sp"
+                                android:textSize="22sp"
                                 android:textStyle="bold"
-                                android:layout_marginTop="8dp" />
+                                android:layout_marginTop="6dp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Total Orders"
                                 android:textColor="#E0E0E0"
-                                android:textSize="12sp"
+                                android:textSize="11sp"
                                 android:layout_marginTop="4dp" />
 
                         </LinearLayout>
@@ -151,23 +158,24 @@
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="0dp"
-                        android:layout_height="130dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_marginStart="8dp"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="8dp">
+                        android:layout_marginStart="6dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="6dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:padding="20dp"
+                            android:padding="16dp"
                             android:gravity="center"
-                            android:background="@drawable/gradient_green">
+                            android:background="@drawable/gradient_green"
+                            android:minHeight="110dp">
 
                             <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
                                 android:src="@drawable/ic_today"
                                 app:tint="@android:color/white" />
 
@@ -177,16 +185,16 @@
                                 android:layout_height="wrap_content"
                                 android:text="0"
                                 android:textColor="@android:color/white"
-                                android:textSize="24sp"
+                                android:textSize="22sp"
                                 android:textStyle="bold"
-                                android:layout_marginTop="8dp" />
+                                android:layout_marginTop="6dp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Today's Orders"
                                 android:textColor="#E0E0E0"
-                                android:textSize="12sp"
+                                android:textSize="11sp"
                                 android:layout_marginTop="4dp" />
 
                         </LinearLayout>
@@ -199,29 +207,30 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="16dp">
+                    android:layout_marginBottom="12dp">
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/card_revenue"
                         android:layout_width="0dp"
-                        android:layout_height="130dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_marginEnd="8dp"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="8dp"
+                        android:layout_marginEnd="6dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="6dp"
                         android:foreground="?attr/selectableItemBackground">
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:padding="20dp"
+                            android:padding="16dp"
                             android:gravity="center"
-                            android:background="@drawable/gradient_orange">
+                            android:background="@drawable/gradient_orange"
+                            android:minHeight="110dp">
 
                             <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
                                 android:src="@drawable/ic_revenue"
                                 app:tint="@android:color/white" />
 
@@ -231,16 +240,16 @@
                                 android:layout_height="wrap_content"
                                 android:text="GHS 0.00"
                                 android:textColor="@android:color/white"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:textStyle="bold"
-                                android:layout_marginTop="8dp" />
+                                android:layout_marginTop="6dp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Total Revenue"
                                 android:textColor="#E0E0E0"
-                                android:textSize="12sp"
+                                android:textSize="11sp"
                                 android:layout_marginTop="4dp" />
 
                         </LinearLayout>
@@ -248,23 +257,24 @@
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="0dp"
-                        android:layout_height="130dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_marginStart="8dp"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="8dp">
+                        android:layout_marginStart="6dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="6dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:padding="20dp"
+                            android:padding="16dp"
                             android:gravity="center"
-                            android:background="@drawable/gradient_purple">
+                            android:background="@drawable/gradient_purple"
+                            android:minHeight="110dp">
 
                             <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
                                 android:src="@drawable/ic_week_revenue"
                                 app:tint="@android:color/white" />
 
@@ -274,16 +284,16 @@
                                 android:layout_height="wrap_content"
                                 android:text="GHS 0.00"
                                 android:textColor="@android:color/white"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:textStyle="bold"
-                                android:layout_marginTop="8dp" />
+                                android:layout_marginTop="6dp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Week Revenue"
                                 android:textColor="#E0E0E0"
-                                android:textSize="12sp"
+                                android:textSize="11sp"
                                 android:layout_marginTop="4dp" />
 
                         </LinearLayout>
@@ -296,29 +306,30 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="24dp">
+                    android:layout_marginBottom="16dp">
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/card_pending_orders"
                         android:layout_width="0dp"
-                        android:layout_height="130dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_marginEnd="8dp"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="8dp"
+                        android:layout_marginEnd="6dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="6dp"
                         android:foreground="?attr/selectableItemBackground">
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:padding="20dp"
+                            android:padding="16dp"
                             android:gravity="center"
-                            android:background="@drawable/gradient_red">
+                            android:background="@drawable/gradient_red"
+                            android:minHeight="110dp">
 
                             <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
                                 android:src="@drawable/ic_pending"
                                 app:tint="@android:color/white" />
 
@@ -328,16 +339,16 @@
                                 android:layout_height="wrap_content"
                                 android:text="0"
                                 android:textColor="@android:color/white"
-                                android:textSize="24sp"
+                                android:textSize="22sp"
                                 android:textStyle="bold"
-                                android:layout_marginTop="8dp" />
+                                android:layout_marginTop="6dp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Pending Orders"
                                 android:textColor="#E0E0E0"
-                                android:textSize="12sp"
+                                android:textSize="11sp"
                                 android:layout_marginTop="4dp" />
 
                         </LinearLayout>
@@ -345,23 +356,24 @@
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="0dp"
-                        android:layout_height="130dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_marginStart="8dp"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="8dp">
+                        android:layout_marginStart="6dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="6dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:padding="20dp"
+                            android:padding="16dp"
                             android:gravity="center"
-                            android:background="@drawable/gradient_teal">
+                            android:background="@drawable/gradient_teal"
+                            android:minHeight="110dp">
 
                             <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
                                 android:src="@drawable/ic_customers"
                                 app:tint="@android:color/white" />
 
@@ -371,16 +383,16 @@
                                 android:layout_height="wrap_content"
                                 android:text="0"
                                 android:textColor="@android:color/white"
-                                android:textSize="24sp"
+                                android:textSize="22sp"
                                 android:textStyle="bold"
-                                android:layout_marginTop="8dp" />
+                                android:layout_marginTop="6dp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Total Customers"
                                 android:textColor="#E0E0E0"
-                                android:textSize="12sp"
+                                android:textSize="11sp"
                                 android:layout_marginTop="4dp" />
 
                         </LinearLayout>
@@ -388,27 +400,101 @@
 
                 </LinearLayout>
 
-                <!-- Revenue Chart Section -->
+                <!-- Monthly Revenue Goal Tracker Section -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="💰 Monthly Revenue Goal"
+                    android:textColor="#1A1A1A"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12dp"
+                    android:letterSpacing="0.01" />
+
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="24dp"
-                    app:cardCornerRadius="24dp"
-                    app:cardElevation="8dp"
+                    android:layout_marginBottom="16dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="6dp"
                     app:cardBackgroundColor="@android:color/white">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="24dp">
+                        android:padding="20dp">
+
+                        <!-- Actual Revenue (Large, Bold) -->
+                        <TextView
+                            android:id="@+id/tv_actual_revenue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="GHS 0.00"
+                            android:textColor="#1A1A1A"
+                            android:textSize="28sp"
+                            android:textStyle="bold"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="8dp" />
+
+                        <!-- Target Revenue (Smaller) -->
+                        <TextView
+                            android:id="@+id/tv_target_revenue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Target: GHS 75,000.00"
+                            android:textColor="#6B7280"
+                            android:textSize="14sp"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="20dp" />
+
+                        <!-- Progress Bar -->
+                        <ProgressBar
+                            android:id="@+id/progress_bar_goal"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:max="100"
+                            android:progress="0"
+                            android:progressDrawable="@drawable/progress_bar_gradient"
+                            android:layout_marginBottom="12dp" />
+
+                        <!-- Percentage Complete with Status -->
+                        <TextView
+                            android:id="@+id/tv_progress_percentage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0% Complete"
+                            android:textColor="#2196F3"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="8dp" />
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Revenue Chart Section -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="6dp"
+                    app:cardBackgroundColor="@android:color/white">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             android:gravity="center_vertical"
-                            android:layout_marginBottom="16dp">
+                            android:layout_marginBottom="12dp">
 
                             <TextView
                                 android:layout_width="0dp"
@@ -416,7 +502,7 @@
                                 android:layout_weight="1"
                                 android:text="📈 Revenue Analytics"
                                 android:textColor="#1A1A1A"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:textStyle="bold"
                                 android:letterSpacing="0.01" />
 
@@ -426,19 +512,18 @@
                                 android:layout_height="wrap_content"
                                 android:text="View Full Report"
                                 android:textColor="#2196F3"
-                                android:textSize="12sp"
+                                android:textSize="11sp"
                                 android:textStyle="bold"
                                 android:background="?attr/selectableItemBackground"
-                                android:paddingHorizontal="12dp"
+                                android:paddingHorizontal="10dp"
                                 android:paddingVertical="6dp" />
 
                         </LinearLayout>
 
-                        <!-- CHANGED: Increased WebView height and added background -->
                         <WebView
                             android:id="@+id/webview_chart"
                             android:layout_width="match_parent"
-                            android:layout_height="380dp"
+                            android:layout_height="350dp"
                             android:background="@android:color/transparent" />
 
                     </LinearLayout>
@@ -450,9 +535,9 @@
                     android:layout_height="wrap_content"
                     android:text="Quick Actions"
                     android:textColor="#1A1A1A"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="12dp"
                     android:letterSpacing="0.01" />
 
                 <GridLayout
@@ -462,18 +547,18 @@
                     android:rowCount="2"
                     android:alignmentMode="alignMargins"
                     android:columnOrderPreserved="false"
-                    android:layout_marginBottom="24dp">
+                    android:layout_marginBottom="16dp">
 
                     <!-- Manage Orders -->
                     <androidx.cardview.widget.CardView
                         android:id="@+id/card_view_orders"
                         android:layout_width="0dp"
-                        android:layout_height="120dp"
+                        android:layout_height="100dp"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
-                        android:layout_margin="8dp"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="8dp"
+                        android:layout_margin="6dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="6dp"
                         android:foreground="?attr/selectableItemBackground">
 
                         <LinearLayout
@@ -481,12 +566,12 @@
                             android:layout_height="match_parent"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:padding="20dp"
+                            android:padding="12dp"
                             android:background="@drawable/gradient_blue_light">
 
                             <ImageView
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
                                 android:src="@drawable/ic_manage_orders"
                                 app:tint="#2196F3" />
 
@@ -495,9 +580,9 @@
                                 android:layout_height="wrap_content"
                                 android:text="Manage Orders"
                                 android:textColor="#1A1A1A"
-                                android:textSize="14sp"
+                                android:textSize="12sp"
                                 android:textStyle="bold"
-                                android:layout_marginTop="8dp"
+                                android:layout_marginTop="6dp"
                                 android:gravity="center" />
 
                         </LinearLayout>
@@ -507,12 +592,12 @@
                     <androidx.cardview.widget.CardView
                         android:id="@+id/card_manage_pizzas"
                         android:layout_width="0dp"
-                        android:layout_height="120dp"
+                        android:layout_height="100dp"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
-                        android:layout_margin="8dp"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="8dp"
+                        android:layout_margin="6dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="6dp"
                         android:foreground="?attr/selectableItemBackground">
 
                         <LinearLayout
@@ -520,12 +605,12 @@
                             android:layout_height="match_parent"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:padding="20dp"
+                            android:padding="12dp"
                             android:background="@drawable/gradient_green_light">
 
                             <ImageView
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
                                 android:src="@drawable/ic_manage_pizzas"
                                 app:tint="#4CAF50" />
 
@@ -534,9 +619,9 @@
                                 android:layout_height="wrap_content"
                                 android:text="Manage Pizzas"
                                 android:textColor="#1A1A1A"
-                                android:textSize="14sp"
+                                android:textSize="12sp"
                                 android:textStyle="bold"
-                                android:layout_marginTop="8dp"
+                                android:layout_marginTop="6dp"
                                 android:gravity="center" />
 
                         </LinearLayout>
@@ -546,12 +631,12 @@
                     <androidx.cardview.widget.CardView
                         android:id="@+id/card_view_customers"
                         android:layout_width="0dp"
-                        android:layout_height="120dp"
+                        android:layout_height="100dp"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
-                        android:layout_margin="8dp"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="8dp"
+                        android:layout_margin="6dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="6dp"
                         android:foreground="?attr/selectableItemBackground">
 
                         <LinearLayout
@@ -559,12 +644,12 @@
                             android:layout_height="match_parent"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:padding="20dp"
+                            android:padding="12dp"
                             android:background="@drawable/gradient_orange_light">
 
                             <ImageView
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
                                 android:src="@drawable/ic_customers_list"
                                 app:tint="#FF9800" />
 
@@ -573,9 +658,9 @@
                                 android:layout_height="wrap_content"
                                 android:text="View Customers"
                                 android:textColor="#1A1A1A"
-                                android:textSize="14sp"
+                                android:textSize="12sp"
                                 android:textStyle="bold"
-                                android:layout_marginTop="8dp"
+                                android:layout_marginTop="6dp"
                                 android:gravity="center" />
 
                         </LinearLayout>
@@ -585,12 +670,12 @@
                     <androidx.cardview.widget.CardView
                         android:id="@+id/card_settings"
                         android:layout_width="0dp"
-                        android:layout_height="120dp"
+                        android:layout_height="100dp"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
-                        android:layout_margin="8dp"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="8dp"
+                        android:layout_margin="6dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="6dp"
                         android:foreground="?attr/selectableItemBackground">
 
                         <LinearLayout
@@ -598,12 +683,12 @@
                             android:layout_height="match_parent"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:padding="20dp"
+                            android:padding="12dp"
                             android:background="@drawable/gradient_purple_light">
 
                             <ImageView
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
                                 android:src="@drawable/ic_settings"
                                 app:tint="#9C27B0" />
 
@@ -612,9 +697,9 @@
                                 android:layout_height="wrap_content"
                                 android:text="Settings"
                                 android:textColor="#1A1A1A"
-                                android:textSize="14sp"
+                                android:textSize="12sp"
                                 android:textStyle="bold"
-                                android:layout_marginTop="8dp"
+                                android:layout_marginTop="6dp"
                                 android:gravity="center" />
 
                         </LinearLayout>
@@ -628,7 +713,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
-                    android:layout_marginBottom="16dp">
+                    android:layout_marginBottom="12dp">
 
                     <TextView
                         android:layout_width="0dp"
@@ -636,7 +721,7 @@
                         android:layout_weight="1"
                         android:text="Recent Orders"
                         android:textColor="#1A1A1A"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textStyle="bold"
                         android:letterSpacing="0.01" />
 
@@ -646,10 +731,10 @@
                         android:layout_height="wrap_content"
                         android:text="View All"
                         android:textColor="#2196F3"
-                        android:textSize="12sp"
+                        android:textSize="11sp"
                         android:textStyle="bold"
                         android:background="?attr/selectableItemBackground"
-                        android:paddingHorizontal="12dp"
+                        android:paddingHorizontal="10dp"
                         android:paddingVertical="6dp" />
 
                 </LinearLayout>
@@ -657,17 +742,17 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="24dp"
-                    app:cardElevation="8dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="6dp"
                     app:cardBackgroundColor="@android:color/white"
-                    android:layout_marginBottom="32dp">
+                    android:layout_marginBottom="24dp">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_recent_orders"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:nestedScrollingEnabled="false"
-                        android:padding="16dp" />
+                        android:padding="12dp" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -679,14 +764,14 @@
     <!-- Navigation Drawer -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
-        android:layout_width="320dp"
+        android:layout_width="280dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
+        android:background="@drawable/dark_gradient_background"
         app:headerLayout="@layout/nav_header_admin"
         app:menu="@menu/menu_admin_drawer"
-        app:itemIconTint="@color/nav_item_color"
-        app:itemTextColor="@color/nav_item_color"
+        app:itemIconTint="@color/nav_background"
+        app:itemTextColor="@color/nav_background"
         app:itemBackground="@drawable/nav_item_background" />
-
 </androidx.drawerlayout.widget.DrawerLayout>

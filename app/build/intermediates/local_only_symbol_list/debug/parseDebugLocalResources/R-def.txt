@@ -25,6 +25,7 @@ color card_shadow
 color colorAccent
 color colorPrimary
 color colorPrimaryDark
+color dark
 color divider_color
 color error_color
 color icon_blue
@@ -57,6 +58,7 @@ color text_primary
 color text_secondary
 color text_tertiary
 color white
+drawable admin
 drawable anchovies
 drawable app
 drawable avatar
@@ -74,6 +76,7 @@ drawable circle_button
 drawable circle_shape
 drawable circle_white
 drawable colorful_progress
+drawable dark_gradient_background
 drawable edit_text_background
 drawable equalizer
 drawable exit
@@ -155,6 +158,7 @@ drawable pizzapoint_logo
 drawable price_badge
 drawable profile_header_background
 drawable profile_menu
+drawable progress_bar_gradient
 drawable quantity_background
 drawable question
 drawable rounded_corners
@@ -256,6 +260,7 @@ id gallery_toppings
 id get_name
 id get_started_button
 id grid_images
+id header_actions
 id help
 id iv_image
 id iv_logo
@@ -285,6 +290,7 @@ id new_pizza_button
 id postTitle
 id profile_main_layout
 id progress_bar
+id progress_bar_goal
 id radiogroup
 id rb_large
 id rb_left
@@ -319,6 +325,7 @@ id switch_available
 id switch_dark_mode
 id toolbar
 id total
+id tv_actual_revenue
 id tv_admin_email
 id tv_admin_login
 id tv_admin_name
@@ -359,6 +366,7 @@ id tv_pizza_name_detail
 id tv_pizza_price
 id tv_pizza_price_detail
 id tv_price
+id tv_progress_percentage
 id tv_quantity
 id tv_register
 id tv_right_toppings
@@ -366,6 +374,7 @@ id tv_special_instructions
 id tv_status
 id tv_subtotal
 id tv_tagline
+id tv_target_revenue
 id tv_tax
 id tv_today_orders
 id tv_today_revenue
@@ -383,7 +392,6 @@ id tv_view_all_reports
 id tv_week_orders
 id tv_week_revenue
 id tv_whole_toppings
-id webview_bar_chart
 id webview_chart
 id webview_doughnut_chart
 id webview_line_chart

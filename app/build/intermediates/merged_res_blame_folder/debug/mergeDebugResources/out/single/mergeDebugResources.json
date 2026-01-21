@@ -256,6 +256,10 @@
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\layout\\activity_order_detail.xml"
     },
     {
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_admin.png.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\admin.png"
+    },
+    {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_ic_orders.xml.flat",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\ic_orders.xml"
     },
@@ -290,6 +294,10 @@
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\menu_menu.xml.flat",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\menu\\menu.xml"
+    },
+    {
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_progress_bar_gradient.xml.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\progress_bar_gradient.xml"
     },
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\layout_pizza_design.xml.flat",
@@ -518,6 +526,10 @@
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_pizzapoint_logo.png.flat",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\pizzapoint_logo.png"
+    },
+    {
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_dark_gradient_background.xml.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-main-35:\\drawable\\dark_gradient_background.xml"
     },
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.9\\com.delaroystudios.pizza.app-debug-33:\\drawable_blackolives.jpg.flat",

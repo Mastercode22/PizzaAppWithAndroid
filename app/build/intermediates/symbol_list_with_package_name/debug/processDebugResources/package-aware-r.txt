@@ -1404,6 +1404,7 @@ color cardview_shadow_start_color
 color colorAccent
 color colorPrimary
 color colorPrimaryDark
+color dark
 color design_bottom_navigation_shadow_color
 color design_box_stroke_color
 color design_dark_default_color_background
@@ -3007,6 +3008,7 @@ drawable abc_textfield_search_activated_mtrl_alpha
 drawable abc_textfield_search_default_mtrl_alpha
 drawable abc_textfield_search_material
 drawable abc_vector_test
+drawable admin
 drawable anchovies
 drawable app
 drawable avatar
@@ -3034,6 +3036,7 @@ drawable circle_button
 drawable circle_shape
 drawable circle_white
 drawable colorful_progress
+drawable dark_gradient_background
 drawable design_fab_background
 drawable design_ic_visibility
 drawable design_ic_visibility_off
@@ -3204,6 +3207,7 @@ drawable pizzapoint_logo
 drawable price_badge
 drawable profile_header_background
 drawable profile_menu
+drawable progress_bar_gradient
 drawable quantity_background
 drawable question
 drawable rounded_corners
@@ -3515,6 +3519,7 @@ id grid_images
 id group_divider
 id grouping
 id groups
+id header_actions
 id header_title
 id help
 id hideable
@@ -3691,6 +3696,7 @@ id postTitle
 id pressed
 id profile_main_layout
 id progress_bar
+id progress_bar_goal
 id progress_circular
 id progress_horizontal
 id radio
@@ -3844,6 +3850,7 @@ id transition_position
 id transition_scene_layoutid_cache
 id transition_transform
 id triangle
+id tv_actual_revenue
 id tv_admin_email
 id tv_admin_login
 id tv_admin_name
@@ -3884,6 +3891,7 @@ id tv_pizza_name_detail
 id tv_pizza_price
 id tv_pizza_price_detail
 id tv_price
+id tv_progress_percentage
 id tv_quantity
 id tv_register
 id tv_right_toppings
@@ -3891,6 +3899,7 @@ id tv_special_instructions
 id tv_status
 id tv_subtotal
 id tv_tagline
+id tv_target_revenue
 id tv_tax
 id tv_today_orders
 id tv_today_revenue
@@ -3923,7 +3932,6 @@ id view_tree_saved_state_registry_owner
 id view_tree_view_model_store_owner
 id visible
 id visible_removing_fragment_view_tag
-id webview_bar_chart
 id webview_chart
 id webview_doughnut_chart
 id webview_line_chart
